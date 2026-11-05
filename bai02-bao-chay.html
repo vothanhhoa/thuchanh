@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bài 2 · Xưởng cảnh báo cháy</title>
+<style>:root{
+  --nen:#0d1626;--nen2:#16233a;--kinh:rgba(255,255,255,.07);--vien:rgba(255,255,255,.15);
+  --chu:#f2f6fc;--mo:#b4c1d6;--chinh:#ff9d3c;--chinh2:#ff6a3d;
+  --vao:#4aa8ff;--xuly:#ffb347;--ra:#3ddc97;--dung:#3ddc97;--sai:#ff6b6b;--bong:0 10px 30px rgba(0,0,0,.35)
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{min-height:100vh;color:var(--chu);font:16px/1.5 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  background:radial-gradient(900px 500px at 12% -5%,rgba(255,106,61,.20),transparent 60%),radial-gradient(900px 600px at 95% 10%,rgba(74,168,255,.18),transparent 60%),linear-gradient(160deg,var(--nen),var(--nen2))}
+@media (min-width:920px){body.tv{font-size:21px}}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+.dau{display:flex;align-items:center;gap:10px;padding:10px 14px;max-width:1500px;margin:auto}
+.ve{flex:none;text-decoration:none;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;background:var(--kinh);border:1px solid var(--vien);font-size:20px}
+.ten{flex:1;min-width:0}
+.ten small{display:block;color:var(--mo);font-size:.78em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ten b{display:block;font-size:1.08em;line-height:1.25;background:linear-gradient(90deg,#ffd9a8,var(--chinh));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nho{flex:none;width:44px;height:44px;border-radius:12px;background:var(--kinh);border:1px solid var(--vien);font-size:18px}
+.nho.bat{background:linear-gradient(135deg,var(--chinh),var(--chinh2));border-color:transparent}
+.bac{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:0 14px;max-width:1500px;margin:auto}
+.bac button{min-height:52px;padding:5px 2px;border-radius:12px;border:1px solid var(--vien);background:var(--kinh);color:var(--mo);font-size:.76em;line-height:1.2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.bac button i{font-style:normal;font-size:1.35em}
+.bac button.dang{background:linear-gradient(135deg,var(--chinh),var(--chinh2));color:#1d1208;font-weight:700;border-color:transparent}
+.bac button.xong:not(.dang){color:var(--dung);border-color:var(--dung)}
+.chinh{display:grid;gap:12px;padding:12px 14px 18px;max-width:1500px;margin:auto}
+.san{position:sticky;top:0;z-index:5;border-radius:18px;background:#0a111e;border:1px solid var(--vien);box-shadow:var(--bong);overflow:hidden}
+.san svg{display:block;width:100%;height:auto;touch-action:manipulation;user-select:none}
+.san text{font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif}
+.ben{display:flex;flex-direction:column;gap:10px;min-width:0}
+.thay{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border-radius:16px;background:var(--kinh);border:1px solid var(--vien);min-height:76px}
+.thay svg{flex:none;width:46px;height:46px}
+.thay p{margin:0;font-size:1.02em}
+.thay.dung{border-color:var(--dung);background:rgba(61,220,151,.13)}
+.thay.sai{border-color:var(--sai);background:rgba(255,107,107,.13);animation:rung .35s}
+@keyframes rung{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+.the{padding:12px;border-radius:16px;background:var(--kinh);border:1px solid var(--vien)}
+.the h3{margin:0 0 8px;font-size:1.04em;color:#ffd9a8}
+.the p{margin:0 0 8px}.the p:last-child{margin-bottom:0}
+.man{display:none;flex-direction:column;gap:10px;animation:mo .3s}
+.man.hien{display:flex}
+@keyframes mo{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+body.chup *{animation-duration:0s!important;transition:none!important}
+.nut{min-height:48px;padding:10px 14px;border:0;border-radius:13px;font-weight:700;color:#1d1208;background:linear-gradient(135deg,var(--chinh),var(--chinh2));box-shadow:0 5px 15px rgba(255,106,61,.3);transition:transform .12s}
+.nut:hover{transform:translateY(-2px)}.nut:active{transform:translateY(1px) scale(.98)}
+.nut.phu{background:var(--kinh);color:var(--chu);border:1px solid var(--vien);box-shadow:none;font-weight:600}
+.nut.xong{background:rgba(61,220,151,.18);color:var(--dung);border:1px solid var(--dung);box-shadow:none}
+.nut[disabled]{opacity:.45;cursor:default}
+.hang{display:flex;flex-wrap:wrap;gap:8px}.hang>.nut{flex:1 1 140px}
+.chip{min-height:48px;padding:7px 11px;border-radius:13px;border:1px solid var(--vien);background:var(--kinh);display:inline-flex;align-items:center;gap:8px;text-align:left}
+.chip svg{width:30px;height:30px;flex:none}
+.chip.chon{outline:3px solid var(--chinh);background:rgba(255,157,60,.18)}
+.chip.xong{opacity:.42;border-color:var(--dung);text-decoration:line-through}
+.viec{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.viec li{display:flex;gap:8px;color:var(--mo)}
+.viec li:before{content:"○";color:var(--mo)}
+.viec li.dang{color:var(--chu);font-weight:600}.viec li.dang:before{content:"▶";color:var(--chinh)}
+.viec li.xong{color:var(--dung)}.viec li.xong:before{content:"✓";color:var(--dung)}
+.cau{padding:12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--vien)}
+.cau h4{margin:0 0 8px;font-size:1.02em}
+.cau button{display:block;width:100%;min-height:46px;text-align:left;margin:6px 0 0;padding:9px 12px;border-radius:11px;border:1px solid var(--vien);background:var(--kinh)}
+.cau button.dung{background:rgba(61,220,151,.2);border-color:var(--dung)}
+.cau button.sai{background:rgba(255,107,107,.18);border-color:var(--sai)}
+.cau .giai{margin:8px 0 0;font-size:.95em;color:var(--mo)}
+.cham{display:flex;gap:6px;flex-wrap:wrap}.cham i{width:13px;height:13px;border-radius:50%;background:rgba(255,255,255,.2)}
+.cham i.dung{background:var(--dung)}.cham i.sai{background:var(--sai)}
+.o{width:100%;min-height:46px;padding:9px 12px;border-radius:11px;border:1px solid var(--vien);background:rgba(0,0,0,.25);color:var(--chu);font:inherit}
+label{display:block;font-size:.92em;color:var(--mo);margin-bottom:3px}
+input[type=range]{width:100%;height:36px;accent-color:var(--chinh)}
+.chan{max-width:1500px;margin:auto;padding:0 14px 22px;color:var(--mo);font-size:.84em}
+.chan b{color:#ffe39e}
+.phao{position:fixed;top:-12px;width:9px;height:14px;z-index:50;pointer-events:none;animation:roi 1.5s linear forwards}
+@keyframes roi{to{transform:translateY(105vh) rotate(600deg);opacity:.7}}
+.luong{stroke-dasharray:9 9;animation:chay .55s linear infinite}
+@keyframes chay{to{stroke-dashoffset:-18}}
+.dot{cursor:pointer}
+.dang-ten .an-ten{opacity:0}
+.nhap{animation:nhap .5s infinite alternate}
+@keyframes nhap{to{opacity:.25}}
+.lac{animation:lac .16s infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes lac{from{transform:rotate(-6deg)}to{transform:rotate(6deg)}}
+.noi{animation:noi 2.2s ease-in-out infinite alternate;transform-box:fill-box}
+@keyframes noi{to{transform:translateY(-6px)}}
+@media (min-width:920px){
+  .chinh{grid-template-columns:minmax(0,1.5fr) minmax(330px,1fr);align-items:start}
+  .san{top:10px}
+  .bac button{flex-direction:row;gap:6px;font-size:.92em}
+}
+@media (max-width:919px){.san{top:0}}
+@media (max-width:600px){.san svg text:not(.giu){font-size:23px!important}.ten b{font-size:1em}}
+@media (max-height:520px) and (max-width:919px){.san{position:static}}
+@media print{body{background:#fff;color:#000}.dau,.bac,.chan,.ben>*:not(.in-duoc){display:none!important}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="gTu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef2f6"/><stop offset="1" stop-color="#aeb9c6"/></linearGradient>
+<radialGradient id="gDo" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ff8a73"/><stop offset="1" stop-color="#c81e1e"/></radialGradient>
+<radialGradient id="gTrang" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#b9c3cf"/></radialGradient>
+<symbol id="s-khoi" viewBox="0 0 80 60"><ellipse cx="40" cy="26" rx="34" ry="18" fill="url(#gTrang)"/><rect x="18" y="26" width="44" height="14" rx="5" fill="#d9dfe6"/><g stroke="#8a95a3" stroke-width="2"><line x1="26" y1="30" x2="26" y2="38"/><line x1="34" y1="30" x2="34" y2="38"/><line x1="42" y1="30" x2="42" y2="38"/><line x1="50" y1="30" x2="50" y2="38"/></g><circle cx="58" cy="20" r="3" fill="#ff5252"/></symbol>
+<symbol id="s-nhiet" viewBox="0 0 80 60"><ellipse cx="40" cy="22" rx="34" ry="16" fill="url(#gTrang)"/><path d="M26 26h28l-5 18H31z" fill="#7d8896"/><circle cx="40" cy="44" r="6" fill="#ffb347"/><circle cx="60" cy="18" r="3" fill="#ff5252"/></symbol>
+<symbol id="s-nut" viewBox="0 0 80 60"><circle cx="40" cy="30" r="28" fill="url(#gDo)"/><circle cx="40" cy="30" r="13" fill="#fff"/><circle cx="40" cy="30" r="8" fill="#e11d1d"/></symbol>
+<symbol id="s-chuong" viewBox="0 0 80 60"><circle cx="40" cy="30" r="27" fill="url(#gDo)"/><circle cx="40" cy="30" r="7" fill="#7f1414"/><circle cx="40" cy="30" r="17" fill="none" stroke="#ffb3a6" stroke-width="2"/></symbol>
+<symbol id="s-coi" viewBox="0 0 80 60"><rect x="18" y="3" width="44" height="54" rx="5" fill="url(#gDo)"/><rect x="26" y="9" width="28" height="20" rx="3" fill="#fff4cc"/><g fill="#7f1414"><circle cx="33" cy="39" r="2"/><circle cx="40" cy="39" r="2"/><circle cx="47" cy="39" r="2"/><circle cx="33" cy="47" r="2"/><circle cx="40" cy="47" r="2"/><circle cx="47" cy="47" r="2"/></g></symbol>
+<symbol id="s-den" viewBox="0 0 80 60"><path d="M12 46C12 16 68 16 68 46z" fill="url(#gDo)"/><rect x="8" y="46" width="64" height="9" rx="4" fill="#7f1414"/></symbol>
+<symbol id="s-binh" viewBox="0 0 80 60"><rect x="29" y="14" width="22" height="44" rx="7" fill="url(#gDo)"/><rect x="33" y="4" width="14" height="10" fill="#333"/><path d="M47 8h15l5 8" stroke="#333" stroke-width="4" fill="none"/><rect x="31" y="28" width="18" height="12" fill="#fff"/></symbol>
+</defs></svg>
+<header class="dau">
+  <a class="ve" href="./index.html" aria-label="Về trang chủ">🏭</a>
+  <div class="ten"><small>Công nghệ 10 · Bài 2 · Hình 2.2, SGK tr.11</small><b>Lắp hệ thống cảnh báo cháy</b></div>
+  <button class="nho" id="n-giong" aria-label="Bật giọng thầy">🔈</button>
+  <button class="nho" id="n-tv" aria-label="Chế độ TV">📺</button>
+</header>
+<nav class="bac" id="bac"></nav>
+<main class="chinh">
+  <section class="san"><svg id="hinh" viewBox="0 0 800 470" role="img" aria-label="Sơ đồ khối hệ thống cảnh báo cháy">
+<rect width="800" height="470" fill="#0d1729"/>
+<g id="vung-vao" data-vung="vao" style="cursor:pointer"><rect x="12" y="12" width="222" height="446" rx="16" fill="rgba(74,168,255,.11)" stroke="#4aa8ff" stroke-width="2"/><text class="an-ten" x="123" y="42" text-anchor="middle" font-size="22" font-weight="700" fill="#8cc7ff">ĐẦU VÀO</text></g>
+<g id="vung-xuly" data-vung="xuly" style="cursor:pointer"><rect x="282" y="12" width="236" height="446" rx="16" fill="rgba(255,179,71,.10)" stroke="#ffb347" stroke-width="2"/><text class="an-ten" x="400" y="42" text-anchor="middle" font-size="22" font-weight="700" fill="#ffcf8c">BỘ PHẬN XỬ LÍ</text></g>
+<g id="vung-ra" data-vung="ra" style="cursor:pointer"><rect x="566" y="12" width="222" height="446" rx="16" fill="rgba(61,220,151,.10)" stroke="#3ddc97" stroke-width="2"/><text class="an-ten" x="677" y="42" text-anchor="middle" font-size="22" font-weight="700" fill="#8af0c4">ĐẦU RA</text></g>
+<g id="day" fill="none" stroke="#5c6b82" stroke-width="4">
+ <path id="d-khoi" d="M170 96H258V238H300"/><path id="d-nhiet" d="M170 226H258V238H300"/><path id="d-nut" d="M170 356H258V238H300"/>
+ <path id="d-chuong" d="M500 238H542V96H630"/><path id="d-coi" d="M500 238H630"/><path id="d-den" d="M500 238H542V356H630"/>
+</g>
+<g id="bong" fill="none" stroke="#7f8ca3" stroke-width="2" stroke-dasharray="7 6"><circle id="g-khoi" cx="120" cy="92" r="36"/><circle id="g-nhiet" cx="120" cy="222" r="36"/><circle id="g-nut" cx="120" cy="352" r="36"/><rect id="g-tu" x="312" y="74" width="176" height="316" rx="8"/><circle id="g-chuong" cx="677" cy="92" r="36"/><circle id="g-coi" cx="677" cy="222" r="36"/><circle id="g-den" cx="677" cy="352" r="36"/></g>
+<g id="khoi-bay" opacity="0"><circle cx="120" cy="150" r="13" fill="#c6ccd5" opacity=".75"/><circle cx="100" cy="166" r="17" fill="#aab2be" opacity=".6"/><circle cx="142" cy="170" r="15" fill="#b9c0cb" opacity=".6"/></g>
+<g id="lua" opacity="0"><path d="M124 300c-16-20 2-30 0-48 18 12 26 30 12 48z" fill="#ff8a00"/><path d="M126 298c-8-10 0-16 0-26 10 8 12 16 6 26z" fill="#ffe066"/></g>
+<g id="tay" opacity="0"><text x="170" y="350" font-size="34">👆</text></g>
+<g id="tb-khoi" data-tb="khoi" style="cursor:pointer"><use href="#s-khoi" x="76" y="58" width="88" height="66"/><text class="an-ten" x="120" y="136" text-anchor="middle" font-size="16" fill="#e4ecf7">Đầu báo khói</text></g><g id="tb-nhiet" data-tb="nhiet" style="cursor:pointer"><use href="#s-nhiet" x="76" y="188" width="88" height="66"/><text class="an-ten" x="120" y="266" text-anchor="middle" font-size="16" fill="#e4ecf7">Đầu báo nhiệt</text></g><g id="tb-nut" data-tb="nut" style="cursor:pointer"><use href="#s-nut" x="76" y="318" width="88" height="66"/><text class="an-ten" x="120" y="396" text-anchor="middle" font-size="16" fill="#e4ecf7">Nút ấn báo cháy</text></g>
+<g id="tb-tu" data-tb="tu" style="cursor:pointer"><rect x="312" y="74" width="176" height="316" rx="8" fill="url(#gTu)" stroke="#6d7886"/><rect x="326" y="92" width="148" height="218" rx="4" fill="#b81f24"/><g id="tu-led"><circle cx="346" cy="120" r="7" fill="#5a1214"/><circle cx="383" cy="120" r="7" fill="#5a1214"/><circle cx="418" cy="120" r="7" fill="#5a1214"/></g><circle id="tu-nguon" cx="454" cy="120" r="8" fill="#3a3f46"/><text class="giu" x="454" y="146" text-anchor="middle" font-size="12" fill="#ffd9d9">Nguồn</text><text class="giu" x="346" y="146" text-anchor="middle" font-size="12" fill="#ffd9d9">Khói</text><text class="giu" x="383" y="146" text-anchor="middle" font-size="12" fill="#ffd9d9">Nhiệt</text><text class="giu" x="418" y="146" text-anchor="middle" font-size="12" fill="#ffd9d9">Nút</text><rect id="tu-man" x="340" y="164" width="120" height="58" rx="5" fill="#26110f"/><text class="giu" id="tu-chu" x="400" y="199" text-anchor="middle" font-size="16" font-weight="700" fill="#6d4d49">TẮT</text><g fill="#7d1418"><rect x="340" y="240" width="120" height="8" rx="2"/><rect x="340" y="256" width="120" height="8" rx="2"/><rect x="340" y="272" width="120" height="8" rx="2"/></g><text x="400" y="348" text-anchor="middle" font-size="16" fill="#1d2530" font-weight="700">Tủ trung tâm</text><text x="400" y="368" text-anchor="middle" font-size="16" fill="#1d2530" font-weight="700">báo cháy</text></g>
+<circle id="sang-coi" cx="677" cy="208" r="50" fill="#fff4a8" opacity="0"/>
+<circle id="sang-den" cx="677" cy="340" r="52" fill="#ff5252" opacity="0"/>
+<g id="tb-chuong" data-tb="chuong" style="cursor:pointer"><use href="#s-chuong" x="633" y="58" width="88" height="66"/><text class="an-ten" x="677" y="136" text-anchor="middle" font-size="16" fill="#e4ecf7">Chuông báo cháy</text></g><g id="tb-coi" data-tb="coi" style="cursor:pointer"><use href="#s-coi" x="633" y="188" width="88" height="66"/><text class="an-ten" x="677" y="266" text-anchor="middle" font-size="16" fill="#e4ecf7">Còi kết hợp</text><text class="an-ten" x="677" y="290" text-anchor="middle" font-size="16" fill="#e4ecf7">đèn chớp</text></g><g id="tb-den" data-tb="den" style="cursor:pointer"><use href="#s-den" x="633" y="318" width="88" height="66"/><text class="an-ten" x="677" y="396" text-anchor="middle" font-size="16" fill="#e4ecf7">Đèn báo vị trí</text></g>
+</svg></section>
+  <section class="ben">
+    <div class="thay" id="thay">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="23" fill="#ffe2b8"/><path d="M8 20c2-12 30-12 32 0l-4 1H12z" fill="#ffb000"/><rect x="6" y="19" width="36" height="4" rx="2" fill="#e08a00"/><circle cx="17" cy="28" r="2.6" fill="#333"/><circle cx="31" cy="28" r="2.6" fill="#333"/><path d="M17 36c4 3 10 3 14 0" stroke="#a5532a" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+      <p id="thay-chu"></p>
+    </div>
+    
+<div class="man" id="m-nhin">
+  <div class="the"><h3>👀 Hệ thống gồm 3 phần</h3><p>Hệ thống kĩ thuật gồm <b style="color:#8cc7ff">đầu vào</b>, <b style="color:#ffcf8c">bộ phận xử lí</b> và <b style="color:#8af0c4">đầu ra</b>, liên hệ với nhau để làm một nhiệm vụ. Em bấm từng thiết bị trên hình để xem nó làm gì.</p></div>
+  <button class="nut" data-sang="lam">Em tự lắp thử →</button>
+</div>
+<div class="man" id="m-lam">
+  <div class="the"><h3>🖐️ Việc cần làm</h3><ul class="viec" id="viec"><li>Đặt thiết bị vào đúng phần</li><li>Bật nguồn tủ trung tâm</li><li>Thử cả 3 tình huống</li></ul></div>
+  <div class="the" id="o-lap"><h3>Khay thiết bị: bấm thẻ, rồi bấm vùng trên hình</h3><div class="hang" id="khay"></div></div>
+  <div class="the" id="o-thu" style="display:none"><h3>Bảng điều khiển</h3>
+    <div class="hang"><button class="nut" id="n-nguon">🔌 Bật nguồn tủ</button></div>
+    <div class="hang" style="margin-top:8px"><button class="nut phu" id="t-khoi">💨 Tạo khói</button><button class="nut phu" id="t-nhiet">🔥 Tạo nhiệt</button><button class="nut phu" id="t-nut">✋ Bấm nút ấn</button></div>
+    <div class="hang" style="margin-top:8px"><button class="nut phu" id="n-datlai">🔕 Tắt báo động, đặt lại</button></div>
+  </div>
+  <div class="hang"><button class="nut phu" id="n-lamlai">🔄 Làm lại từ đầu</button></div>
+  <button class="nut" id="n-sang3" data-sang="san-pham" style="display:none">Xem sản phẩm của em →</button>
+</div>
+<div class="man" id="m-san-pham">
+  <div class="the"><h3>🏭 Sản phẩm: hệ thống báo cháy chạy được</h3><p>Em vừa thấy: <b>chỉ cần một tín hiệu đầu vào</b> (khói, nhiệt hoặc nút ấn), tủ trung tâm đã xử lí và cho cả 3 thiết bị đầu ra báo động.</p>
+  <p>Đó là câu trả lời cho phần Khám phá ở SGK tr.11.</p></div>
+  <div class="the"><h3>📋 Bảng phân tích hệ thống</h3><p><b style="color:#8cc7ff">Đầu vào:</b> thông tin cần xử lí (có khói, có nhiệt, có người báo).</p><p><b style="color:#ffcf8c">Xử lí:</b> tủ trung tâm nhận và xử lí tín hiệu.</p><p><b style="color:#8af0c4">Đầu ra:</b> thông tin đã xử lí (chuông, còi, đèn báo cho mọi người biết).</p></div>
+  <div class="the"><h3>🛡️ Nhớ khi ở nơi có hệ thống thật</h3><p>Không tự ý bấm nút ấn hay thử đầu báo khi không có cháy. Khi có cháy thật: báo ngay cho người lớn và gọi 114.</p></div>
+  <button class="nut" data-sang="goi-ten">Gọi tên các bộ phận →</button>
+</div>
+<div class="man" id="m-goi-ten">
+  <div class="the"><h3>🔤 Gắn tên vào đúng chỗ</h3><div class="hang" id="the-ten"></div></div>
+  <div class="the"><h3>✍️ Kiểm tra nhanh</h3><div id="o-cau" style="display:flex;flex-direction:column;gap:8px"></div></div>
+  <button class="nut" data-sang="nghe">Tiếp →</button>
+</div>
+<div class="man" id="m-nghe">
+  <div class="the"><h3>🎓 Mang cách nhìn này đi xa hơn</h3><p>Mọi hệ thống kĩ thuật đều phân tích được theo <b>đầu vào, xử lí, đầu ra</b>. Bài 7 sẽ giới thiệu các nhóm ngành nghề kĩ thuật, công nghệ.</p>
+  <p><b>Tìm quanh em (SGK tr.11):</b> tìm trên internet hoặc nơi em sống, kể tên các thiết bị đầu vào, đầu ra khác của hệ thống cảnh báo cháy.</p>
+  <p><a href="https://tdkt-gdag.io.vn/caynghe/">🌳 Sang Cây nghề nghiệp</a></p></div>
+  <div class="the"><h3>📄 Lưu phiếu thực hành</h3><p style="color:#ffd9a8">Chỉ ghi tên nhóm hoặc mã, không ghi họ tên.</p><label for="o-nhom">Nhóm hoặc mã</label><input class="o" id="o-nhom" placeholder="VD: Nhóm 3" maxlength="20"><label for="o-lop" style="margin-top:8px">Lớp</label><input class="o" id="o-lop" placeholder="VD: 10A1" maxlength="10"><div class="hang" style="margin-top:10px"><button class="nut" id="n-phieu">📄 Lưu phiếu thành ảnh</button></div></div>
+</div>
+
+  </section>
+</main>
+<footer class="chan"><b>✅ BẢN NHÁP — thầy/cô duyệt trước khi dùng.</b> Hình vẽ lại theo Hình 2.2, SGK Công nghệ 10 – Thiết kế và công nghệ (Kết nối tri thức), đã đơn giản hoá. Xem SGK tr.11–13.</footer>
+<script>/*GIONG-VIET-BAT*/
+const GIONG_VIET = {};
+let __amDang = null, __giongMay = null;
+function __chuanGiong(t){ return String(t).normalize("NFC").replace(/\s+/g, " ").trim(); }
+function __choDeNghe(t){
+  const doi = [["π"," pi "],["cm³"," xăng-ti-mét khối"],["cm²"," xăng-ti-mét vuông"],["dm³"," đề-xi-mét khối"],["m³"," mét khối"],
+    ["m²"," mét vuông"],["×"," nhân "],["÷"," chia "],["−"," trừ "],["≈"," xấp xỉ "],["="," bằng "],["+"," cộng "]];
+  t = String(t).replace(/<[^>]+>/g, "");
+  for (const [a, b] of doi) t = t.split(a).join(b);
+  return __chuanGiong(t.replace(/(\d)\s*cm\b/g, "$1 xăng-ti-mét").replace(/(\d)\s*m\b/g, "$1 mét"));
+}
+function __timGiongMay(){ try { const ds = speechSynthesis.getVoices().filter(v => /^vi/i.test(v.lang));
+  __giongMay = ds.find(v => /Natural|Online|HoaiMy|Hoài/i.test(v.name)) || ds[0] || null; } catch(e){} return __giongMay; }
+try { if (window.speechSynthesis){ __timGiongMay(); speechSynthesis.addEventListener("voiceschanged", __timGiongMay); } } catch(e){}
+function coGiongViet(chu){ return !!(GIONG_VIET[__chuanGiong(chu)] || __giongMay || __timGiongMay()); }
+function dungGiong(){ try { if (__amDang){ __amDang.pause(); __amDang = null; } if (window.speechSynthesis) speechSynthesis.cancel(); } catch(e){} }
+function __baoChuaCoGiong(){ try { if (document.getElementById("__baoGiong")) return; const d = document.createElement("div"); d.id = "__baoGiong";
+  d.setAttribute("role", "status");
+  d.textContent = "Máy chưa có giọng đọc tiếng Việt cho câu này. Mở bằng Microsoft Edge (có mạng) để nghe giọng Việt, hoặc cài thêm giọng Tiếng Việt: Cài đặt Windows → Thời gian và ngôn ngữ → Giọng nói.";
+  d.style.cssText = "position:fixed;left:50%;bottom:18px;transform:translateX(-50%);max-width:92vw;background:#1f2937;color:#fff;padding:12px 16px;border-radius:12px;font:15px/1.4 system-ui,sans-serif;z-index:99999;box-shadow:0 6px 20px rgba(0,0,0,.3)";
+  document.body.appendChild(d); setTimeout(() => d.remove(), 7000); } catch(e){} }
+function __docMay(chu, toc){
+  if (!__giongMay){ __baoChuaCoGiong(); return; }   // KHÔNG có giọng Việt → báo, không đọc bằng giọng Anh
+  const u = new SpeechSynthesisUtterance(chu); u.voice = __giongMay; u.lang = __giongMay.lang; u.rate = toc || 0.9; speechSynthesis.speak(u);
+}
+function docGiongViet(goc, chuMay, toc){
+  dungGiong(); const k = __chuanGiong(goc);
+  if (GIONG_VIET[k]){ try { __amDang = new Audio(GIONG_VIET[k]); const h = __amDang.play(); if (h && h.catch) h.catch(() => {}); return; } catch(e){} }
+  try { if (!window.speechSynthesis){ __baoChuaCoGiong(); return; }
+    const chu = chuMay || __choDeNghe(goc);
+    if (!__giongMay && !__timGiongMay() && !speechSynthesis.getVoices().length){   // Chrome nạp danh sách giọng chậm
+      setTimeout(() => { __timGiongMay(); __docMay(chu, toc); }, 700); return; }
+    __docMay(chu, toc); } catch(e){}
+}
+/*GIONG-VIET-HET*/</script>
+<script>// Khung chung cho mọi xưởng: 5 bước, thầy ảo, âm thanh, gọi tên, câu hỏi, phiếu.
+const X = (() => {
+  const $ = s => document.querySelector(s);
+  let cfg, bat = false, ac = null, coiDang = null;
+  const kho = {
+    doc(k, md) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : md; } catch (e) { return md; } },
+    ghi(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  let tt = { xong: {}, nhom: '', lop: '', diem: null };
+
+  function amCtx() {
+    if (!ac) { const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; ac = new C(); }
+    if (ac.state === 'suspended') ac.resume();
+    return ac;
+  }
+  function not(f, t, kieu, to) {
+    const a = amCtx(); if (!a) return;
+    const o = a.createOscillator(), g = a.createGain(), n = a.currentTime + (to || 0);
+    o.type = kieu || 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(.16, n); g.gain.exponentialRampToValueAtTime(.001, n + t);
+    o.connect(g).connect(a.destination); o.start(n); o.stop(n + t);
+  }
+  const am = {
+    ting() { not(880, .14); not(1320, .22, 'sine', .1); },
+    sai() { not(190, .28, 'sawtooth'); },
+    bam() { not(520, .06, 'square'); },
+    coi(giay) {
+      am.tatCoi(); let i = 0; const n = Math.round((giay || 3) * 2.5);
+      coiDang = setInterval(() => { not(i % 2 ? 660 : 880, .34, 'square'); if (++i >= n) am.tatCoi(); }, 400);
+    },
+    tatCoi() { if (coiDang) { clearInterval(coiDang); coiDang = null; } },
+    do() { not(120, .5, 'sawtooth'); not(90, .7, 'sawtooth', .2); }
+  };
+
+  function phao() {
+    if (document.body.classList.contains('chup')) return;
+    const mau = ['#ff9d3c', '#3ddc97', '#4aa8ff', '#ffd166', '#ff6b6b'];
+    for (let i = 0; i < 40; i++) {
+      const p = document.createElement('i'); p.className = 'phao';
+      p.style.left = Math.random() * 100 + 'vw'; p.style.background = mau[i % 5];
+      p.style.animationDelay = Math.random() * .5 + 's';
+      document.body.appendChild(p); setTimeout(() => p.remove(), 2200);
+    }
+  }
+
+  function thay(chu, kieu) {
+    const k = $('#thay'); k.className = 'thay' + (kieu ? ' ' + kieu : '');
+    $('#thay-chu').textContent = chu;
+    if (kieu === 'dung') am.ting(); else if (kieu === 'sai') am.sai();
+    if (bat && typeof docGiongViet === 'function') { try { dungGiong(); docGiongViet(chu); } catch (e) {} }
+    void k.offsetWidth;
+  }
+
+  function moBuoc(id, im) {
+    document.querySelectorAll('.man').forEach(m => m.classList.toggle('hien', m.id === 'm-' + id));
+    document.querySelectorAll('.bac button').forEach(b => b.classList.toggle('dang', b.dataset.b === id));
+    am.tatCoi();
+    const b = cfg.buoc.find(x => x.id === id);
+    if (b && b.vao) b.vao();
+    if (!im && b && b.loi) thay(b.loi);
+    if (!document.body.classList.contains('chup')) window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function danhDau(id) {
+    tt.xong[id] = true; kho.ghi(cfg.id, tt);
+    const b = document.querySelector('.bac button[data-b="' + id + '"]'); if (b) b.classList.add('xong');
+    if (window.parent) { /* trang chủ đọc lại tiến độ từ kho của máy này */ }
+  }
+
+  // Gọi tên: bấm thẻ thuật ngữ rồi bấm chấm số trên hình
+  function goiTen(o) {
+    const svg = $(o.svg), hop = $(o.hop), NS = 'http://www.w3.org/2000/svg';
+    const k = svg.clientWidth && svg.clientWidth < 520 ? 1.55 : 1;
+    let lop = svg.querySelector('#lop-ten');
+    if (lop) lop.remove();
+    lop = document.createElementNS(NS, 'g'); lop.id = 'lop-ten'; svg.appendChild(lop); svg.classList.add('dang-ten');
+    hop.innerHTML = ''; let chon = null, con = o.nhan.length;
+    const conNhan = o.nhan.slice().sort(() => Math.random() - .5);
+    conNhan.forEach(n => {
+      const c = document.createElement('button'); c.className = 'chip'; c.textContent = n.ten; c.dataset.id = n.id;
+      c.onclick = () => { am.bam(); if (c.classList.contains('xong')) return;
+        hop.querySelectorAll('.chip').forEach(x => x.classList.remove('chon')); c.classList.add('chon'); chon = n;
+        thay('Em chọn «' + n.ten + '». Giờ bấm vào chấm số đúng chỗ đó trên hình.'); };
+      hop.appendChild(c);
+    });
+    o.nhan.forEach((n, i) => {
+      const g = document.createElementNS(NS, 'g'); g.setAttribute('class', 'dot'); g.dataset.id = n.id;
+      g.innerHTML = '<circle cx="' + n.x + '" cy="' + n.y + '" r="' + 17 * k + '" fill="#ff9d3c" stroke="#fff" stroke-width="2.5"/><text class="giu" x="' + n.x + '" y="' + (n.y + 6 * k) + '" text-anchor="middle" font-size="' + 17 * k + '" font-weight="700" fill="#1d1208">' + (i + 1) + '</text>';
+      g.addEventListener('click', () => {
+        if (g.dataset.xong) return;
+        if (!chon) { thay('Em bấm một thẻ thuật ngữ trước, rồi bấm chấm số nhé.'); return; }
+        if (chon.id === n.id) {
+          g.dataset.xong = 1; const r = n.ten.length * 9.2 * k + 16; g.innerHTML = '<rect x="' + (n.x - r / 2) + '" y="' + (n.y - 15 * k) + '" width="' + r + '" height="' + 30 * k + '" rx="9" fill="#3ddc97" stroke="#0a111e" stroke-width="1.5"/><text class="giu" x="' + n.x + '" y="' + (n.y + 6 * k) + '" text-anchor="middle" font-size="' + 16 * k + '" font-weight="700" fill="#06281a">' + n.ten + '</text>';
+          hop.querySelector('[data-id="' + n.id + '"]').classList.add('xong'); hop.querySelectorAll('.chip').forEach(x => x.classList.remove('chon'));
+          thay('Đúng. ' + n.gt, 'dung'); chon = null; con--;
+          if (!con) { phao(); o.xong && o.xong(); }
+        } else thay('Chưa đúng: chấm số ' + (i + 1) + ' không phải «' + chon.ten + '». Gợi ý: ' + chon.gy, 'sai');
+      });
+      lop.appendChild(g);
+    });
+    return { xoa() { lop.remove(); svg.classList.remove('dang-ten'); } };
+  }
+
+  // Câu hỏi: chọn sai thì gọi tên chỗ hiểu nhầm
+  function cauHoi(o) {
+    const hop = $(o.hop); hop.innerHTML = ''; const kq = [];
+    const cham = document.createElement('div'); cham.className = 'cham';
+    o.cau.forEach(() => cham.appendChild(document.createElement('i')));
+    hop.appendChild(cham);
+    o.cau.forEach((c, i) => {
+      const d = document.createElement('div'); d.className = 'cau';
+      d.innerHTML = '<h4>Câu ' + (i + 1) + '. ' + c.h + '</h4>';
+      const giai = document.createElement('p'); giai.className = 'giai';
+      c.a.forEach((t, j) => {
+        const b = document.createElement('button'); b.textContent = t;
+        b.onclick = () => {
+          if (kq[i] === true) return;
+          if (j === c.d) {
+            b.classList.add('dung'); giai.textContent = '✓ ' + c.g; thay('Đúng rồi. ' + c.g, 'dung');
+            if (kq[i] === undefined) { kq[i] = true; cham.children[i].className = 'dung'; } else kq[i] = true;
+          } else {
+            b.classList.add('sai'); const s = (c.s && c.s[j]) || 'Em đọc lại câu hỏi và thử lần nữa.';
+            giai.textContent = '✗ ' + s; thay(s, 'sai');
+            if (kq[i] === undefined) { kq[i] = 'sai'; cham.children[i].className = 'sai'; }
+          }
+          if (kq.filter(x => x === true).length === o.cau.length) {
+            const lanDau = o.cau.filter((_, n) => cham.children[n].className === 'dung').length;
+            tt.diem = lanDau + '/' + o.cau.length; kho.ghi(cfg.id, tt); phao(); o.xong && o.xong(lanDau);
+          }
+        };
+        d.appendChild(b);
+      });
+      d.appendChild(giai); hop.appendChild(d);
+    });
+  }
+
+  // Phiếu thực hành: ảnh PNG lưu về máy
+  function phieu() {
+    const nhom = ($('#o-nhom').value || '').trim(), lop = ($('#o-lop').value || '').trim();
+    tt.nhom = nhom; tt.lop = lop; kho.ghi(cfg.id, tt);
+    const W = 900, c = document.createElement('canvas'), g = c.getContext('2d');
+    const dong = cfg.phieu();
+    const boc = (t, w) => { const r = []; let s = ''; t.split(' ').forEach(x => { if (g.measureText(s + x).width > w) { r.push(s); s = ''; } s += x + ' '; }); r.push(s); return r; };
+    g.font = '24px Segoe UI, Roboto, Arial';
+    let h = 250; dong.forEach(d => { h += boc(d, W - 100).length * 34 + 8; });
+    c.width = W; c.height = h + 70;
+    g.fillStyle = '#fff8ee'; g.fillRect(0, 0, W, c.height);
+    g.fillStyle = '#ff6a3d'; g.fillRect(0, 0, W, 14);
+    g.fillStyle = '#7a3a10'; g.font = 'bold 22px Segoe UI, Roboto, Arial'; g.fillText('PHIẾU THỰC HÀNH TRÊN XƯỞNG ẢO', 50, 56);
+    g.fillStyle = '#1d1208'; g.font = 'bold 32px Segoe UI, Roboto, Arial'; g.fillText(cfg.ten, 50, 100);
+    g.font = '22px Segoe UI, Roboto, Arial'; g.fillStyle = '#444';
+    g.fillText('Nhóm/Mã: ' + (nhom || '……') + '    Lớp: ' + (lop || '……'), 50, 142);
+    g.fillText('Ngày: ' + new Date().toLocaleDateString('vi-VN') + '    Câu đúng ngay lần đầu: ' + (tt.diem || 'chưa làm'), 50, 174);
+    g.strokeStyle = '#e8c9a0'; g.beginPath(); g.moveTo(50, 196); g.lineTo(W - 50, 196); g.stroke();
+    let y = 232; g.font = '24px Segoe UI, Roboto, Arial'; g.fillStyle = '#222';
+    dong.forEach(d => { boc(d, W - 100).forEach(l => { g.fillText(l, 50, y); y += 34; }); y += 8; });
+    g.font = '18px Segoe UI, Roboto, Arial'; g.fillStyle = '#777';
+    g.fillText('Làm trên mô phỏng, đã đơn giản hoá. Đã làm trên xưởng ảo, chưa phải thao tác trên thiết bị thật.', 50, y + 22);
+    c.toBlob(b => {
+      const a = document.createElement('a'); a.href = URL.createObjectURL(b);
+      a.download = 'Phieu-' + cfg.id + '-' + (nhom || 'nhom').replace(/[^\w-]+/g, '_') + '.png';
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      thay('Em đã lưu phiếu thành ảnh trong máy. Nộp theo cách thầy dặn nhé.', 'dung');
+    });
+  }
+
+  function khoiDong(c) {
+    cfg = c; tt = Object.assign(tt, kho.doc(c.id, {}));
+    const bac = $('#bac');
+    c.buoc.forEach(b => {
+      const n = document.createElement('button'); n.dataset.b = b.id;
+      n.innerHTML = '<i>' + b.icon + '</i><span>' + b.ten + '</span>';
+      if (tt.xong[b.id]) n.classList.add('xong');
+      n.onclick = () => { am.bam(); moBuoc(b.id); }; bac.appendChild(n);
+    });
+    document.querySelectorAll('[data-sang]').forEach(n => n.addEventListener('click', () => moBuoc(n.dataset.sang)));
+    const tv = $('#n-tv'), gi = $('#n-giong');
+    if (kho.doc('xuong-tv', false)) { document.body.classList.add('tv'); tv.classList.add('bat'); }
+    tv.onclick = () => { const b = document.body.classList.toggle('tv'); tv.classList.toggle('bat', b); kho.ghi('xuong-tv', b); };
+    gi.onclick = () => {
+      bat = !bat; gi.classList.toggle('bat', bat); gi.textContent = bat ? '🔊' : '🔈';
+      if (bat && typeof docGiongViet === 'function') docGiongViet($('#thay-chu').textContent);
+      else if (typeof dungGiong === 'function') dungGiong();
+    };
+    const nh = $('#o-nhom'), lo = $('#o-lop');
+    if (nh) nh.value = tt.nhom || ''; if (lo) lo.value = tt.lop || '';
+    const np = $('#n-phieu'); if (np) np.onclick = phieu;
+    const q = location.hash.slice(1).split('&'), man = q[0];
+    const ts = {}; q.slice(1).forEach(x => { const [k, v] = x.split('='); ts[k] = v; });
+    if (man && c.buoc.some(b => b.id === man)) {
+      document.body.classList.add('chup'); moBuoc(man, true);
+      if (c.chup) c.chup(man, ts);
+    } else moBuoc(c.buoc[0].id);
+  }
+  return { khoiDong, thay, moBuoc, danhDau, goiTen, cauHoi, am, phao, $ };
+})();
+</script>
+<script>
+const CAU_DOC = ["Đây là Hình 2.2 trong sách, nhưng chạy được. Em bấm từng thiết bị xem nó làm gì.","Em bấm thẻ thiết bị, rồi bấm vào đúng vùng trên hình để lắp.","Nhìn lại hệ thống em vừa lắp xong.","Bấm một thẻ tên, rồi bấm vào chấm số đúng chỗ đó."];
+const TB = {
+  khoi:{ten:'Đầu báo khói',vung:'vao',gt:'Đầu báo khói nhận ra khói và gửi tín hiệu về tủ. Đây là đầu vào.'},
+  nhiet:{ten:'Đầu báo nhiệt',vung:'vao',gt:'Đầu báo nhiệt nhận ra nhiệt độ tăng cao và gửi tín hiệu về tủ. Đây là đầu vào.'},
+  nut:{ten:'Nút ấn báo cháy',vung:'vao',gt:'Người phát hiện cháy bấm nút để gửi tín hiệu về tủ. Đây là đầu vào.'},
+  tu:{ten:'Tủ trung tâm báo cháy',vung:'xuly',gt:'Tủ trung tâm nhận tín hiệu, xử lí rồi cho thiết bị đầu ra hoạt động. Đây là bộ phận xử lí.'},
+  chuong:{ten:'Chuông báo cháy',vung:'ra',gt:'Chuông báo bằng tiếng. Đây là đầu ra.'},
+  coi:{ten:'Còi kết hợp đèn chớp',vung:'ra',gt:'Còi và đèn chớp báo cả bằng tiếng và ánh sáng. Đây là đầu ra.'},
+  den:{ten:'Đèn báo vị trí',vung:'ra',gt:'Đèn sáng để báo vị trí. Đây là đầu ra.'}
+};
+const TEN_VUNG={vao:'đầu vào',xuly:'bộ phận xử lí',ra:'đầu ra'};
+const ICON={khoi:'s-khoi',nhiet:'s-nhiet',nut:'s-nut',chuong:'s-chuong',coi:'s-coi',den:'s-den',binh:'s-binh'};
+const $=X.$; let s; let chon=null, hen=[]; let ten=null;
+const ds=()=>Object.keys(TB);
+function moi(){s={lap:{},nguon:false,thu:{},bao:false,xong:false};}
+function ve(){
+  ds().forEach(k=>{const g=$('#tb-'+k);g.style.opacity=s.lap[k]?1:.0;g.style.pointerEvents=s.lap[k]?'auto':'none';$('#g-'+k).style.opacity=s.lap[k]?0:1;});
+  ['khoi','nhiet','nut','chuong','coi','den'].forEach(k=>{const dd=$('#d-'+k);dd.style.opacity=(s.lap[k]&&s.lap.tu)?1:0;});
+  $('#tu-nguon').setAttribute('fill',s.nguon?'#3ddc97':'#3a3f46');
+  if(!s.bao){$('#tu-chu').textContent=s.nguon?'BÌNH THƯỜNG':'TẮT';$('#tu-chu').setAttribute('fill',s.nguon?'#3ddc97':'#6d4d49');$('#tu-chu').setAttribute('font-size',s.nguon?'14':'16');}
+  const li=document.querySelectorAll('#viec li');const b1=ds().every(k=>s.lap[k]),b3=['khoi','nhiet','nut'].every(k=>s.thu[k]);
+  li[0].className=b1?'xong':'dang';li[1].className=s.nguon?'xong':(b1?'dang':'');li[2].className=b3?'xong':(s.nguon?'dang':'');
+  $('#o-lap').style.display=b1?'none':'';$('#o-thu').style.display=b1?'':'none';
+  $('#n-nguon').disabled=s.nguon;$('#n-nguon').classList.toggle('xong',s.nguon);$('#n-nguon').textContent=s.nguon?'✓ Tủ đã có nguồn':'🔌 Bật nguồn tủ';
+  ['khoi','nhiet','nut'].forEach(k=>$('#t-'+k).classList.toggle('xong',!!s.thu[k]));
+  $('#n-sang3').style.display=b3?'':'none';
+}
+function khay(){
+  const h=$('#khay');h.innerHTML='';
+  [...ds().filter(k=>k!=='tu').slice(0,3),'binh','tu','chuong','coi','den'].forEach(k=>{
+    if(k!=='binh'&&s.lap[k])return;
+    const c=document.createElement('button');c.className='chip';c.dataset.k=k;
+    c.innerHTML=(k==='tu'?'<span style="font-size:24px">🗄️</span>':'<svg viewBox="0 0 80 60"><use href="#'+ICON[k]+'"/></svg>')+'<span>'+(k==='binh'?'Bình chữa cháy':TB[k].ten)+'</span>';
+    c.onclick=()=>{X.am.bam();chon=k;h.querySelectorAll('.chip').forEach(x=>x.classList.remove('chon'));c.classList.add('chon');X.thay('Em chọn «'+(k==='binh'?'Bình chữa cháy':TB[k].ten)+'». Giờ bấm vào vùng em nghĩ là đúng trên hình.');};
+    h.appendChild(c);
+  });
+}
+function batVung(v){
+  if(!chon){X.thay('Em bấm một thiết bị trong khay trước nhé.');return;}
+  if(chon==='binh'){X.thay('Bình chữa cháy dùng để dập lửa, không nằm trong sơ đồ Hình 2.2 của hệ thống cảnh báo. Em bỏ nó ra.','sai');chon=null;const c=$('#khay [data-k="binh"]');if(c)c.remove();return;}
+  const t=TB[chon];
+  if(t.vung===v){s.lap[chon]=true;X.thay('Đúng. '+t.gt,'dung');chon=null;khay();ve();
+    if(ds().every(k=>s.lap[k]))X.thay('Lắp xong, dây đã nối. Em bấm Bật nguồn tủ.','dung');}
+  else X.thay('Chưa đúng: '+t.ten+' không phải '+TEN_VUNG[v]+'. Em nghĩ xem nó nhận tín hiệu, xử lí, hay báo cho mọi người biết?','sai');
+}
+function tatHieu(){hen.forEach(clearTimeout);hen=[];X.am.tatCoi();
+  ['khoi-bay','lua','tay'].forEach(i=>$('#'+i).setAttribute('opacity',0));
+  ['khoi','nhiet','nut','chuong','coi','den'].forEach(k=>$('#d-'+k).classList.remove('luong'));
+  ['khoi','nhiet','nut','chuong','coi','den'].forEach(k=>$('#d-'+k).setAttribute('stroke','#5c6b82'));
+  ['#sang-coi','#sang-den'].forEach(i=>{$(i).setAttribute('opacity',0);$(i).classList.remove('nhap');});
+  $('#tb-chuong').classList.remove('lac');
+  document.querySelectorAll('#tu-led circle').forEach(c=>c.setAttribute('fill','#5a1214'));
+  s&&(s.bao=false);
+}
+function bao(k,im){
+  tatHieu();s.bao=true;
+  ({khoi:'#khoi-bay',nhiet:'#lua',nut:'#tay'})[k]&&$(({khoi:'#khoi-bay',nhiet:'#lua',nut:'#tay'})[k]).setAttribute('opacity',1);
+  const d=$('#d-'+k);d.setAttribute('stroke','#4aa8ff');d.classList.add('luong');
+  const hd=()=>{
+    document.querySelectorAll('#tu-led circle')[({khoi:0,nhiet:1,nut:2})[k]].setAttribute('fill','#ffe066');
+    $('#tu-chu').textContent='BÁO CHÁY';$('#tu-chu').setAttribute('fill','#ff6b6b');$('#tu-chu').setAttribute('font-size','17');
+    ['chuong','coi','den'].forEach(o=>{const e=$('#d-'+o);e.setAttribute('stroke','#3ddc97');e.classList.add('luong');});
+    $('#tb-chuong').classList.add('lac');
+    ['#sang-coi','#sang-den'].forEach(i=>{$(i).setAttribute('opacity',.5);$(i).classList.add('nhap');});
+    if(!im)X.am.coi(3);
+  };
+  if(im)hd();else hen.push(setTimeout(hd,800));
+}
+function thu(k){
+  if(!s.nguon){X.thay('Tủ trung tâm chưa có nguồn nên chưa xử lí được tín hiệu. Em bật nguồn trước.','sai');return;}
+  s.thu[k]=true;bao(k);ve();
+  const n=['khoi','nhiet','nut'].filter(x=>s.thu[x]).length;
+  const ten={khoi:'khói',nhiet:'nhiệt',nut:'nút ấn'}[k];
+  if(n<3)X.thay('Chỉ một tín hiệu '+ten+' mà cả 3 đầu ra đều báo động. Em đặt lại rồi thử tình huống khác.','dung');
+  else{X.thay('Em đã thử đủ 3 tình huống. Kết luận: không cần đủ tất cả tín hiệu đầu vào, chỉ một tín hiệu là hệ thống đã hoạt động.','dung');X.danhDau('lam');s.xong=true;hen.push(setTimeout(X.phao,1000));}
+}
+function day(){moi();ds().forEach(k=>s.lap[k]=true);s.nguon=true;}
+function hienDu(){ds().forEach(k=>{const g=$('#tb-'+k);g.style.opacity=1;g.style.pointerEvents='auto';$('#g-'+k).style.opacity=0;});['khoi','nhiet','nut','chuong','coi','den'].forEach(k=>$('#d-'+k).style.opacity=1);$('#tu-nguon').setAttribute('fill','#3ddc97');$('#tu-chu').textContent='BÌNH THƯỜNG';$('#tu-chu').setAttribute('fill','#3ddc97');$('#tu-chu').setAttribute('font-size','14');}
+function boTen(){if(ten){ten.xoa();ten=null;}}
+function moTen(){
+  if(ten)ten.xoa();
+  ten=X.goiTen({svg:'#hinh',hop:'#the-ten',nhan:[
+   {id:'vao',ten:'Đầu vào',x:50,y:160,gt:'Đầu vào là phần nhận thông tin cần xử lí.',gy:'phần nhận tín hiệu khói, nhiệt, nút ấn.'},
+   {id:'xl',ten:'Bộ phận xử lí',x:400,y:300,gt:'Bộ phận xử lí nhận và xử lí tín hiệu.',gy:'phần tủ màu đỏ ở giữa.'},
+   {id:'ra',ten:'Đầu ra',x:745,y:160,gt:'Đầu ra là phần báo kết quả đã xử lí.',gy:'phần chuông, còi, đèn.'},
+   {id:'nut',ten:'Nút ấn',x:50,y:330,gt:'Nút ấn do con người bấm khi phát hiện cháy.',gy:'thiết bị do người bấm.'},
+   {id:'coi',ten:'Còi, đèn chớp',x:677,y:205,gt:'Còi kết hợp đèn chớp báo bằng tiếng và ánh sáng.',gy:'thiết bị vừa kêu vừa chớp sáng.'}
+  ],xong(){X.thay('Em đã gắn đủ tên. Làm tiếp phần kiểm tra bên dưới nhé.','dung');}});
+}
+document.querySelectorAll('#hinh [data-vung]').forEach(g=>g.addEventListener('click',()=>{if($('#m-lam').classList.contains('hien'))batVung(g.dataset.vung);}));
+document.querySelectorAll('#hinh [data-tb]').forEach(g=>g.addEventListener('click',e=>{e.stopPropagation();const k=g.dataset.tb;
+  if($('#m-lam').classList.contains('hien')){if(chon)batVung(TB[k].vung);return;}
+  if($('#m-nhin').classList.contains('hien'))X.thay(TB[k].gt);}));
+$('#n-nguon').onclick=()=>{s.nguon=true;ve();X.thay('Tủ đã có nguồn, đèn xanh sáng. Giờ em thử từng tình huống.','dung');};
+['khoi','nhiet','nut'].forEach(k=>$('#t-'+k).onclick=()=>thu(k));
+$('#n-datlai').onclick=()=>{tatHieu();ve();X.thay('Đã tắt báo động, hệ thống trở về bình thường.');};
+$('#n-lamlai').onclick=()=>{tatHieu();moi();chon=null;khay();ve();X.thay('Bắt đầu lại. Em bấm thiết bị trong khay nhé.');};
+X.cauHoi({hop:'#o-cau',xong(){X.danhDau('goi-ten');X.thay('Em làm xong phần kiểm tra rồi. Sang bước cuối để lưu phiếu nhé.','dung');},cau:[
+ {h:'Hệ thống kĩ thuật gồm những phần nào?',a:['Đầu vào, bộ phận xử lí, đầu ra','Máy móc, con người, nhà xưởng','Nguồn điện, dây dẫn, công tắc'],d:0,g:'SGK tr.11: đầu vào, đầu ra và bộ phận xử lí có liên hệ với nhau.',s:{1:'Em đang nghĩ đến nơi sản xuất. Hệ thống kĩ thuật chia theo chức năng: nhận vào, xử lí, đưa ra.',2:'Đây là các linh kiện của một mạch điện, chưa phải cách chia cấu trúc của hệ thống kĩ thuật.'}},
+ {h:'Tủ trung tâm báo cháy là phần nào?',a:['Đầu vào','Bộ phận xử lí','Đầu ra'],d:1,g:'Tủ nhận tín hiệu, xử lí rồi cho đầu ra hoạt động.',s:{0:'Tủ không tự phát hiện khói hay nhiệt, nó nhận tín hiệu từ các đầu báo.',2:'Tủ không trực tiếp báo cho mọi người; chuông, còi, đèn mới là đầu ra.'}},
+ {h:'Để hệ thống hoạt động, có cần đủ tất cả tín hiệu đầu vào không?',a:['Có, phải đủ khói, nhiệt và nút ấn','Không, chỉ cần một tín hiệu','Chỉ cần tín hiệu nút ấn'],d:1,g:'Em đã thử: một tín hiệu bất kì là hệ thống báo động.',s:{0:'Nếu phải đủ cả ba thì đám cháy có thể lan rộng rồi mới báo. Em thử lại ở bước Làm.',2:'Đầu báo khói, đầu báo nhiệt cũng tự gửi tín hiệu được, không cần người bấm.'}},
+ {h:'Trong cấu trúc SGK (Hình 2.3), tín hiệu từ đầu báo khói thuộc loại nào?',a:['Vật liệu cần xử lí','Năng lượng cần xử lí','Thông tin cần xử lí'],d:2,g:'Tín hiệu mang thông tin «có khói» tới tủ.',s:{0:'Khói không được đưa vào tủ; thứ đi về tủ là tín hiệu.',1:'Tín hiệu này báo tin có khói, không phải để cấp năng lượng.'}}
+]});
+moi();
+X.khoiDong({id:'xuong-cn10-b2',ten:'CN10 · Bài 2 · Hệ thống cảnh báo cháy',
+ phieu:()=>['Đã lắp đủ: 3 thiết bị đầu vào, tủ trung tâm, 3 thiết bị đầu ra (theo Hình 2.2).','Đã thử: tạo khói, tạo nhiệt, bấm nút ấn. Mỗi lần chỉ một tín hiệu, cả 3 đầu ra đều báo động.','Kết luận: không cần đủ tất cả tín hiệu đầu vào.','Đầu vào: đầu báo khói, đầu báo nhiệt, nút ấn. Xử lí: tủ trung tâm báo cháy. Đầu ra: chuông, còi kết hợp đèn chớp, đèn báo vị trí.'],
+ buoc:[
+  {id:'nhin',ten:'Nhìn',icon:'👀',loi:'Đây là Hình 2.2 trong sách, nhưng chạy được. Em bấm từng thiết bị xem nó làm gì.',vao(){boTen();tatHieu();hienDu();bao('khoi',true);$('#khoi-bay').setAttribute('opacity',0);X.danhDau('nhin');}},
+  {id:'lam',ten:'Làm',icon:'🖐️',loi:'Em bấm thẻ thiết bị, rồi bấm vào đúng vùng trên hình để lắp.',vao(){boTen();tatHieu();khay();ve();}},
+  {id:'san-pham',ten:'Sản phẩm',icon:'🏭',loi:'Nhìn lại hệ thống em vừa lắp xong.',vao(){boTen();tatHieu();hienDu();bao('nut',true);$('#tay').setAttribute('opacity',0);X.danhDau('san-pham');}},
+  {id:'goi-ten',ten:'Gọi tên',icon:'🔤',loi:'Bấm một thẻ tên, rồi bấm vào chấm số đúng chỗ đó.',vao(){tatHieu();hienDu();moTen();}},
+  {id:'nghe',ten:'Nghề – phiếu',icon:'🎓',loi:'Bước cuối: nhìn xa hơn và lưu phiếu thực hành.',vao(){boTen();tatHieu();hienDu();X.danhDau('nghe');}}
+ ],
+ chup(m,t){
+  if(m==='lam'){
+   if(t.mau==='dang'){moi();['khoi','tu','chuong'].forEach(k=>s.lap[k]=true);chon='nhiet';khay();ve();X.thay('Em chọn «Đầu báo nhiệt». Giờ bấm vào vùng em nghĩ là đúng trên hình.');}
+   if(t.mau==='bao'){day();s.thu={khoi:1,nhiet:1};ve();bao('khoi',true);X.thay('Chỉ một tín hiệu khói mà cả 3 đầu ra đều báo động. Em đặt lại rồi thử tình huống khác.','dung');}
+  }
+  if(m==='nhin')X.thay('Đây là Hình 2.2 trong sách, nhưng chạy được. Em bấm từng thiết bị xem nó làm gì.');
+  if(m==='san-pham')X.thay('Nhìn lại hệ thống em vừa lắp xong.');
+  if(m==='goi-ten')X.thay('Bấm một thẻ tên, rồi bấm vào chấm số đúng chỗ đó.');
+  if(m==='nghe')X.thay('Bước cuối: nhìn xa hơn và lưu phiếu thực hành.');
+ }
+});
+</script>
+</body></html>

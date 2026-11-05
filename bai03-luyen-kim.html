@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bài 3 · Xưởng lò cao</title>
+<style>:root{
+  --nen:#0d1626;--nen2:#16233a;--kinh:rgba(255,255,255,.07);--vien:rgba(255,255,255,.15);
+  --chu:#f2f6fc;--mo:#b4c1d6;--chinh:#ff9d3c;--chinh2:#ff6a3d;
+  --vao:#4aa8ff;--xuly:#ffb347;--ra:#3ddc97;--dung:#3ddc97;--sai:#ff6b6b;--bong:0 10px 30px rgba(0,0,0,.35)
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{min-height:100vh;color:var(--chu);font:16px/1.5 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  background:radial-gradient(900px 500px at 12% -5%,rgba(255,106,61,.20),transparent 60%),radial-gradient(900px 600px at 95% 10%,rgba(74,168,255,.18),transparent 60%),linear-gradient(160deg,var(--nen),var(--nen2))}
+@media (min-width:920px){body.tv{font-size:21px}}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+.dau{display:flex;align-items:center;gap:10px;padding:10px 14px;max-width:1500px;margin:auto}
+.ve{flex:none;text-decoration:none;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;background:var(--kinh);border:1px solid var(--vien);font-size:20px}
+.ten{flex:1;min-width:0}
+.ten small{display:block;color:var(--mo);font-size:.78em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ten b{display:block;font-size:1.08em;line-height:1.25;background:linear-gradient(90deg,#ffd9a8,var(--chinh));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nho{flex:none;width:44px;height:44px;border-radius:12px;background:var(--kinh);border:1px solid var(--vien);font-size:18px}
+.nho.bat{background:linear-gradient(135deg,var(--chinh),var(--chinh2));border-color:transparent}
+.bac{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:0 14px;max-width:1500px;margin:auto}
+.bac button{min-height:52px;padding:5px 2px;border-radius:12px;border:1px solid var(--vien);background:var(--kinh);color:var(--mo);font-size:.76em;line-height:1.2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.bac button i{font-style:normal;font-size:1.35em}
+.bac button.dang{background:linear-gradient(135deg,var(--chinh),var(--chinh2));color:#1d1208;font-weight:700;border-color:transparent}
+.bac button.xong:not(.dang){color:var(--dung);border-color:var(--dung)}
+.chinh{display:grid;gap:12px;padding:12px 14px 18px;max-width:1500px;margin:auto}
+.san{position:sticky;top:0;z-index:5;border-radius:18px;background:#0a111e;border:1px solid var(--vien);box-shadow:var(--bong);overflow:hidden}
+.san svg{display:block;width:100%;height:auto;touch-action:manipulation;user-select:none}
+.san text{font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif}
+.ben{display:flex;flex-direction:column;gap:10px;min-width:0}
+.thay{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border-radius:16px;background:var(--kinh);border:1px solid var(--vien);min-height:76px}
+.thay svg{flex:none;width:46px;height:46px}
+.thay p{margin:0;font-size:1.02em}
+.thay.dung{border-color:var(--dung);background:rgba(61,220,151,.13)}
+.thay.sai{border-color:var(--sai);background:rgba(255,107,107,.13);animation:rung .35s}
+@keyframes rung{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+.the{padding:12px;border-radius:16px;background:var(--kinh);border:1px solid var(--vien)}
+.the h3{margin:0 0 8px;font-size:1.04em;color:#ffd9a8}
+.the p{margin:0 0 8px}.the p:last-child{margin-bottom:0}
+.man{display:none;flex-direction:column;gap:10px;animation:mo .3s}
+.man.hien{display:flex}
+@keyframes mo{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+body.chup *{animation-duration:0s!important;transition:none!important}
+.nut{min-height:48px;padding:10px 14px;border:0;border-radius:13px;font-weight:700;color:#1d1208;background:linear-gradient(135deg,var(--chinh),var(--chinh2));box-shadow:0 5px 15px rgba(255,106,61,.3);transition:transform .12s}
+.nut:hover{transform:translateY(-2px)}.nut:active{transform:translateY(1px) scale(.98)}
+.nut.phu{background:var(--kinh);color:var(--chu);border:1px solid var(--vien);box-shadow:none;font-weight:600}
+.nut.xong{background:rgba(61,220,151,.18);color:var(--dung);border:1px solid var(--dung);box-shadow:none}
+.nut[disabled]{opacity:.45;cursor:default}
+.hang{display:flex;flex-wrap:wrap;gap:8px}.hang>.nut{flex:1 1 140px}
+.chip{min-height:48px;padding:7px 11px;border-radius:13px;border:1px solid var(--vien);background:var(--kinh);display:inline-flex;align-items:center;gap:8px;text-align:left}
+.chip svg{width:30px;height:30px;flex:none}
+.chip.chon{outline:3px solid var(--chinh);background:rgba(255,157,60,.18)}
+.chip.xong{opacity:.42;border-color:var(--dung);text-decoration:line-through}
+.viec{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.viec li{display:flex;gap:8px;color:var(--mo)}
+.viec li:before{content:"○";color:var(--mo)}
+.viec li.dang{color:var(--chu);font-weight:600}.viec li.dang:before{content:"▶";color:var(--chinh)}
+.viec li.xong{color:var(--dung)}.viec li.xong:before{content:"✓";color:var(--dung)}
+.cau{padding:12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--vien)}
+.cau h4{margin:0 0 8px;font-size:1.02em}
+.cau button{display:block;width:100%;min-height:46px;text-align:left;margin:6px 0 0;padding:9px 12px;border-radius:11px;border:1px solid var(--vien);background:var(--kinh)}
+.cau button.dung{background:rgba(61,220,151,.2);border-color:var(--dung)}
+.cau button.sai{background:rgba(255,107,107,.18);border-color:var(--sai)}
+.cau .giai{margin:8px 0 0;font-size:.95em;color:var(--mo)}
+.cham{display:flex;gap:6px;flex-wrap:wrap}.cham i{width:13px;height:13px;border-radius:50%;background:rgba(255,255,255,.2)}
+.cham i.dung{background:var(--dung)}.cham i.sai{background:var(--sai)}
+.o{width:100%;min-height:46px;padding:9px 12px;border-radius:11px;border:1px solid var(--vien);background:rgba(0,0,0,.25);color:var(--chu);font:inherit}
+label{display:block;font-size:.92em;color:var(--mo);margin-bottom:3px}
+input[type=range]{width:100%;height:36px;accent-color:var(--chinh)}
+.chan{max-width:1500px;margin:auto;padding:0 14px 22px;color:var(--mo);font-size:.84em}
+.chan b{color:#ffe39e}
+.phao{position:fixed;top:-12px;width:9px;height:14px;z-index:50;pointer-events:none;animation:roi 1.5s linear forwards}
+@keyframes roi{to{transform:translateY(105vh) rotate(600deg);opacity:.7}}
+.luong{stroke-dasharray:9 9;animation:chay .55s linear infinite}
+@keyframes chay{to{stroke-dashoffset:-18}}
+.dot{cursor:pointer}
+.dang-ten .an-ten{opacity:0}
+.nhap{animation:nhap .5s infinite alternate}
+@keyframes nhap{to{opacity:.25}}
+.lac{animation:lac .16s infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes lac{from{transform:rotate(-6deg)}to{transform:rotate(6deg)}}
+.noi{animation:noi 2.2s ease-in-out infinite alternate;transform-box:fill-box}
+@keyframes noi{to{transform:translateY(-6px)}}
+@media (min-width:920px){
+  .chinh{grid-template-columns:minmax(0,1.5fr) minmax(330px,1fr);align-items:start}
+  .san{top:10px}
+  .bac button{flex-direction:row;gap:6px;font-size:.92em}
+}
+@media (max-width:919px){.san{top:0}}
+@media (max-width:600px){.san svg text:not(.giu){font-size:23px!important}.ten b{font-size:1em}}
+@media (max-height:520px) and (max-width:919px){.san{position:static}}
+@media print{body{background:#fff;color:#000}.dau,.bac,.chan,.ben>*:not(.in-duoc){display:none!important}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="gGach" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#57503d"/><stop offset=".5" stop-color="#8d8467"/><stop offset="1" stop-color="#57503d"/></linearGradient>
+<linearGradient id="gOng" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d7dde5"/><stop offset="1" stop-color="#7b8694"/></linearGradient>
+<linearGradient id="gThapL" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2f6fb5"/><stop offset=".5" stop-color="#79b7ee"/><stop offset="1" stop-color="#2f6fb5"/></linearGradient>
+<linearGradient id="gThapR" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b5487f"/><stop offset=".5" stop-color="#f09ac4"/><stop offset="1" stop-color="#b5487f"/></linearGradient>
+<linearGradient id="gGang" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0a0"/><stop offset=".5" stop-color="#ff9a2e"/><stop offset="1" stop-color="#e2361b"/></linearGradient>
+<clipPath id="cLo"><path d="M378 96H422L462 384V428H338V384Z"/></clipPath>
+</defs></svg>
+<header class="dau">
+  <a class="ve" href="./index.html" aria-label="Về trang chủ">🏭</a>
+  <div class="ten"><small>Công nghệ 10 · Bài 3 · Hình 3.2, SGK tr.14–15</small><b>Vận hành lò cao luyện gang</b></div>
+  <button class="nho" id="n-giong" aria-label="Bật giọng thầy">🔈</button>
+  <button class="nho" id="n-tv" aria-label="Chế độ TV">📺</button>
+</header>
+<nav class="bac" id="bac"></nav>
+<main class="chinh">
+  <section class="san"><svg id="hinh" viewBox="0 0 860 520" role="img" aria-label="Lò cao sản xuất gang">
+<rect width="860" height="520" fill="#101b2e"/><rect y="460" width="860" height="60" fill="#232a36"/><line x1="0" y1="460" x2="860" y2="460" stroke="#475064" stroke-width="3"/>
+<!-- tháp trái -->
+<rect x="72" y="120" width="72" height="340" fill="#1a1f29"/><path d="M72 120a36 36 0 0 1 72 0" fill="#1a1f29"/><rect x="84" y="128" width="48" height="326" fill="url(#gThapL)"/>
+<!-- tháp phải -->
+<rect x="684" y="120" width="72" height="340" fill="#1a1f29"/><path d="M684 120a36 36 0 0 1 72 0" fill="#1a1f29"/><rect x="696" y="128" width="48" height="326" fill="url(#gThapR)"/>
+<!-- ống -->
+<g fill="none" stroke-linecap="round">
+ <path d="M372 104H250L150 404H136" stroke="url(#gOng)" stroke-width="13"/>
+ <path d="M72 440H42V236" stroke="url(#gOng)" stroke-width="11"/>
+ <path d="M860 430H756" stroke="url(#gOng)" stroke-width="11"/>
+ <path d="M684 404H462" stroke="url(#gOng)" stroke-width="13"/>
+ <path id="l-khilo" d="M372 104H250L150 404H136" stroke="#ffb46b" stroke-width="5" opacity="0"/>
+ <path id="l-thai" d="M72 440H42V236" stroke="#c7ced8" stroke-width="5" opacity="0"/>
+ <path id="l-kk" d="M860 430H756" stroke="#7cc4ff" stroke-width="5" opacity="0"/>
+ <path id="l-gio" d="M684 404H462" stroke="#ff7a4d" stroke-width="6" opacity="0"/>
+</g>
+<!-- lò -->
+<path d="M368 88H432L478 384V440H322V384Z" fill="url(#gGach)" stroke="#3a3527" stroke-width="2"/>
+<g clip-path="url(#cLo)"><rect class="vl" data-i="0" x="330" y="96" width="140" height="32" fill="#2a2f39"/><rect class="vl" data-i="1" x="330" y="128" width="140" height="48" fill="#2a2f39"/><rect class="vl" data-i="2" x="330" y="176" width="140" height="56" fill="#2a2f39"/><rect class="vl" data-i="3" x="330" y="232" width="140" height="68" fill="#2a2f39"/><rect class="vl" data-i="4" x="330" y="300" width="140" height="64" fill="#2a2f39"/><rect class="vl" data-i="5" x="330" y="364" width="140" height="64" fill="#2a2f39"/>
+ <g id="liu" opacity="0"><g class="roi1"><circle cx="372" cy="96" r="6" fill="#8d5a33"/><circle cx="412" cy="84" r="6" fill="#1c1c1f"/><circle cx="392" cy="70" r="5" fill="#c5c9cf"/><circle cx="430" cy="62" r="6" fill="#8d5a33"/><circle cx="360" cy="52" r="6" fill="#1c1c1f"/><circle cx="405" cy="42" r="5" fill="#c5c9cf"/></g></g>
+ <rect id="xi-long" x="330" y="384" width="140" height="16" fill="#e7c766" opacity="0"/>
+ <rect id="gang-long" x="330" y="400" width="140" height="28" fill="url(#gGang)" opacity="0"/>
+</g><text class="vt giu" data-i="0" x="400" y="118.0" text-anchor="middle" font-size="15" font-weight="700" fill="#7f8896">200 °C</text><text class="vt" data-i="1" x="400" y="158.0" text-anchor="middle" font-size="16" font-weight="700" fill="#7f8896">600 °C</text><text class="vt" data-i="2" x="400" y="210.0" text-anchor="middle" font-size="16" font-weight="700" fill="#7f8896">800 °C</text><text class="vt" data-i="3" x="400" y="272.0" text-anchor="middle" font-size="16" font-weight="700" fill="#7f8896">1000 °C</text><text class="vt" data-i="4" x="400" y="338.0" text-anchor="middle" font-size="16" font-weight="700" fill="#7f8896">1500 °C</text><text class="vt" data-i="5" x="400" y="402.0" text-anchor="middle" font-size="16" font-weight="700" fill="#7f8896">2000 °C</text>
+<path d="M372 70H428L440 96H360Z" fill="#6f6a57" stroke="#3a3527"/><rect x="392" y="46" width="16" height="26" fill="#6f6a57"/>
+<!-- cửa tháo -->
+<g id="vi-trai"><rect x="296" y="412" width="30" height="14" fill="#3a3527"/></g><g id="vi-phai"><rect x="474" y="396" width="30" height="14" fill="#3a3527"/></g>
+<path id="dong-gang" d="M300 426C282 430 276 438 274 452" fill="none" stroke="url(#gGang)" stroke-width="9" opacity="0" stroke-linecap="round"/>
+<path id="dong-xi" d="M500 410C520 414 530 430 532 452" fill="none" stroke="#e7c766" stroke-width="9" opacity="0" stroke-linecap="round"/>
+<!-- nồi -->
+<path d="M240 452H306L298 492H248Z" fill="#3b4250" stroke="#8892a3" stroke-width="2"/><rect id="noi-gang" x="248" y="470" width="50" height="20" fill="url(#gGang)" opacity="0"/>
+<path d="M498 452H564L556 492H506Z" fill="#3b4250" stroke="#8892a3" stroke-width="2"/><rect id="noi-xi" x="506" y="470" width="50" height="20" fill="#e7c766" opacity="0"/>
+<!-- thỏi gang -->
+<g id="thoi" opacity="0"><path d="M150 500l10-20h58l10 20z" fill="#6c7380" stroke="#c5ccd8"/><path d="M162 480l8-14h40l8 14z" fill="#878f9d" stroke="#c5ccd8"/></g>
+<!-- thang nạp -->
+<g stroke="#9aa5b4" stroke-width="5"><line x1="640" y1="456" x2="440" y2="60"/><line x1="668" y1="456" x2="468" y2="60"/></g><line x1="640" y1="438" x2="664" y2="444" stroke="#9aa5b4" stroke-width="3"/><line x1="624" y1="405" x2="648" y2="411" stroke="#9aa5b4" stroke-width="3"/><line x1="608" y1="372" x2="632" y2="378" stroke="#9aa5b4" stroke-width="3"/><line x1="591" y1="339" x2="615" y2="345" stroke="#9aa5b4" stroke-width="3"/><line x1="575" y1="306" x2="599" y2="312" stroke="#9aa5b4" stroke-width="3"/><line x1="559" y1="273" x2="583" y2="279" stroke="#9aa5b4" stroke-width="3"/><line x1="543" y1="240" x2="567" y2="246" stroke="#9aa5b4" stroke-width="3"/><line x1="527" y1="207" x2="551" y2="213" stroke="#9aa5b4" stroke-width="3"/><line x1="510" y1="174" x2="534" y2="180" stroke="#9aa5b4" stroke-width="3"/><line x1="494" y1="141" x2="518" y2="147" stroke="#9aa5b4" stroke-width="3"/><line x1="478" y1="108" x2="502" y2="114" stroke="#9aa5b4" stroke-width="3"/><line x1="462" y1="75" x2="486" y2="81" stroke="#9aa5b4" stroke-width="3"/>
+<g id="xe" style="transition:transform 1.7s ease-in-out"><rect x="626" y="418" width="56" height="30" rx="4" fill="#5e6776" stroke="#c7ced8" stroke-width="2"/><g id="xe-liu"></g></g>
+<!-- nhãn -->
+<g class="an-ten" font-size="16" fill="#e4ecf7">
+ <text x="108" y="84" text-anchor="middle" font-weight="700" fill="#9bd0ff">Tháp khí lò</text>
+ <text x="720" y="84" text-anchor="middle" font-weight="700" fill="#ffb3d4">Tháp nung gió</text>
+ <text x="210" y="170" transform="rotate(-71 210 170)" fill="#ffcf9c">Khí lò</text>
+ <text x="8" y="196" fill="#dfe4ec">Khí</text><text x="8" y="222" fill="#dfe4ec">thải</text>
+ <text x="808" y="416" text-anchor="middle" fill="#a6dcff" font-size="15">Không khí</text>
+ <text x="540" y="394" text-anchor="middle" fill="#ffb097" font-size="15">Gió nóng</text>
+ <text x="240" y="514" fill="#ffd38c" font-weight="700">Gang</text>
+ <text x="514" y="514" fill="#e7c766" font-weight="700">Xỉ</text>
+</g>
+<g id="canh-bao" opacity="0"><rect x="320" y="10" width="160" height="28" rx="8" fill="#ff6b6b"/><text x="400" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#2a0707">CHƯA ĐỦ NHIỆT</text></g>
+</svg>
+<style>.roi1{animation:roi1 2.4s linear infinite}@keyframes roi1{from{transform:translateY(0)}to{transform:translateY(300px)}}</style></section>
+  <section class="ben">
+    <div class="thay" id="thay">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="23" fill="#ffe2b8"/><path d="M8 20c2-12 30-12 32 0l-4 1H12z" fill="#ffb000"/><rect x="6" y="19" width="36" height="4" rx="2" fill="#e08a00"/><circle cx="17" cy="28" r="2.6" fill="#333"/><circle cx="31" cy="28" r="2.6" fill="#333"/><path d="M17 36c4 3 10 3 14 0" stroke="#a5532a" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+      <p id="thay-chu"></p>
+    </div>
+    
+<div class="man" id="m-nhin">
+  <div class="the"><h3>👀 Công nghệ luyện kim</h3><p>Luyện kim là điều chế kim loại, hợp kim từ các loại quặng hoặc nguyên liệu khác (SGK tr.14). Hình bên là lò cao đang chạy.</p><p>Nhìn nhiệt độ trong lò: càng xuống thấp <b>càng nóng</b>, từ 200 °C tới 2 000 °C. Em bấm các nút dưới đây để tìm hiểu.</p>
+  <div class="hang"><button class="nut phu" data-xem="lo">🔥 Thân lò</button><button class="nut phu" data-xem="thang">🪜 Thang nạp</button><button class="nut phu" data-xem="thap">🌬️ Hai tháp</button><button class="nut phu" data-xem="ra">🫕 Hai cửa ra</button></div></div>
+  <button class="nut" data-sang="lam">Em vào vận hành →</button>
+</div>
+<div class="man" id="m-lam">
+  <div class="the"><h3>🖐️ Việc cần làm</h3><ul class="viec" id="viec"><li>Chọn nguyên liệu đưa lên xe</li><li>Kéo xe lên, đổ vào lò</li><li>Thổi gió nóng tới 2 000 °C</li><li>Dẫn khí lò về tháp</li><li>Tháo xỉ và tháo gang</li></ul></div>
+  <div class="the" id="o-kho"><h3>📦 Kho nguyên liệu</h3><div class="hang" id="kho-lieu"></div></div>
+  <div class="the"><h3>🎛️ Bảng điều khiển</h3>
+    <div class="hang"><button class="nut phu" id="n-keo">⬆️ Kéo xe lên, đổ vào lò</button></div>
+    <label for="gio" style="margin-top:10px">Mức gió nóng: <b id="doc-gio" style="color:#ffcf8c">chưa thổi</b></label>
+    <input type="range" id="gio" min="0" max="6" step="1" value="0" aria-label="Mức gió nóng">
+    <div class="hang"><button class="nut phu" id="n-khilo">♻️ Dẫn khí lò về tháp</button></div>
+    <div class="hang" style="margin-top:8px"><button class="nut phu" id="n-xi">🟡 Tháo xỉ</button><button class="nut phu" id="n-gang">🟠 Tháo gang</button></div>
+  </div>
+  <div class="hang"><button class="nut phu" id="n-lamlai">🔄 Làm lại từ đầu</button></div>
+  <button class="nut" id="n-sang3" data-sang="san-pham" style="display:none">Xem sản phẩm của em →</button>
+</div>
+<div class="man" id="m-san-pham">
+  <div class="the"><h3>🏭 Sản phẩm: gang</h3><p>Sản phẩm của luyện kim ở dạng thô, thường <b>làm nguyên liệu cho các công nghệ chế tạo vật liệu kim loại khác</b> (SGK tr.15).</p>
+  <svg viewBox="0 0 420 120" style="width:100%;height:auto" role="img" aria-label="Chuỗi từ nguyên liệu đến sản phẩm"><g font-size="15" text-anchor="middle" fill="#fff"><rect x="4" y="30" width="110" height="60" rx="11" fill="#6f4a2c"/><text x="59" y="56">Quặng và</text><text x="59" y="76">nguyên liệu</text><rect x="154" y="30" width="110" height="60" rx="11" fill="#c8481f"/><text x="209" y="65" font-weight="700">Lò cao</text><rect x="304" y="30" width="110" height="60" rx="11" fill="#566072"/><text x="359" y="56">Gang,</text><text x="359" y="76">làm nguyên liệu</text></g><g stroke="#ffcf8c" stroke-width="3" fill="#ffcf8c"><line x1="116" y1="60" x2="146" y2="60"/><path d="M152 60l-9-6v12z"/><line x1="266" y1="60" x2="296" y2="60"/><path d="M302 60l-9-6v12z"/></g></svg></div>
+  <div class="the"><h3>🗂️ Hai nhóm luyện kim (SGK tr.15)</h3><p><b style="color:#ffb46b">Luyện kim đen:</b> tạo ra gang và thép.</p><p><b style="color:#ffe08a">Luyện kim màu:</b> tạo ra nhôm, đồng, vàng, chì, kẽm…</p></div>
+  <button class="nut" data-sang="goi-ten">Gọi tên các bộ phận →</button>
+</div>
+<div class="man" id="m-goi-ten">
+  <div class="the"><h3>🔤 Gắn tên vào đúng chỗ</h3><div class="hang" id="the-ten"></div></div>
+  <div class="the"><h3>✍️ Kiểm tra nhanh</h3><div id="o-cau" style="display:flex;flex-direction:column;gap:8px"></div></div>
+  <button class="nut" data-sang="nghe">Tiếp →</button>
+</div>
+<div class="man" id="m-nghe">
+  <div class="the"><h3>🎓 Kĩ sư luyện kim (SGK tr.15)</h3><p><b>Học gì:</b> đại học kĩ thuật, ngành kĩ thuật vật liệu.</p><p><b>Làm gì:</b> thiết kế nhà máy và thiết bị luyện kim, lập quy trình công nghệ, điều hành quy trình sản xuất kim loại, hợp kim; hoặc nghiên cứu, giảng dạy.</p><p><a href="https://tdkt-gdag.io.vn/caynghe/">🌳 Sang Cây nghề nghiệp</a></p></div>
+  <div class="the"><h3>📄 Lưu phiếu thực hành</h3><p style="color:#ffd9a8">Chỉ ghi tên nhóm hoặc mã, không ghi họ tên.</p><label for="o-nhom">Nhóm hoặc mã</label><input class="o" id="o-nhom" placeholder="VD: Nhóm 3" maxlength="20"><label for="o-lop" style="margin-top:8px">Lớp</label><input class="o" id="o-lop" placeholder="VD: 10A1" maxlength="10"><div class="hang" style="margin-top:10px"><button class="nut" id="n-phieu">📄 Lưu phiếu thành ảnh</button></div></div>
+</div>
+
+  </section>
+</main>
+<footer class="chan"><b>✅ BẢN NHÁP — thầy/cô duyệt trước khi dùng.</b> Hình vẽ lại theo Hình 3.2, SGK Công nghệ 10 – Thiết kế và công nghệ (Kết nối tri thức). Mô phỏng học tập, đã đơn giản hoá: các nhiệt độ theo SGK, thao tác không phải quy trình vận hành thật.</footer>
+<script>/*GIONG-VIET-BAT*/
+const GIONG_VIET = {};
+let __amDang = null, __giongMay = null;
+function __chuanGiong(t){ return String(t).normalize("NFC").replace(/\s+/g, " ").trim(); }
+function __choDeNghe(t){
+  const doi = [["π"," pi "],["cm³"," xăng-ti-mét khối"],["cm²"," xăng-ti-mét vuông"],["dm³"," đề-xi-mét khối"],["m³"," mét khối"],
+    ["m²"," mét vuông"],["×"," nhân "],["÷"," chia "],["−"," trừ "],["≈"," xấp xỉ "],["="," bằng "],["+"," cộng "]];
+  t = String(t).replace(/<[^>]+>/g, "");
+  for (const [a, b] of doi) t = t.split(a).join(b);
+  return __chuanGiong(t.replace(/(\d)\s*cm\b/g, "$1 xăng-ti-mét").replace(/(\d)\s*m\b/g, "$1 mét"));
+}
+function __timGiongMay(){ try { const ds = speechSynthesis.getVoices().filter(v => /^vi/i.test(v.lang));
+  __giongMay = ds.find(v => /Natural|Online|HoaiMy|Hoài/i.test(v.name)) || ds[0] || null; } catch(e){} return __giongMay; }
+try { if (window.speechSynthesis){ __timGiongMay(); speechSynthesis.addEventListener("voiceschanged", __timGiongMay); } } catch(e){}
+function coGiongViet(chu){ return !!(GIONG_VIET[__chuanGiong(chu)] || __giongMay || __timGiongMay()); }
+function dungGiong(){ try { if (__amDang){ __amDang.pause(); __amDang = null; } if (window.speechSynthesis) speechSynthesis.cancel(); } catch(e){} }
+function __baoChuaCoGiong(){ try { if (document.getElementById("__baoGiong")) return; const d = document.createElement("div"); d.id = "__baoGiong";
+  d.setAttribute("role", "status");
+  d.textContent = "Máy chưa có giọng đọc tiếng Việt cho câu này. Mở bằng Microsoft Edge (có mạng) để nghe giọng Việt, hoặc cài thêm giọng Tiếng Việt: Cài đặt Windows → Thời gian và ngôn ngữ → Giọng nói.";
+  d.style.cssText = "position:fixed;left:50%;bottom:18px;transform:translateX(-50%);max-width:92vw;background:#1f2937;color:#fff;padding:12px 16px;border-radius:12px;font:15px/1.4 system-ui,sans-serif;z-index:99999;box-shadow:0 6px 20px rgba(0,0,0,.3)";
+  document.body.appendChild(d); setTimeout(() => d.remove(), 7000); } catch(e){} }
+function __docMay(chu, toc){
+  if (!__giongMay){ __baoChuaCoGiong(); return; }   // KHÔNG có giọng Việt → báo, không đọc bằng giọng Anh
+  const u = new SpeechSynthesisUtterance(chu); u.voice = __giongMay; u.lang = __giongMay.lang; u.rate = toc || 0.9; speechSynthesis.speak(u);
+}
+function docGiongViet(goc, chuMay, toc){
+  dungGiong(); const k = __chuanGiong(goc);
+  if (GIONG_VIET[k]){ try { __amDang = new Audio(GIONG_VIET[k]); const h = __amDang.play(); if (h && h.catch) h.catch(() => {}); return; } catch(e){} }
+  try { if (!window.speechSynthesis){ __baoChuaCoGiong(); return; }
+    const chu = chuMay || __choDeNghe(goc);
+    if (!__giongMay && !__timGiongMay() && !speechSynthesis.getVoices().length){   // Chrome nạp danh sách giọng chậm
+      setTimeout(() => { __timGiongMay(); __docMay(chu, toc); }, 700); return; }
+    __docMay(chu, toc); } catch(e){}
+}
+/*GIONG-VIET-HET*/</script>
+<script>// Khung chung cho mọi xưởng: 5 bước, thầy ảo, âm thanh, gọi tên, câu hỏi, phiếu.
+const X = (() => {
+  const $ = s => document.querySelector(s);
+  let cfg, bat = false, ac = null, coiDang = null;
+  const kho = {
+    doc(k, md) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : md; } catch (e) { return md; } },
+    ghi(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  let tt = { xong: {}, nhom: '', lop: '', diem: null };
+
+  function amCtx() {
+    if (!ac) { const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; ac = new C(); }
+    if (ac.state === 'suspended') ac.resume();
+    return ac;
+  }
+  function not(f, t, kieu, to) {
+    const a = amCtx(); if (!a) return;
+    const o = a.createOscillator(), g = a.createGain(), n = a.currentTime + (to || 0);
+    o.type = kieu || 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(.16, n); g.gain.exponentialRampToValueAtTime(.001, n + t);
+    o.connect(g).connect(a.destination); o.start(n); o.stop(n + t);
+  }
+  const am = {
+    ting() { not(880, .14); not(1320, .22, 'sine', .1); },
+    sai() { not(190, .28, 'sawtooth'); },
+    bam() { not(520, .06, 'square'); },
+    coi(giay) {
+      am.tatCoi(); let i = 0; const n = Math.round((giay || 3) * 2.5);
+      coiDang = setInterval(() => { not(i % 2 ? 660 : 880, .34, 'square'); if (++i >= n) am.tatCoi(); }, 400);
+    },
+    tatCoi() { if (coiDang) { clearInterval(coiDang); coiDang = null; } },
+    do() { not(120, .5, 'sawtooth'); not(90, .7, 'sawtooth', .2); }
+  };
+
+  function phao() {
+    if (document.body.classList.contains('chup')) return;
+    const mau = ['#ff9d3c', '#3ddc97', '#4aa8ff', '#ffd166', '#ff6b6b'];
+    for (let i = 0; i < 40; i++) {
+      const p = document.createElement('i'); p.className = 'phao';
+      p.style.left = Math.random() * 100 + 'vw'; p.style.background = mau[i % 5];
+      p.style.animationDelay = Math.random() * .5 + 's';
+      document.body.appendChild(p); setTimeout(() => p.remove(), 2200);
+    }
+  }
+
+  function thay(chu, kieu) {
+    const k = $('#thay'); k.className = 'thay' + (kieu ? ' ' + kieu : '');
+    $('#thay-chu').textContent = chu;
+    if (kieu === 'dung') am.ting(); else if (kieu === 'sai') am.sai();
+    if (bat && typeof docGiongViet === 'function') { try { dungGiong(); docGiongViet(chu); } catch (e) {} }
+    void k.offsetWidth;
+  }
+
+  function moBuoc(id, im) {
+    document.querySelectorAll('.man').forEach(m => m.classList.toggle('hien', m.id === 'm-' + id));
+    document.querySelectorAll('.bac button').forEach(b => b.classList.toggle('dang', b.dataset.b === id));
+    am.tatCoi();
+    const b = cfg.buoc.find(x => x.id === id);
+    if (b && b.vao) b.vao();
+    if (!im && b && b.loi) thay(b.loi);
+    if (!document.body.classList.contains('chup')) window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function danhDau(id) {
+    tt.xong[id] = true; kho.ghi(cfg.id, tt);
+    const b = document.querySelector('.bac button[data-b="' + id + '"]'); if (b) b.classList.add('xong');
+    if (window.parent) { /* trang chủ đọc lại tiến độ từ kho của máy này */ }
+  }
+
+  // Gọi tên: bấm thẻ thuật ngữ rồi bấm chấm số trên hình
+  function goiTen(o) {
+    const svg = $(o.svg), hop = $(o.hop), NS = 'http://www.w3.org/2000/svg';
+    const k = svg.clientWidth && svg.clientWidth < 520 ? 1.55 : 1;
+    let lop = svg.querySelector('#lop-ten');
+    if (lop) lop.remove();
+    lop = document.createElementNS(NS, 'g'); lop.id = 'lop-ten'; svg.appendChild(lop); svg.classList.add('dang-ten');
+    hop.innerHTML = ''; let chon = null, con = o.nhan.length;
+    const conNhan = o.nhan.slice().sort(() => Math.random() - .5);
+    conNhan.forEach(n => {
+      const c = document.createElement('button'); c.className = 'chip'; c.textContent = n.ten; c.dataset.id = n.id;
+      c.onclick = () => { am.bam(); if (c.classList.contains('xong')) return;
+        hop.querySelectorAll('.chip').forEach(x => x.classList.remove('chon')); c.classList.add('chon'); chon = n;
+        thay('Em chọn «' + n.ten + '». Giờ bấm vào chấm số đúng chỗ đó trên hình.'); };
+      hop.appendChild(c);
+    });
+    o.nhan.forEach((n, i) => {
+      const g = document.createElementNS(NS, 'g'); g.setAttribute('class', 'dot'); g.dataset.id = n.id;
+      g.innerHTML = '<circle cx="' + n.x + '" cy="' + n.y + '" r="' + 17 * k + '" fill="#ff9d3c" stroke="#fff" stroke-width="2.5"/><text class="giu" x="' + n.x + '" y="' + (n.y + 6 * k) + '" text-anchor="middle" font-size="' + 17 * k + '" font-weight="700" fill="#1d1208">' + (i + 1) + '</text>';
+      g.addEventListener('click', () => {
+        if (g.dataset.xong) return;
+        if (!chon) { thay('Em bấm một thẻ thuật ngữ trước, rồi bấm chấm số nhé.'); return; }
+        if (chon.id === n.id) {
+          g.dataset.xong = 1; const r = n.ten.length * 9.2 * k + 16; g.innerHTML = '<rect x="' + (n.x - r / 2) + '" y="' + (n.y - 15 * k) + '" width="' + r + '" height="' + 30 * k + '" rx="9" fill="#3ddc97" stroke="#0a111e" stroke-width="1.5"/><text class="giu" x="' + n.x + '" y="' + (n.y + 6 * k) + '" text-anchor="middle" font-size="' + 16 * k + '" font-weight="700" fill="#06281a">' + n.ten + '</text>';
+          hop.querySelector('[data-id="' + n.id + '"]').classList.add('xong'); hop.querySelectorAll('.chip').forEach(x => x.classList.remove('chon'));
+          thay('Đúng. ' + n.gt, 'dung'); chon = null; con--;
+          if (!con) { phao(); o.xong && o.xong(); }
+        } else thay('Chưa đúng: chấm số ' + (i + 1) + ' không phải «' + chon.ten + '». Gợi ý: ' + chon.gy, 'sai');
+      });
+      lop.appendChild(g);
+    });
+    return { xoa() { lop.remove(); svg.classList.remove('dang-ten'); } };
+  }
+
+  // Câu hỏi: chọn sai thì gọi tên chỗ hiểu nhầm
+  function cauHoi(o) {
+    const hop = $(o.hop); hop.innerHTML = ''; const kq = [];
+    const cham = document.createElement('div'); cham.className = 'cham';
+    o.cau.forEach(() => cham.appendChild(document.createElement('i')));
+    hop.appendChild(cham);
+    o.cau.forEach((c, i) => {
+      const d = document.createElement('div'); d.className = 'cau';
+      d.innerHTML = '<h4>Câu ' + (i + 1) + '. ' + c.h + '</h4>';
+      const giai = document.createElement('p'); giai.className = 'giai';
+      c.a.forEach((t, j) => {
+        const b = document.createElement('button'); b.textContent = t;
+        b.onclick = () => {
+          if (kq[i] === true) return;
+          if (j === c.d) {
+            b.classList.add('dung'); giai.textContent = '✓ ' + c.g; thay('Đúng rồi. ' + c.g, 'dung');
+            if (kq[i] === undefined) { kq[i] = true; cham.children[i].className = 'dung'; } else kq[i] = true;
+          } else {
+            b.classList.add('sai'); const s = (c.s && c.s[j]) || 'Em đọc lại câu hỏi và thử lần nữa.';
+            giai.textContent = '✗ ' + s; thay(s, 'sai');
+            if (kq[i] === undefined) { kq[i] = 'sai'; cham.children[i].className = 'sai'; }
+          }
+          if (kq.filter(x => x === true).length === o.cau.length) {
+            const lanDau = o.cau.filter((_, n) => cham.children[n].className === 'dung').length;
+            tt.diem = lanDau + '/' + o.cau.length; kho.ghi(cfg.id, tt); phao(); o.xong && o.xong(lanDau);
+          }
+        };
+        d.appendChild(b);
+      });
+      d.appendChild(giai); hop.appendChild(d);
+    });
+  }
+
+  // Phiếu thực hành: ảnh PNG lưu về máy
+  function phieu() {
+    const nhom = ($('#o-nhom').value || '').trim(), lop = ($('#o-lop').value || '').trim();
+    tt.nhom = nhom; tt.lop = lop; kho.ghi(cfg.id, tt);
+    const W = 900, c = document.createElement('canvas'), g = c.getContext('2d');
+    const dong = cfg.phieu();
+    const boc = (t, w) => { const r = []; let s = ''; t.split(' ').forEach(x => { if (g.measureText(s + x).width > w) { r.push(s); s = ''; } s += x + ' '; }); r.push(s); return r; };
+    g.font = '24px Segoe UI, Roboto, Arial';
+    let h = 250; dong.forEach(d => { h += boc(d, W - 100).length * 34 + 8; });
+    c.width = W; c.height = h + 70;
+    g.fillStyle = '#fff8ee'; g.fillRect(0, 0, W, c.height);
+    g.fillStyle = '#ff6a3d'; g.fillRect(0, 0, W, 14);
+    g.fillStyle = '#7a3a10'; g.font = 'bold 22px Segoe UI, Roboto, Arial'; g.fillText('PHIẾU THỰC HÀNH TRÊN XƯỞNG ẢO', 50, 56);
+    g.fillStyle = '#1d1208'; g.font = 'bold 32px Segoe UI, Roboto, Arial'; g.fillText(cfg.ten, 50, 100);
+    g.font = '22px Segoe UI, Roboto, Arial'; g.fillStyle = '#444';
+    g.fillText('Nhóm/Mã: ' + (nhom || '……') + '    Lớp: ' + (lop || '……'), 50, 142);
+    g.fillText('Ngày: ' + new Date().toLocaleDateString('vi-VN') + '    Câu đúng ngay lần đầu: ' + (tt.diem || 'chưa làm'), 50, 174);
+    g.strokeStyle = '#e8c9a0'; g.beginPath(); g.moveTo(50, 196); g.lineTo(W - 50, 196); g.stroke();
+    let y = 232; g.font = '24px Segoe UI, Roboto, Arial'; g.fillStyle = '#222';
+    dong.forEach(d => { boc(d, W - 100).forEach(l => { g.fillText(l, 50, y); y += 34; }); y += 8; });
+    g.font = '18px Segoe UI, Roboto, Arial'; g.fillStyle = '#777';
+    g.fillText('Làm trên mô phỏng, đã đơn giản hoá. Đã làm trên xưởng ảo, chưa phải thao tác trên thiết bị thật.', 50, y + 22);
+    c.toBlob(b => {
+      const a = document.createElement('a'); a.href = URL.createObjectURL(b);
+      a.download = 'Phieu-' + cfg.id + '-' + (nhom || 'nhom').replace(/[^\w-]+/g, '_') + '.png';
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      thay('Em đã lưu phiếu thành ảnh trong máy. Nộp theo cách thầy dặn nhé.', 'dung');
+    });
+  }
+
+  function khoiDong(c) {
+    cfg = c; tt = Object.assign(tt, kho.doc(c.id, {}));
+    const bac = $('#bac');
+    c.buoc.forEach(b => {
+      const n = document.createElement('button'); n.dataset.b = b.id;
+      n.innerHTML = '<i>' + b.icon + '</i><span>' + b.ten + '</span>';
+      if (tt.xong[b.id]) n.classList.add('xong');
+      n.onclick = () => { am.bam(); moBuoc(b.id); }; bac.appendChild(n);
+    });
+    document.querySelectorAll('[data-sang]').forEach(n => n.addEventListener('click', () => moBuoc(n.dataset.sang)));
+    const tv = $('#n-tv'), gi = $('#n-giong');
+    if (kho.doc('xuong-tv', false)) { document.body.classList.add('tv'); tv.classList.add('bat'); }
+    tv.onclick = () => { const b = document.body.classList.toggle('tv'); tv.classList.toggle('bat', b); kho.ghi('xuong-tv', b); };
+    gi.onclick = () => {
+      bat = !bat; gi.classList.toggle('bat', bat); gi.textContent = bat ? '🔊' : '🔈';
+      if (bat && typeof docGiongViet === 'function') docGiongViet($('#thay-chu').textContent);
+      else if (typeof dungGiong === 'function') dungGiong();
+    };
+    const nh = $('#o-nhom'), lo = $('#o-lop');
+    if (nh) nh.value = tt.nhom || ''; if (lo) lo.value = tt.lop || '';
+    const np = $('#n-phieu'); if (np) np.onclick = phieu;
+    const q = location.hash.slice(1).split('&'), man = q[0];
+    const ts = {}; q.slice(1).forEach(x => { const [k, v] = x.split('='); ts[k] = v; });
+    if (man && c.buoc.some(b => b.id === man)) {
+      document.body.classList.add('chup'); moBuoc(man, true);
+      if (c.chup) c.chup(man, ts);
+    } else moBuoc(c.buoc[0].id);
+  }
+  return { khoiDong, thay, moBuoc, danhDau, goiTen, cauHoi, am, phao, $ };
+})();
+</script>
+<script>
+const CAU_DOC = ["Đây là lò cao trong Hình 3.2 của sách, đang chạy. Em bấm các nút để tìm hiểu.","Em là người vận hành. Bước đầu: chọn nguyên liệu đưa lên xe.","Đây là sản phẩm em vừa làm ra.","Bấm một thẻ tên, rồi bấm vào chấm số đúng chỗ đó."];
+const $=X.$;const so=n=>n>=1000?String(n).replace(/(\d)(\d{3})$/,'$1 $2'):String(n);const NHIET=[200,600,800,1000,1500,2000],MAU=['#f4f1e6','#e2352a','#ee5a2b','#f6912f','#fbbe45','#ffe58c'];
+const LIEU={quang:{ten:'Quặng sắt',mau:'#8d5a33',gt:'Quặng sắt là nguồn chứa kim loại cần điều chế.'},than:{ten:'Than cốc',mau:'#1c1c1f',gt:'Than cốc vừa cháy tạo nhiệt, vừa giúp tách sắt ra khỏi quặng.'},da:{ten:'Đá vôi',mau:'#c5c9cf',gt:'Đá vôi giúp tạo xỉ để loại bỏ tạp chất.'},nhua:{ten:'Nhựa phế liệu',mau:'#39b3a5',sai:'Nhựa không chứa sắt, không phải nguyên liệu luyện gang. Em chọn lại.'}};
+let s,ten=null,hen=[];
+function moi(){s={xe:{},len:false,muc:0,khi:false,xi:false,gang:false};}
+function veLo(muc,chay,khi,xi,gang,thoi){
+  document.querySelectorAll('.vl').forEach((r,i)=>r.setAttribute('fill',i<muc?MAU[i]:'#2a2f39'));
+  document.querySelectorAll('.vt').forEach((t,i)=>t.setAttribute('fill',i<muc?(i===0?'#5b3a10':'#2a1405'):'#7f8896'));
+  $('#liu').setAttribute('opacity',chay?1:0);
+  const luong=(id,on)=>{const e=$(id);e.setAttribute('opacity',on?1:0);e.classList.toggle('luong',!!on);};
+  luong('#l-kk',muc>0);luong('#l-gio',muc>0);luong('#l-khilo',khi);luong('#l-thai',khi);
+  const nong=muc>=6;$('#xi-long').setAttribute('opacity',nong&&!xi?1:0);$('#gang-long').setAttribute('opacity',nong&&!gang?1:0);
+  $('#noi-gang').setAttribute('opacity',gang?1:0);$('#noi-xi').setAttribute('opacity',xi?1:0);
+  $('#thoi').setAttribute('opacity',thoi?1:0);
+  $('#doc-gio').textContent=muc?'nóng nhất '+so(NHIET[muc-1])+' °C':'chưa thổi';
+}
+function veXe(){
+  const g=$('#xe-liu');let h='';Object.keys(s.xe).forEach((k,i)=>{h+='<circle cx="'+(640+i*14)+'" cy="414" r="8" fill="'+LIEU[k].mau+'" stroke="#fff" stroke-width="1"/>';});
+  g.innerHTML=s.len?'':h;
+  $('#xe').style.transform=s.len?'translate(-188px,-372px)':'none';
+}
+function ve(){
+  veLo(s.muc,s.len,s.khi,s.xi,s.gang,s.xi&&s.gang);veXe();$('#gio').value=s.muc;
+  const li=document.querySelectorAll('#viec li');const d=[Object.keys(s.xe).length===3,s.len,s.muc>=6,s.khi,s.xi&&s.gang];
+  let hd=false;li.forEach((l,i)=>{if(d[i])l.className='xong';else if(!hd){l.className='dang';hd=true;}else l.className='';});
+  $('#n-keo').classList.toggle('xong',s.len);$('#n-khilo').classList.toggle('xong',s.khi);$('#n-xi').classList.toggle('xong',s.xi);$('#n-gang').classList.toggle('xong',s.gang);
+  $('#n-sang3').style.display=d[4]?'':'none';$('#o-kho').style.display=s.len?'none':'';
+}
+function khoLieu(){
+  const h=$('#kho-lieu');h.innerHTML='';
+  Object.keys(LIEU).forEach(k=>{const c=document.createElement('button');c.className='chip'+(s.xe[k]?' xong':'');
+    c.innerHTML='<svg viewBox="0 0 40 40"><circle cx="13" cy="24" r="9" fill="'+LIEU[k].mau+'"/><circle cx="27" cy="26" r="8" fill="'+LIEU[k].mau+'"/><circle cx="20" cy="13" r="8" fill="'+LIEU[k].mau+'" stroke="#fff" stroke-opacity=".3"/></svg><span>'+LIEU[k].ten+'</span>';
+    c.onclick=()=>{if(s.xe[k])return;if(s.len){X.thay('Lò đã nạp rồi. Em làm tiếp việc đang sáng.');return;}
+      if(LIEU[k].sai){X.thay(LIEU[k].sai,'sai');return;}
+      s.xe[k]=1;X.thay(LIEU[k].gt+(Object.keys(s.xe).length===3?' Đủ nguyên liệu rồi, em kéo xe lên.':''),'dung');khoLieu();ve();};
+    h.appendChild(c);});
+}
+function chuaDuNhiet(){$('#canh-bao').setAttribute('opacity',1);hen.push(setTimeout(()=>$('#canh-bao').setAttribute('opacity',0),1800));}
+function thao(loai){
+  if(!s.len){X.thay('Lò chưa có nguyên liệu nên chưa có gì để tháo.','sai');return;}
+  if(s.muc<6){chuaDuNhiet();X.thay('Lò mới đạt '+(s.muc?so(NHIET[s.muc-1])+' °C':'nhiệt độ thấp')+'. Theo Hình 3.2, lò cần 2 000 °C. Em tăng gió nóng trước.','sai');return;}
+  if(!s.khi){X.thay('Khí lò đang nóng mà chưa được dẫn đi. Em dẫn khí lò về tháp trước đã.','sai');return;}
+  if(s[loai])return;
+  s[loai]=true;const d=$(loai==='gang'?'#dong-gang':'#dong-xi');d.setAttribute('opacity',1);d.classList.add('luong');X.am.do();
+  hen.push(setTimeout(()=>{d.setAttribute('opacity',0);d.classList.remove('luong');ve();if(s.xi&&s.gang){X.danhDau('lam');X.phao();X.thay('Hoàn thành. Em đã có gang để làm nguyên liệu, xỉ được tách riêng. Bấm Xem sản phẩm.','dung');}},1300));
+  ve();
+  X.thay(loai==='xi'?'Xỉ nhẹ hơn gang nên nổi phía trên, được tháo qua cửa riêng.':'Gang lỏng nặng hơn, nằm dưới đáy lò, chảy vào nồi rót.','dung');
+}
+function boTen(){if(ten){ten.xoa();ten=null;}}
+$('#gio').addEventListener('input',e=>{
+  const v=+e.target.value;
+  if(!s.len&&v>0){e.target.value=0;X.thay('Lò chưa có nguyên liệu, thổi gió lúc này rất phí. Em nạp liệu trước.','sai');return;}
+  s.muc=v;ve();
+  if(v===6)X.thay('Đạt 2 000 °C ở vùng nóng nhất. Khí lò bốc lên miệng lò, em dẫn nó về tháp.','dung');
+  else if(v>0)X.thay('Lò đang nóng lên: '+so(NHIET[v-1])+' °C. Theo Hình 3.2 lò cần 2 000 °C.');
+});
+$('#n-keo').onclick=()=>{if(s.len)return;
+  if(Object.keys(s.xe).length<3){X.thay('Xe chưa đủ nguyên liệu. Em chọn đủ trong kho trước.','sai');return;}
+  s.len=true;X.am.bam();ve();X.thay('Xe đưa nguyên liệu lên miệng lò và đổ vào. Giờ em kéo thanh gió nóng.','dung');};
+$('#n-khilo').onclick=()=>{if(s.khi)return;
+  if(s.muc<6){chuaDuNhiet();X.thay('Lò chưa đủ nóng. Em kéo gió nóng tới 2 000 °C trước.','sai');return;}
+  s.khi=true;ve();X.thay('Khí lò được dẫn sang tháp bên trái, rồi thoát ra thành khí thải. Giờ em tháo xỉ và gang.','dung');};
+$('#n-xi').onclick=()=>thao('xi');$('#n-gang').onclick=()=>thao('gang');
+$('#n-lamlai').onclick=()=>{hen.forEach(clearTimeout);hen=[];moi();khoLieu();ve();X.thay('Bắt đầu lại. Em chọn nguyên liệu đưa lên xe.');};
+const XEM={lo:'Thân lò xây bằng gạch chịu nhiệt. Nguyên liệu đi từ trên xuống, nhiệt độ tăng dần từ 200 °C tới 2 000 °C.',thang:'Thang nạp đưa xe nguyên liệu lên miệng lò.',thap:'Không khí vào tháp bên phải thành gió nóng thổi vào lò. Khí lò bay về tháp bên trái rồi thành khí thải.',ra:'Dưới đáy lò có hai cửa: một cửa ra gang, một cửa ra xỉ.'};
+document.querySelectorAll('[data-xem]').forEach(b=>b.onclick=()=>{X.am.bam();X.thay(XEM[b.dataset.xem]);});
+X.cauHoi({hop:'#o-cau',xong(){X.danhDau('goi-ten');X.thay('Em làm xong phần kiểm tra rồi. Sang bước cuối để lưu phiếu nhé.','dung');},cau:[
+ {h:'Công nghệ luyện kim là gì?',a:['Điều chế kim loại, hợp kim từ quặng hoặc nguyên liệu khác','Nấu chảy kim loại rồi rót vào khuôn','Lấy đi một phần kim loại của phôi bằng dụng cụ cắt'],d:0,g:'SGK tr.14. Hai phương án kia là công nghệ khác trong cùng bài.',s:{1:'Đó là công nghệ đúc (SGK tr.15).',2:'Đó là công nghệ gia công cắt gọt (SGK tr.16).'}},
+ {h:'Theo Hình 3.2, nhiệt độ cần thiết của lò cao là bao nhiêu?',a:['200 °C','1 000 °C','2 000 °C'],d:2,g:'Vùng nóng nhất trên Hình 3.2 ghi 2 000 °C.',s:{0:'200 °C là vùng trên cùng, nguội nhất của lò.',1:'1 000 °C mới là vùng giữa lò, chưa phải vùng nóng nhất.'}},
+ {h:'Tạo ra gang và thép thuộc nhóm nào?',a:['Luyện kim màu','Luyện kim đen','Công nghệ đúc'],d:1,g:'SGK tr.15: luyện kim đen tạo ra gang và thép.',s:{0:'Luyện kim màu tạo ra nhôm, đồng, vàng, chì, kẽm…',2:'Đúc dùng kim loại đã có để tạo hình, không điều chế ra gang, thép.'}},
+ {h:'Sản phẩm của luyện kim thường được dùng để làm gì?',a:['Làm nguyên liệu cho các công nghệ chế tạo vật liệu kim loại khác','Bán thẳng làm đồ gia dụng','Làm nhiên liệu đốt lò'],d:0,g:'SGK tr.15: sản phẩm ở dạng thô, thường làm nguyên liệu.',s:{1:'Sản phẩm luyện kim còn ở dạng thô, chưa thành đồ dùng.',2:'Kim loại không phải nhiên liệu. Lò dùng than cốc để cháy.'}}
+]});
+moi();
+const LO_DU=()=>veLo(6,true,true,false,false,false);
+X.khoiDong({id:'xuong-cn10-b3',ten:'CN10 · Bài 3 · Luyện kim trong lò cao',
+ phieu:()=>['Đã chọn nguyên liệu: quặng sắt, than cốc, đá vôi.','Đã vận hành: nạp liệu, thổi gió nóng tới 2 000 °C (theo Hình 3.2), dẫn khí lò về tháp, tháo xỉ và tháo gang.','Sản phẩm: gang, làm nguyên liệu cho các công nghệ khác. Xỉ được tách riêng.','Thuật ngữ đã gặp: luyện kim, lò cao, gang, xỉ, khí lò, luyện kim đen, luyện kim màu.'],
+ buoc:[
+  {id:'nhin',ten:'Nhìn',icon:'👀',loi:'Đây là lò cao trong Hình 3.2 của sách, đang chạy. Em bấm các nút để tìm hiểu.',vao(){boTen();LO_DU();$('#xe').style.transform='translate(-188px,-372px)';X.danhDau('nhin');}},
+  {id:'lam',ten:'Làm',icon:'🖐️',loi:'Em là người vận hành. Bước đầu: chọn nguyên liệu đưa lên xe.',vao(){boTen();khoLieu();ve();}},
+  {id:'san-pham',ten:'Sản phẩm',icon:'🏭',loi:'Đây là sản phẩm em vừa làm ra.',vao(){boTen();veLo(6,true,true,true,true,true);$('#xe').style.transform='translate(-188px,-372px)';X.danhDau('san-pham');}},
+  {id:'goi-ten',ten:'Gọi tên',icon:'🔤',loi:'Bấm một thẻ tên, rồi bấm vào chấm số đúng chỗ đó.',vao(){veLo(6,false,true,true,true,true);$('#xe').style.transform='translate(-188px,-372px)';boTen();ten=X.goiTen({svg:'#hinh',hop:'#the-ten',nhan:[
+    {id:'lo',ten:'Lò cao',x:500,y:250,gt:'Lò cao là nơi diễn ra quá trình luyện gang.',gy:'khối lớn ở giữa hình.'},
+    {id:'kl',ten:'Khí lò',x:205,y:230,gt:'Khí lò bốc lên miệng lò rồi được dẫn đi.',gy:'đường ống đi từ miệng lò sang trái.'},
+    {id:'kk',ten:'Không khí',x:808,y:462,gt:'Không khí đi vào tháp bên phải.',gy:'đầu vào ở phía phải, dưới cùng.'},
+    {id:'th',ten:'Khí thải',x:42,y:300,gt:'Khí thải thoát ra sau khi đi qua tháp.',gy:'ống đứng ngoài cùng bên trái.'},
+    {id:'gg',ten:'Gang',x:272,y:440,gt:'Gang chảy ra cửa thấp, vào nồi rót.',gy:'nồi ở dưới cửa bên trái.'},
+    {id:'xi',ten:'Xỉ',x:532,y:440,gt:'Xỉ là phần tạp chất, được tháo riêng.',gy:'nồi ở dưới cửa bên phải.'}
+   ],xong(){X.thay('Em đã gắn đủ tên. Làm tiếp phần kiểm tra bên dưới nhé.','dung');}});}},
+  {id:'nghe',ten:'Nghề – phiếu',icon:'🎓',loi:'Bước cuối: nghề này học gì, làm gì, rồi lưu phiếu thực hành.',vao(){boTen();veLo(6,true,true,true,true,true);X.danhDau('nghe');}}
+ ],
+ chup(m,t){
+  if(m==='lam'){
+   if(t.mau==='dang'){s.xe={quang:1,than:1,da:1};s.len=true;s.muc=4;khoLieu();ve();X.thay('Lò đang nóng lên: 1 000 °C. Theo Hình 3.2 lò cần 2 000 °C.');}
+   if(t.mau==='sai'){s.xe={quang:1,than:1};khoLieu();ve();X.thay(LIEU.nhua.sai,'sai');}
+   if(t.mau==='xong'){s.xe={quang:1,than:1,da:1};s.len=true;s.muc=6;s.khi=true;s.xi=true;s.gang=true;khoLieu();ve();X.thay('Hoàn thành. Em đã có gang để làm nguyên liệu, xỉ được tách riêng. Bấm Xem sản phẩm.','dung');}
+  }
+  const c={nhin:'Đây là lò cao trong Hình 3.2 của sách, đang chạy. Em bấm các nút để tìm hiểu.','san-pham':'Đây là sản phẩm em vừa làm ra.','goi-ten':'Bấm một thẻ tên, rồi bấm vào chấm số đúng chỗ đó.',nghe:'Bước cuối: nghề này học gì, làm gì, rồi lưu phiếu thực hành.'};
+  if(c[m])X.thay(c[m]);
+ }
+});
+</script>
+</body></html>
