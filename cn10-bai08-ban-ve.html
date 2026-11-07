@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bài 8 · Bàn vẽ tiêu chuẩn</title>
+<style>:root{
+  --nen:#0d1626;--nen2:#16233a;--kinh:rgba(255,255,255,.07);--vien:rgba(255,255,255,.15);
+  --chu:#f2f6fc;--mo:#b4c1d6;--chinh:#ff9d3c;--chinh2:#ff6a3d;
+  --vao:#4aa8ff;--xuly:#ffb347;--ra:#3ddc97;--dung:#3ddc97;--sai:#ff6b6b;--bong:0 10px 30px rgba(0,0,0,.35)
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{min-height:100vh;color:var(--chu);font:16px/1.5 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  background:radial-gradient(900px 500px at 12% -5%,rgba(255,106,61,.20),transparent 60%),radial-gradient(900px 600px at 95% 10%,rgba(74,168,255,.18),transparent 60%),linear-gradient(160deg,var(--nen),var(--nen2))}
+@media (min-width:920px){body.tv{font-size:21px}}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+.dau{display:flex;align-items:center;gap:10px;padding:10px 14px;max-width:1500px;margin:auto}
+.ve{flex:none;text-decoration:none;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;background:var(--kinh);border:1px solid var(--vien);font-size:20px}
+.ten{flex:1;min-width:0}
+.ten small{display:block;color:var(--mo);font-size:.78em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ten b{display:block;font-size:1.08em;line-height:1.25;background:linear-gradient(90deg,#ffd9a8,var(--chinh));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nho{flex:none;width:44px;height:44px;border-radius:12px;background:var(--kinh);border:1px solid var(--vien);font-size:18px}
+.nho.bat{background:linear-gradient(135deg,var(--chinh),var(--chinh2));border-color:transparent}
+.bac{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:0 14px;max-width:1500px;margin:auto}
+.bac button{min-height:52px;padding:5px 2px;border-radius:12px;border:1px solid var(--vien);background:var(--kinh);color:var(--mo);font-size:.76em;line-height:1.2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.bac button i{font-style:normal;font-size:1.35em}
+.bac button.dang{background:linear-gradient(135deg,var(--chinh),var(--chinh2));color:#1d1208;font-weight:700;border-color:transparent}
+.bac button.xong:not(.dang){color:var(--dung);border-color:var(--dung)}
+.chinh{display:grid;gap:12px;padding:12px 14px 18px;max-width:1500px;margin:auto}
+.san{position:sticky;top:0;z-index:5;border-radius:18px;background:#0a111e;border:1px solid var(--vien);box-shadow:var(--bong);overflow:hidden}
+.san svg{display:block;width:100%;height:auto;touch-action:manipulation;user-select:none}
+.san text{font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif}
+.ben{display:flex;flex-direction:column;gap:10px;min-width:0}
+.thay{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border-radius:16px;background:var(--kinh);border:1px solid var(--vien);min-height:76px}
+.thay svg{flex:none;width:46px;height:46px}
+.thay p{margin:0;font-size:1.02em}
+.thay.dung{border-color:var(--dung);background:rgba(61,220,151,.13)}
+.thay.sai{border-color:var(--sai);background:rgba(255,107,107,.13);animation:rung .35s}
+@keyframes rung{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+.the{padding:12px;border-radius:16px;background:var(--kinh);border:1px solid var(--vien)}
+.the h3{margin:0 0 8px;font-size:1.04em;color:#ffd9a8}
+.the p{margin:0 0 8px}.the p:last-child{margin-bottom:0}
+.man{display:none;flex-direction:column;gap:10px;animation:mo .3s}
+.man.hien{display:flex}
+@keyframes mo{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+body.chup *{animation-duration:0s!important;transition:none!important}
+.nut{min-height:48px;padding:10px 14px;border:0;border-radius:13px;font-weight:700;color:#1d1208;background:linear-gradient(135deg,var(--chinh),var(--chinh2));box-shadow:0 5px 15px rgba(255,106,61,.3);transition:transform .12s}
+.nut:hover{transform:translateY(-2px)}.nut:active{transform:translateY(1px) scale(.98)}
+.nut.phu{background:var(--kinh);color:var(--chu);border:1px solid var(--vien);box-shadow:none;font-weight:600}
+.nut.xong{background:rgba(61,220,151,.18);color:var(--dung);border:1px solid var(--dung);box-shadow:none}
+.nut[disabled]{opacity:.45;cursor:default}
+.hang{display:flex;flex-wrap:wrap;gap:8px}.hang>.nut{flex:1 1 140px}
+.chip{min-height:48px;padding:7px 11px;border-radius:13px;border:1px solid var(--vien);background:var(--kinh);display:inline-flex;align-items:center;gap:8px;text-align:left}
+.chip svg{width:30px;height:30px;flex:none}
+.chip.chon{outline:3px solid var(--chinh);background:rgba(255,157,60,.18)}
+.chip.xong{opacity:.42;border-color:var(--dung);text-decoration:line-through}
+.viec{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.viec li{display:flex;gap:8px;color:var(--mo)}
+.viec li:before{content:"○";color:var(--mo)}
+.viec li.dang{color:var(--chu);font-weight:600}.viec li.dang:before{content:"▶";color:var(--chinh)}
+.viec li.xong{color:var(--dung)}.viec li.xong:before{content:"✓";color:var(--dung)}
+.cau{padding:12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--vien)}
+.cau h4{margin:0 0 8px;font-size:1.02em}
+.cau button{display:block;width:100%;min-height:46px;text-align:left;margin:6px 0 0;padding:9px 12px;border-radius:11px;border:1px solid var(--vien);background:var(--kinh)}
+.cau button.dung{background:rgba(61,220,151,.2);border-color:var(--dung)}
+.cau button.sai{background:rgba(255,107,107,.18);border-color:var(--sai)}
+.cau .giai{margin:8px 0 0;font-size:.95em;color:var(--mo)}
+.cham{display:flex;gap:6px;flex-wrap:wrap}.cham i{width:13px;height:13px;border-radius:50%;background:rgba(255,255,255,.2)}
+.cham i.dung{background:var(--dung)}.cham i.sai{background:var(--sai)}
+.o{width:100%;min-height:46px;padding:9px 12px;border-radius:11px;border:1px solid var(--vien);background:rgba(0,0,0,.25);color:var(--chu);font:inherit}
+label{display:block;font-size:.92em;color:var(--mo);margin-bottom:3px}
+input[type=range]{width:100%;height:36px;accent-color:var(--chinh)}
+.chan{max-width:1500px;margin:auto;padding:0 14px 22px;color:var(--mo);font-size:.84em}
+.chan b{color:#ffe39e}
+.tg{display:flex;gap:11px;align-items:center;padding:11px 13px;border-radius:14px;background:var(--kinh);border:1px solid var(--vien);color:var(--chu);font-size:1.08em;line-height:1.45}
+.tg svg{flex:none;width:44px;height:44px}.tg a{color:#ffcf8c}.nhap-chu{margin:9px 0 0}
+.phao{position:fixed;top:-12px;width:9px;height:14px;z-index:50;pointer-events:none;animation:roi 1.5s linear forwards}
+@keyframes roi{to{transform:translateY(105vh) rotate(600deg);opacity:.7}}
+.luong{stroke-dasharray:9 9;animation:chay .55s linear infinite}
+@keyframes chay{to{stroke-dashoffset:-18}}
+.goi-y{animation:goiy .75s ease-in-out infinite alternate}
+@keyframes goiy{from{box-shadow:0 0 0 0 rgba(255,157,60,.1)}to{box-shadow:0 0 0 5px rgba(255,157,60,.85)}}
+.cho-vung [data-vung] rect{animation:nhap .55s infinite alternate}
+.cach{padding:11px 12px;border-radius:14px;background:rgba(74,168,255,.11);border:1px solid rgba(74,168,255,.45)}
+.cach b{color:#a9d6ff}.cach ol{margin:5px 0 0;padding-left:21px}.cach li{margin:2px 0}
+.canh{border-color:#ffd166;background:rgba(255,209,102,.12)}
+.qr-nen{position:fixed;inset:0;z-index:60;display:none;place-items:center;background:rgba(5,10,20,.88)}
+.qr-nen.hien{display:grid}
+.qr-hop{background:#fff;color:#111;padding:22px 26px;border-radius:20px;text-align:center;max-width:92vw}
+.qr-hop svg{width:min(62vh,420px);height:auto;display:block;margin:auto}
+.qr-hop p{margin:8px 0 12px;font-size:20px;font-weight:700;word-break:break-all}
+.n-qr{display:none}
+@media (min-width:920px){.n-qr{display:block}}
+.dot{cursor:pointer}
+.dang-ten .an-ten{opacity:0}
+.nhap{animation:nhap .5s infinite alternate}
+@keyframes nhap{to{opacity:.25}}
+.lac{animation:lac .16s infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes lac{from{transform:rotate(-6deg)}to{transform:rotate(6deg)}}
+.noi{animation:noi 2.2s ease-in-out infinite alternate;transform-box:fill-box}
+@keyframes noi{to{transform:translateY(-6px)}}
+@media (min-width:920px){
+  .chinh{grid-template-columns:minmax(0,1.5fr) minmax(330px,1fr);align-items:start}
+  .san{top:10px}
+  .bac button{flex-direction:row;gap:6px;font-size:.92em}
+}
+@media (max-width:919px){.san{top:0}
+  .thay{position:sticky;top:var(--cao,0px);z-index:4;background:#1b2942;min-height:0;padding:8px 10px;font-size:.95em}
+  .thay svg{width:34px;height:34px}
+  .thay.dung{background:#143a35}.thay.sai{background:#4a2230}}
+@media (max-width:600px){.san svg text:not(.giu){font-size:23px!important}.ten b{font-size:1em}}
+@media (max-height:520px) and (max-width:919px){.san{position:static}}
+@media print{body{background:#fff;color:#000}.dau,.bac,.chan,.ben>*:not(.in-duoc){display:none!important}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gTam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8edf3"/><stop offset="1" stop-color="#8d98a7"/></linearGradient></defs></svg>
+<header class="dau">
+  <a class="ve" href="./index.html" aria-label="Về trang chủ">🏭</a>
+  <div class="ten"><small>Công nghệ 10 · Bài 8 · Bảng 8.1–8.3, Hình 8.4–8.10, SGK tr.45–51</small><b>Bàn vẽ: tiêu chuẩn bản vẽ kĩ thuật</b></div>
+  <button class="nho n-qr" id="n-qr" aria-label="Mã QR cho cả lớp">🔳</button>
+  <button class="nho" id="n-giong" aria-label="Bật giọng thầy">🔈</button>
+  <button class="nho" id="n-tv" aria-label="Chế độ TV">📺</button>
+</header>
+<nav class="bac" id="bac"></nav>
+<main class="chinh">
+  <section class="san"><svg id="hinh" viewBox="0 0 800 460" role="img" aria-label="Bàn vẽ kĩ thuật">
+<rect width="800" height="460" fill="#0f2436"/>
+<g opacity=".18" stroke="#9bd0ff"><path d="M0 40H800M0 80H800M0 120H800M0 160H800M0 200H800M0 240H800M0 280H800M0 320H800M0 360H800M0 400H800M0 440H800M40 0V460M80 0V460M120 0V460M160 0V460M200 0V460M240 0V460M280 0V460M320 0V460M360 0V460M400 0V460M440 0V460M480 0V460M520 0V460M560 0V460M600 0V460M640 0V460M680 0V460M720 0V460M760 0V460"/></g>
+<!-- KHỔ GIẤY -->
+<g id="st-kho" class="st">
+ <rect x="40" y="50" width="500" height="353" fill="#f7f3e8" stroke="#2b3b52" stroke-width="3"/>
+ <g stroke="#e2352a" stroke-width="3" fill="none"><line id="cat1" x1="290" y1="50" x2="290" y2="403" opacity="0"/><line id="cat2" x1="40" y1="226.5" x2="290" y2="226.5" opacity="0"/><line id="cat3" x1="165" y1="226.5" x2="165" y2="403" opacity="0"/><line id="cat4" x1="40" y1="314.7" x2="165" y2="314.7" opacity="0"/></g>
+ <g font-size="18" font-weight="700" fill="#2b3b52" text-anchor="middle">
+  <text id="n-a0" x="290" y="236">A0</text><text id="n-a1" x="415" y="236" opacity="0">A1</text><text id="n-a2" x="165" y="146" opacity="0">A2</text><text id="n-a3" x="227" y="321" opacity="0">A3</text><text class="n-a4" x="102" y="276" opacity="0">A4</text><text class="n-a4" x="102" y="364" opacity="0">A4</text></g>
+ <text x="290" y="428" text-anchor="middle" font-size="16" fill="#e4ecf7">1189 mm</text><text x="20" y="226" text-anchor="middle" font-size="16" fill="#e4ecf7" transform="rotate(-90 20 226)">841 mm</text>
+ <text id="kho-doc" x="670" y="80" text-anchor="middle" font-size="18" font-weight="700" fill="#ffcf8c">A0: 1189 × 841</text>
+</g>
+<!-- KHUNG VẼ, KHUNG TÊN -->
+<g id="st-khung" class="st" display="none">
+ <rect x="100" y="20" width="594" height="420" fill="#f7f3e8" stroke="#2b3b52" stroke-width="2"/>
+ <rect id="khung-ve" x="120" y="40" width="554" height="380" fill="none" stroke="#1d2530" stroke-width="3" opacity="0"/>
+ <g id="khung-ten" opacity="0"><rect x="0" y="0" width="280" height="64" fill="#fff" stroke="#1d2530" stroke-width="2"/><line x1="0" y1="32" x2="280" y2="32" stroke="#1d2530"/><line x1="40" y1="0" x2="40" y2="64" stroke="#1d2530"/><line x1="100" y1="0" x2="100" y2="64" stroke="#1d2530"/><line x1="230" y1="32" x2="230" y2="64" stroke="#1d2530"/><text class="giu" x="165" y="22" font-size="13" text-anchor="middle" fill="#1d2530">(1) Tên gọi vật thể</text><text class="giu" x="165" y="54" font-size="12" text-anchor="middle" fill="#1d2530">(2) Vật liệu</text><text class="giu" x="255" y="54" font-size="12" text-anchor="middle" fill="#1d2530">(3) Tỉ lệ</text></g>
+ <g font-size="15" fill="#2b3b52"><text id="le-trai" x="104" y="232" opacity="0">20</text><text id="le-tren" x="390" y="36" opacity="0">10</text></g>
+ <g id="goc" font-size="30" text-anchor="middle"><text data-goc="tt" x="140" y="80" style="cursor:pointer">⬜</text><text data-goc="tp" x="654" y="80" style="cursor:pointer">⬜</text><text data-goc="dt" x="140" y="410" style="cursor:pointer">⬜</text><text data-goc="dp" x="654" y="410" style="cursor:pointer">⬜</text></g>
+</g>
+<!-- TỈ LỆ -->
+<g id="st-tile" class="st" display="none">
+ <text x="400" y="50" text-anchor="middle" font-size="18" fill="#e4ecf7">Chi tiết thật dài <tspan font-weight="700" fill="#ffcf8c">120 mm</tspan></text>
+ <rect x="160" y="80" width="480" height="60" rx="8" fill="url(#gTam)" stroke="#9aa6b5"/>
+ <text x="400" y="118" text-anchor="middle" font-size="16" fill="#1d2530">vật thật (thu nhỏ để vừa màn hình)</text>
+ <rect x="60" y="190" width="680" height="220" fill="#f7f3e8" stroke="#2b3b52" stroke-width="2"/>
+ <text x="80" y="215" font-size="15" fill="#2b3b52">Bản vẽ</text><text id="tl-ten" x="720" y="215" text-anchor="end" font-size="15" font-weight="700" fill="#2b3b52">Tỉ lệ: ?</text>
+ <rect id="tl-ve" x="100" y="270" width="0" height="50" fill="none" stroke="#1d2530" stroke-width="3"/>
+ <g id="tl-kt" opacity="0"><line id="tl-dkt" x1="100" y1="355" x2="100" y2="355" stroke="#1d2530" stroke-width="1.5"/><text id="tl-so" x="100" y="348" text-anchor="middle" font-size="18" fill="#1d2530">?</text></g>
+</g>
+<!-- NÉT VẼ -->
+<g id="st-net" class="st" display="none">
+ <rect x="40" y="30" width="720" height="400" fill="#f7f3e8" stroke="#2b3b52" stroke-width="2"/>
+ <text x="400" y="60" text-anchor="middle" font-size="16" fill="#2b3b52">Bạc đỡ: hình chiếu đứng (em vẽ lại để luyện)</text>
+ <rect x="220" y="110" width="360" height="200" fill="none" stroke="#1d2530" stroke-width="5"/>
+ <line x1="220" y1="160" x2="580" y2="160" stroke="#1d2530" stroke-width="2" stroke-dasharray="12 6"/><line x1="220" y1="260" x2="580" y2="260" stroke="#1d2530" stroke-width="2" stroke-dasharray="12 6"/>
+ <line x1="180" y1="210" x2="620" y2="210" stroke="#1d2530" stroke-width="1.5" stroke-dasharray="26 5 3 5"/>
+ <line x1="220" y1="360" x2="580" y2="360" stroke="#1d2530" stroke-width="1.5"/><path d="M220 360l14-5v10zM580 360l-14-5v10z" fill="#1d2530"/><line x1="220" y1="315" x2="220" y2="372" stroke="#1d2530" stroke-width="1.2"/><line x1="580" y1="315" x2="580" y2="372" stroke="#1d2530" stroke-width="1.2"/><text x="400" y="352" text-anchor="middle" font-size="18" fill="#1d2530">70</text>
+ <path d="M580 110q14 25 0 50t0 50 0 50 0 50" fill="none" stroke="#1d2530" stroke-width="1.5" transform="translate(40 0)"/>
+</g>
+<!-- GHI KÍCH THƯỚC -->
+<g id="st-kt" class="st" display="none">
+ <rect x="40" y="30" width="720" height="400" fill="#f7f3e8" stroke="#2b3b52" stroke-width="2"/>
+ <path d="M200 120H560V340H260A60 60 0 0 1 200 280Z" fill="none" stroke="#1d2530" stroke-width="4"/>
+ <circle cx="440" cy="230" r="50" fill="none" stroke="#1d2530" stroke-width="4"/><line x1="370" y1="230" x2="510" y2="230" stroke="#1d2530" stroke-width="1.2" stroke-dasharray="20 4 3 4"/><line x1="440" y1="160" x2="440" y2="300" stroke="#1d2530" stroke-width="1.2" stroke-dasharray="20 4 3 4"/>
+ <line x1="405" y1="265" x2="475" y2="195" stroke="#1d2530" stroke-width="1.4"/><path d="M475 195l-12 3 8 8z" fill="#1d2530"/><path d="M405 265l12-3-8-8z" fill="#1d2530"/>
+ <text id="kt-lo" x="500" y="186" font-size="22" font-weight="700" fill="#1d2530">?</text>
+ <line x1="260" y1="280" x2="218" y2="322" stroke="#1d2530" stroke-width="1.4"/><path d="M218 322l4-12 8 8z" fill="#1d2530"/><text id="kt-bo" x="170" y="350" font-size="22" font-weight="700" fill="#1d2530">?</text>
+ <line x1="200" y1="390" x2="560" y2="390" stroke="#1d2530" stroke-width="1.4"/><path d="M200 390l14-5v10zM560 390l-14-5v10z" fill="#1d2530"/><line x1="200" y1="345" x2="200" y2="400" stroke="#1d2530"/><line x1="560" y1="345" x2="560" y2="400" stroke="#1d2530"/><text id="kt-dai" x="380" y="382" text-anchor="middle" font-size="22" font-weight="700" fill="#1d2530">?</text>
+</g>
+</svg></section>
+  <section class="ben">
+    <div class="thay" id="thay">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="23" fill="#ffe2b8"/><path d="M8 20c2-12 30-12 32 0l-4 1H12z" fill="#ffb000"/><rect x="6" y="19" width="36" height="4" rx="2" fill="#e08a00"/><circle cx="17" cy="28" r="2.6" fill="#333"/><circle cx="31" cy="28" r="2.6" fill="#333"/><path d="M17 36c4 3 10 3 14 0" stroke="#a5532a" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+      <p id="thay-chu"></p>
+    </div>
+    
+<div class="man" id="m-nhin">
+  <div class="the"><h3>👀 Bản vẽ kĩ thuật là gì?</h3><p>Bản vẽ kĩ thuật trình bày thông tin kĩ thuật dưới dạng hình vẽ, kí hiệu: hình dạng, kết cấu, kích thước, vật liệu, yêu cầu kĩ thuật… (SGK tr.45).</p><p>Để ai đọc cũng hiểu giống nhau, bản vẽ phải theo <b>tiêu chuẩn</b>: khổ giấy, khung, tỉ lệ, nét vẽ, chữ viết, ghi kích thước.</p></div>
+  <div class="the"><h3>🗺️ Bàn vẽ có 5 việc</h3><p>📐 Khổ giấy · 🖼️ Khung vẽ, khung tên · 🔍 Tỉ lệ · ✏️ Nét vẽ · 📏 Ghi kích thước</p></div>
+  <button class="nut" data-sang="lam">Vào bàn vẽ →</button>
+</div>
+<div class="man" id="m-lam">
+  <button class="nut" id="n-mau">🎬 Xem làm mẫu việc này</button>
+  <div class="the"><h3>🧰 Chọn việc (<span id="dem-viec">0</span>/<span id="tong-viec">0</span> việc đã xong)</h3><div class="hang" id="ds-viec"></div></div>
+
+  <div class="the p-viec" id="p-kho"><h3>📐 Khổ giấy (Bảng 8.1, Hình 8.4)</h3><p>Các khổ giấy chính được chia ra từ khổ A0. Bấm «Chia đôi» để chia dần tới A4.</p><div class="hang"><button class="nut phu" id="n-chia">✂️ Chia đôi</button></div></div>
+  <div class="the p-viec" id="p-khung" style="display:none"><h3>🖼️ Khung vẽ, khung tên (Hình 8.5, 8.6)</h3>
+   <p>Chọn lề của khung vẽ:</p><div class="hang" id="le-trai-chon"></div><div class="hang" id="le-khac-chon" style="margin-top:6px"></div>
+   <p style="margin-top:8px">Rồi bấm vào góc trên hình để đặt khung tên.</p></div>
+  <div class="the p-viec" id="p-tile" style="display:none"><h3>🔍 Tỉ lệ (Bảng 8.2)</h3><p>Vẽ chi tiết thật dài 120 mm theo tỉ lệ thầy giao. Chọn chiều dài nét vẽ trên giấy, rồi chọn số ghi kích thước.</p>
+   <p><b id="tl-de" style="color:#ffcf8c">Đề 1: tỉ lệ 1 : 2</b></p><div class="hang" id="tl-dai"></div><div class="hang" id="tl-ghi" style="margin-top:6px"></div></div>
+  <div class="the p-viec" id="p-net" style="display:none"><h3>✏️ Nét vẽ (Bảng 8.3)</h3><p>Bấm một loại nét, rồi bấm chấm số đúng chỗ trên hình.</p><div class="hang" id="net-the"></div></div>
+  <div class="the p-viec" id="p-kt" style="display:none"><h3>📏 Ghi kích thước (SGK tr.50–51)</h3><p>Chọn cách ghi đúng cho ba kích thước trên hình.</p>
+   <p>Lỗ tròn đường kính 40 mm:</p><div class="hang" data-kt="lo"></div><p style="margin-top:6px">Góc bo bán kính 20 mm:</p><div class="hang" data-kt="bo"></div><p style="margin-top:6px">Chiều dài 120 mm:</p><div class="hang" data-kt="dai"></div></div>
+
+  <div class="hang"><button class="nut phu" id="n-lamlai">🔄 Làm lại việc này</button></div>
+  <button class="nut" id="n-sang3" data-sang="san-pham" style="display:none">Xem sản phẩm của em →</button>
+</div>
+<div class="man" id="m-san-pham">
+  <div class="the canh" id="chua"><p>Em chưa làm xong các việc. Phần dưới để xem trước.</p><button class="nut" data-sang="lam">← Về bàn vẽ</button></div>
+  <div class="the"><h3>🏭 Bảng tóm tắt tiêu chuẩn em vừa dùng</h3>
+   <p><b>Khổ giấy</b> (TCVN 7285:2003): A0 1189×841 · A1 841×594 · A2 594×420 · A3 420×297 · A4 297×210 (mm).</p>
+   <p><b>Khung vẽ</b>: lề trái 20 mm, các lề còn lại 10 mm. <b>Khung tên</b> ở góc phải phía dưới.</p>
+   <p><b>Tỉ lệ</b> (TCVN 7286:2003): thu nhỏ 1:2, 1:5…; nguyên hình 1:1; phóng to 2:1, 5:1… Số ghi là <b>kích thước thật</b>.</p>
+   <p><b>Nét vẽ</b> (TCVN 8-24:2002): liền đậm, liền mảnh, đứt mảnh, lượn sóng, gạch dài chấm mảnh.</p>
+   <p><b>Kích thước</b> (TCVN 5705:1993): đơn vị mm; đường kính ghi Ø, bán kính ghi R.</p></div>
+  <div class="the"><h3>✍️ Vận dụng (SGK tr.51)</h3><p>Trên giấy A4, vẽ khung bản vẽ, khung tên và viết chữ vào khung tên.</p></div>
+  <button class="nut" data-sang="goi-ten">Gọi tên →</button>
+</div>
+<div class="man" id="m-goi-ten"><div class="the"><h3>🔤 Gắn tên vào đúng chỗ</h3><div class="hang" id="the-ten"></div></div><div class="the"><h3>✍️ Kiểm tra nhanh (5 câu)</h3><div id="o-cau" style="display:flex;flex-direction:column;gap:8px"></div></div><button class="nut" data-sang="nghe">Tiếp →</button></div>
+<div class="man" id="m-nghe">
+  <div class="the"><h3>🎓 Ai dùng bản vẽ kĩ thuật? (SGK tr.45–46)</h3><p>Trong sản xuất, bản vẽ thể hiện ý tưởng của nhà thiết kế, là tài liệu để chế tạo, thi công và là cơ sở để kiểm tra sản phẩm.</p><p>Trong đời sống, bản vẽ giúp người dùng lắp đặt, sử dụng, bảo dưỡng, sửa chữa sản phẩm.</p><p>Bài 7 giới thiệu các ngành nghề kĩ thuật, công nghệ dùng bản vẽ hằng ngày.</p></div>
+  <div class="the"><h3>📄 Lưu phiếu thực hành</h3><p style="color:#ffd9a8">Chỉ ghi tên nhóm hoặc mã, không ghi họ tên.</p><label for="o-nhom">Nhóm hoặc mã</label><input class="o" id="o-nhom" placeholder="VD: Nhóm 3" maxlength="20"><label for="o-lop" style="margin-top:8px">Lớp</label><input class="o" id="o-lop" placeholder="VD: 10A1" maxlength="10"><div class="hang" style="margin-top:10px"><button class="nut" id="n-phieu">📄 Lưu phiếu thành ảnh</button></div></div>
+</div>
+  </section>
+</main>
+<footer class="chan"><div class="tg"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="23" fill="#ff9d3c"/><path d="M24 11 8 19l16 8 16-8zM14 25v8c6 5 14 5 20 0v-8l-10 5z" fill="#1d1208"/></svg><div><b>Thầy Võ Thanh Hòa · Giáo viên · Trường THPT Bình Mỹ, An Giang</b><br>✉️ <a href="mailto:vothanhhoa3004@gmail.com">vothanhhoa3004@gmail.com</a> · 📞 <a href="tel:0989237322">0989 237 322</a><br>🏭 <a href="https://tdkt-gdag.io.vn/congnghe/">Xưởng Công nghệ AI</a> · Học liệu miễn phí, Công nghệ 10, 11, 12</div></div>
+<p class="nhap-chu"><b>✅ BẢN NHÁP — thầy/cô duyệt trước khi dùng.</b> Số liệu khổ giấy, khung vẽ, khung tên, tỉ lệ, nét vẽ theo SGK Công nghệ 10 – Thiết kế và công nghệ (Kết nối tri thức) tr.47–51. Hình bạc đỡ, tấm có lỗ do em vẽ lại để luyện tập, không phải hình trong sách.</p></footer>
+<div class="qr-nen" id="qr-nen"><div class="qr-hop"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37 37" class="segno"><path class="qrline" stroke="#000" d="M2 2.5h7m4 0h1m2 0h1m1 0h2m1 0h3m1 0h1m2 0h7m-33 1h1m5 0h1m4 0h2m2 0h2m3 0h2m4 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m1 0h3m1 0h1m3 0h1m4 0h2m1 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h4m5 0h1m1 0h1m2 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m6 0h1m3 0h1m3 0h1m2 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h1m1 0h2m2 0h2m6 0h1m1 0h1m1 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h1m3 0h1m2 0h2m1 0h4m1 0h2m-25 1h1m1 0h5m3 0h1m2 0h2m2 0h1m1 0h1m2 0h1m1 0h1m1 0h5m-30 1h1m3 0h1m2 0h1m4 0h1m4 0h3m2 0h1m2 0h2m1 0h2m1 0h1m-30 1h7m1 0h1m1 0h5m2 0h2m2 0h1m3 0h1m1 0h2m-32 1h1m1 0h1m1 0h1m5 0h1m1 0h2m2 0h1m1 0h5m1 0h3m1 0h5m-32 1h2m1 0h3m3 0h1m1 0h1m1 0h1m2 0h1m5 0h3m1 0h3m-28 1h3m2 0h1m1 0h1m1 0h3m2 0h5m1 0h2m2 0h1m4 0h2m-32 1h3m2 0h2m2 0h1m1 0h1m1 0h3m1 0h1m1 0h2m3 0h2m1 0h1m1 0h2m-32 1h1m1 0h1m1 0h1m3 0h2m4 0h3m1 0h1m2 0h1m3 0h2m1 0h3m-30 1h2m2 0h2m4 0h4m2 0h1m4 0h4m1 0h2m3 0h1m-33 1h3m5 0h3m1 0h3m1 0h1m2 0h3m1 0h1m1 0h3m1 0h2m1 0h1m-33 1h1m2 0h1m1 0h2m1 0h3m4 0h2m4 0h1m2 0h5m1 0h2m-32 1h1m1 0h3m4 0h1m1 0h2m1 0h2m3 0h3m4 0h6m-29 1h1m2 0h1m1 0h1m1 0h2m1 0h1m3 0h3m4 0h1m2 0h3m1 0h1m-32 1h1m1 0h3m2 0h4m5 0h1m1 0h3m1 0h6m2 0h1m1 0h1m-33 1h1m3 0h3m2 0h4m1 0h2m5 0h1m2 0h2m1 0h1m1 0h3m-32 1h1m3 0h1m2 0h2m1 0h2m1 0h4m2 0h1m1 0h1m2 0h1m1 0h5m-31 1h1m1 0h2m1 0h2m1 0h6m1 0h1m1 0h1m4 0h1m1 0h5m2 0h2m-25 1h2m1 0h3m2 0h4m3 0h2m3 0h1m1 0h3m-33 1h7m2 0h1m3 0h1m1 0h1m1 0h1m2 0h2m1 0h2m1 0h1m1 0h1m1 0h2m-32 1h1m5 0h1m1 0h1m2 0h3m2 0h1m1 0h1m2 0h1m1 0h2m3 0h3m-31 1h1m1 0h3m1 0h1m1 0h1m3 0h1m3 0h2m6 0h6m2 0h1m-33 1h1m1 0h3m1 0h1m1 0h4m2 0h1m1 0h1m1 0h3m2 0h1m1 0h1m2 0h2m1 0h2m-33 1h1m1 0h3m1 0h1m1 0h2m4 0h2m1 0h2m1 0h1m1 0h2m2 0h2m-28 1h1m5 0h1m5 0h4m2 0h1m1 0h4m4 0h3m-31 1h7m1 0h1m1 0h1m2 0h1m3 0h3m2 0h1m1 0h2m1 0h1m3 0h1"/></svg>
+<p>https://vothanhhoa.github.io/thuchanh/cn10-bai08-ban-ve.html</p><button class="nut" id="qr-dong">Đóng</button></div></div>
+<script>/*GIONG-VIET-BAT*/
+const GIONG_VIET = {};
+let __amDang = null, __giongMay = null;
+function __chuanGiong(t){ return String(t).normalize("NFC").replace(/\s+/g, " ").trim(); }
+function __choDeNghe(t){
+  const doi = [["π"," pi "],["cm³"," xăng-ti-mét khối"],["cm²"," xăng-ti-mét vuông"],["dm³"," đề-xi-mét khối"],["m³"," mét khối"],
+    ["m²"," mét vuông"],["×"," nhân "],["÷"," chia "],["−"," trừ "],["≈"," xấp xỉ "],["="," bằng "],["+"," cộng "]];
+  t = String(t).replace(/<[^>]+>/g, "");
+  for (const [a, b] of doi) t = t.split(a).join(b);
+  return __chuanGiong(t.replace(/(\d)\s*cm\b/g, "$1 xăng-ti-mét").replace(/(\d)\s*m\b/g, "$1 mét"));
+}
+function __timGiongMay(){ try { const ds = speechSynthesis.getVoices().filter(v => /^vi/i.test(v.lang));
+  __giongMay = ds.find(v => /Natural|Online|HoaiMy|Hoài/i.test(v.name)) || ds[0] || null; } catch(e){} return __giongMay; }
+try { if (window.speechSynthesis){ __timGiongMay(); speechSynthesis.addEventListener("voiceschanged", __timGiongMay); } } catch(e){}
+function coGiongViet(chu){ return !!(GIONG_VIET[__chuanGiong(chu)] || __giongMay || __timGiongMay()); }
+function dungGiong(){ try { if (__amDang){ __amDang.pause(); __amDang = null; } if (window.speechSynthesis) speechSynthesis.cancel(); } catch(e){} }
+function __baoChuaCoGiong(){ try { if (document.getElementById("__baoGiong")) return; const d = document.createElement("div"); d.id = "__baoGiong";
+  d.setAttribute("role", "status");
+  d.textContent = "Máy chưa có giọng đọc tiếng Việt cho câu này. Mở bằng Microsoft Edge (có mạng) để nghe giọng Việt, hoặc cài thêm giọng Tiếng Việt: Cài đặt Windows → Thời gian và ngôn ngữ → Giọng nói.";
+  d.style.cssText = "position:fixed;left:50%;bottom:18px;transform:translateX(-50%);max-width:92vw;background:#1f2937;color:#fff;padding:12px 16px;border-radius:12px;font:15px/1.4 system-ui,sans-serif;z-index:99999;box-shadow:0 6px 20px rgba(0,0,0,.3)";
+  document.body.appendChild(d); setTimeout(() => d.remove(), 7000); } catch(e){} }
+function __docMay(chu, toc){
+  if (!__giongMay){ __baoChuaCoGiong(); return; }   // KHÔNG có giọng Việt → báo, không đọc bằng giọng Anh
+  const u = new SpeechSynthesisUtterance(chu); u.voice = __giongMay; u.lang = __giongMay.lang; u.rate = toc || 0.9; speechSynthesis.speak(u);
+}
+function docGiongViet(goc, chuMay, toc){
+  dungGiong(); const k = __chuanGiong(goc);
+  if (GIONG_VIET[k]){ try { __amDang = new Audio(GIONG_VIET[k]); const h = __amDang.play(); if (h && h.catch) h.catch(() => {}); return; } catch(e){} }
+  try { if (!window.speechSynthesis){ __baoChuaCoGiong(); return; }
+    const chu = chuMay || __choDeNghe(goc);
+    if (!__giongMay && !__timGiongMay() && !speechSynthesis.getVoices().length){   // Chrome nạp danh sách giọng chậm
+      setTimeout(() => { __timGiongMay(); __docMay(chu, toc); }, 700); return; }
+    __docMay(chu, toc); } catch(e){}
+}
+/*GIONG-VIET-HET*/</script>
+<script>// Khung chung cho mọi xưởng: 5 bước, thầy ảo, âm thanh, gọi tên, câu hỏi, phiếu.
+const X = (() => {
+  const $ = s => document.querySelector(s);
+  let cfg, bat = false, ac = null, coiDang = null, mauDang = false, mauHen = null;
+  const kho = {
+    doc(k, md) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : md; } catch (e) { return md; } },
+    ghi(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  let tt = { xong: {}, nhom: '', lop: '', diem: null };
+
+  function amCtx() {
+    if (!ac) { const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; ac = new C(); }
+    if (ac.state === 'suspended') ac.resume();
+    return ac;
+  }
+  function not(f, t, kieu, to) {
+    const a = amCtx(); if (!a) return;
+    const o = a.createOscillator(), g = a.createGain(), n = a.currentTime + (to || 0);
+    o.type = kieu || 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(.16, n); g.gain.exponentialRampToValueAtTime(.001, n + t);
+    o.connect(g).connect(a.destination); o.start(n); o.stop(n + t);
+  }
+  const am = {
+    ting() { not(880, .14); not(1320, .22, 'sine', .1); },
+    sai() { not(190, .28, 'sawtooth'); },
+    bam() { not(520, .06, 'square'); },
+    coi(giay) {
+      am.tatCoi(); let i = 0; const n = Math.round((giay || 3) * 2.5);
+      coiDang = setInterval(() => { not(i % 2 ? 660 : 880, .34, 'square'); if (++i >= n) am.tatCoi(); }, 400);
+    },
+    tatCoi() { if (coiDang) { clearInterval(coiDang); coiDang = null; } },
+    do() { not(120, .5, 'sawtooth'); not(90, .7, 'sawtooth', .2); }
+  };
+
+  function phao() {
+    if (document.body.classList.contains('chup')) return;
+    const mau = ['#ff9d3c', '#3ddc97', '#4aa8ff', '#ffd166', '#ff6b6b'];
+    for (let i = 0; i < 40; i++) {
+      const p = document.createElement('i'); p.className = 'phao';
+      p.style.left = Math.random() * 100 + 'vw'; p.style.background = mau[i % 5];
+      p.style.animationDelay = Math.random() * .5 + 's';
+      document.body.appendChild(p); setTimeout(() => p.remove(), 2200);
+    }
+  }
+
+  function thay(chu, kieu) {
+    const k = $('#thay'); k.className = 'thay' + (kieu ? ' ' + kieu : '');
+    $('#thay-chu').textContent = chu;
+    if (kieu === 'dung') am.ting(); else if (kieu === 'sai') am.sai();
+    if (bat && typeof docGiongViet === 'function') { try { dungGiong(); docGiongViet(chu); } catch (e) {} }
+    void k.offsetWidth;
+  }
+
+  // Làm mẫu tự chạy: HS, GV xem trước rồi tự làm; không tính vào tiến độ
+  function dungMau() {
+    mauDang = false; clearTimeout(mauHen);
+    const n = $('#n-mau'); if (n) n.textContent = '🎬 Xem làm mẫu';
+  }
+  function chayMau(viec, xong) {
+    if (mauDang) { dungMau(); xong && xong(); return; }
+    mauDang = true; let i = 0; const n = $('#n-mau');
+    if (n) n.textContent = '⏹ Dừng làm mẫu';
+    if (!document.body.classList.contains('chup')) window.scrollTo({ top: 0, behavior: 'smooth' });
+    const tiep = () => {
+      if (!mauDang) return;
+      if (i >= viec.length) { dungMau(); return; }
+      const [ham, ms] = viec[i++]; ham(); mauHen = setTimeout(tiep, ms || 2800);
+    };
+    tiep();
+  }
+  function moBuoc(id, im) {
+    dungMau();
+    document.querySelectorAll('.man').forEach(m => m.classList.toggle('hien', m.id === 'm-' + id));
+    document.querySelectorAll('.bac button').forEach(b => b.classList.toggle('dang', b.dataset.b === id));
+    am.tatCoi();
+    const b = cfg.buoc.find(x => x.id === id);
+    const man = $('#m-' + id), cu = man && man.querySelector('.cach'); if (cu) cu.remove();
+    if (man && b && b.cach) {
+      const d = document.createElement('div'); d.className = 'cach';
+      d.innerHTML = '<b>Cách làm ở bước này</b><ol>' + b.cach.map(x => '<li>' + x + '</li>').join('') + '</ol>';
+      man.insertBefore(d, man.firstChild);
+    }
+    if (b && b.vao) b.vao();
+    if (!im && b && b.loi) thay(b.loi);
+    if (!document.body.classList.contains('chup')) window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function danhDau(id) {
+    if (mauDang) return;
+    tt.xong[id] = true; kho.ghi(cfg.id, tt);
+    const b = document.querySelector('.bac button[data-b="' + id + '"]'); if (b) b.classList.add('xong');
+    if (window.parent) { /* trang chủ đọc lại tiến độ từ kho của máy này */ }
+  }
+
+  // Gọi tên: bấm thẻ thuật ngữ rồi bấm chấm số trên hình
+  function goiTen(o) {
+    const svg = $(o.svg), hop = $(o.hop), NS = 'http://www.w3.org/2000/svg';
+    const k = svg.clientWidth && svg.clientWidth < 520 ? 1.55 : 1;
+    let lop = svg.querySelector('#lop-ten');
+    if (lop) lop.remove();
+    lop = document.createElementNS(NS, 'g'); lop.id = 'lop-ten'; svg.appendChild(lop); svg.classList.add('dang-ten');
+    hop.innerHTML = ''; let chon = null, con = o.nhan.length;
+    const conNhan = o.nhan.slice().sort(() => Math.random() - .5);
+    conNhan.forEach(n => {
+      const c = document.createElement('button'); c.className = 'chip'; c.textContent = n.ten; c.dataset.id = n.id;
+      c.onclick = () => { am.bam(); if (c.classList.contains('xong')) return;
+        hop.querySelectorAll('.chip').forEach(x => x.classList.remove('chon')); c.classList.add('chon'); chon = n;
+        thay('Em chọn «' + n.ten + '». Giờ bấm vào chấm số đúng chỗ đó trên hình.'); };
+      hop.appendChild(c);
+    });
+    o.nhan.forEach((n, i) => {
+      const g = document.createElementNS(NS, 'g'); g.setAttribute('class', 'dot'); g.dataset.id = n.id;
+      g.innerHTML = '<circle cx="' + n.x + '" cy="' + n.y + '" r="' + 17 * k + '" fill="#ff9d3c" stroke="#fff" stroke-width="2.5"/><text class="giu" x="' + n.x + '" y="' + (n.y + 6 * k) + '" text-anchor="middle" font-size="' + 17 * k + '" font-weight="700" fill="#1d1208">' + (i + 1) + '</text>';
+      g.addEventListener('click', () => {
+        if (g.dataset.xong) return;
+        if (!chon) { thay('Em bấm một thẻ thuật ngữ trước, rồi bấm chấm số nhé.'); return; }
+        if (chon.id === n.id) {
+          g.dataset.xong = 1; const r = n.ten.length * 9.2 * k + 16; g.innerHTML = '<rect x="' + (n.x - r / 2) + '" y="' + (n.y - 15 * k) + '" width="' + r + '" height="' + 30 * k + '" rx="9" fill="#3ddc97" stroke="#0a111e" stroke-width="1.5"/><text class="giu" x="' + n.x + '" y="' + (n.y + 6 * k) + '" text-anchor="middle" font-size="' + 16 * k + '" font-weight="700" fill="#06281a">' + n.ten + '</text>';
+          hop.querySelector('[data-id="' + n.id + '"]').classList.add('xong'); hop.querySelectorAll('.chip').forEach(x => x.classList.remove('chon'));
+          thay('Đúng. ' + n.gt, 'dung'); chon = null; con--;
+          if (!con) { phao(); o.xong && o.xong(); }
+        } else thay('Chưa đúng: chấm số ' + (i + 1) + ' không phải «' + chon.ten + '». Gợi ý: ' + chon.gy, 'sai');
+      });
+      lop.appendChild(g);
+    });
+    return { xoa() { lop.remove(); svg.classList.remove('dang-ten'); } };
+  }
+
+  // Câu hỏi: chọn sai thì gọi tên chỗ hiểu nhầm
+  function cauHoi(o) {
+    const hop = $(o.hop); hop.innerHTML = ''; const kq = [];
+    const cham = document.createElement('div'); cham.className = 'cham';
+    o.cau.forEach(() => cham.appendChild(document.createElement('i')));
+    hop.appendChild(cham);
+    o.cau.forEach((c, i) => {
+      const d = document.createElement('div'); d.className = 'cau';
+      d.innerHTML = '<h4>Câu ' + (i + 1) + '. ' + c.h + '</h4>';
+      const giai = document.createElement('p'); giai.className = 'giai';
+      c.a.forEach((t, j) => {
+        const b = document.createElement('button'); b.textContent = t;
+        b.onclick = () => {
+          if (kq[i] === true) return;
+          if (j === c.d) {
+            b.classList.add('dung'); giai.textContent = '✓ ' + c.g; thay('Đúng rồi. ' + c.g, 'dung');
+            if (kq[i] === undefined) { kq[i] = true; cham.children[i].className = 'dung'; } else kq[i] = true;
+          } else {
+            b.classList.add('sai'); const s = (c.s && c.s[j]) || 'Em đọc lại câu hỏi và thử lần nữa.';
+            giai.textContent = '✗ ' + s; thay(s, 'sai');
+            if (kq[i] === undefined) { kq[i] = 'sai'; cham.children[i].className = 'sai'; }
+          }
+          if (kq.filter(x => x === true).length === o.cau.length) {
+            const lanDau = o.cau.filter((_, n) => cham.children[n].className === 'dung').length;
+            tt.diem = lanDau + '/' + o.cau.length; kho.ghi(cfg.id, tt); phao(); o.xong && o.xong(lanDau);
+          }
+        };
+        d.appendChild(b);
+      });
+      d.appendChild(giai); hop.appendChild(d);
+    });
+  }
+
+  // Phiếu thực hành: ảnh PNG lưu về máy
+  function phieu() {
+    const nhom = ($('#o-nhom').value || '').trim(), lop = ($('#o-lop').value || '').trim();
+    tt.nhom = nhom; tt.lop = lop; kho.ghi(cfg.id, tt);
+    const W = 900, c = document.createElement('canvas'), g = c.getContext('2d');
+    const dong = cfg.phieu();
+    const boc = (t, w) => { const r = []; let s = ''; t.split(' ').forEach(x => { if (g.measureText(s + x).width > w) { r.push(s); s = ''; } s += x + ' '; }); r.push(s); return r; };
+    g.font = '24px Segoe UI, Roboto, Arial';
+    const hinh = cfg.phieuHinh ? cfg.phieuHinh() : null; // SVG 800×400 vẽ thêm cuối phiếu (VD bản thiết kế)
+    let h = 250; dong.forEach(d => { h += boc(d, W - 100).length * 34 + 8; });
+    c.width = W; c.height = h + 70 + (hinh ? 420 : 0);
+    g.fillStyle = '#fff8ee'; g.fillRect(0, 0, W, c.height);
+    g.fillStyle = '#ff6a3d'; g.fillRect(0, 0, W, 14);
+    g.fillStyle = '#7a3a10'; g.font = 'bold 22px Segoe UI, Roboto, Arial'; g.fillText('PHIẾU THỰC HÀNH TRÊN XƯỞNG ẢO', 50, 56);
+    g.fillStyle = '#1d1208'; g.font = 'bold 32px Segoe UI, Roboto, Arial'; g.fillText(cfg.ten, 50, 100);
+    g.font = '22px Segoe UI, Roboto, Arial'; g.fillStyle = '#444';
+    g.fillText('Nhóm/Mã: ' + (nhom || '……') + '    Lớp: ' + (lop || '……'), 50, 142);
+    g.fillText('Ngày: ' + new Date().toLocaleDateString('vi-VN') + '    Câu đúng ngay lần đầu: ' + (tt.diem || 'chưa làm'), 50, 174);
+    g.strokeStyle = '#e8c9a0'; g.beginPath(); g.moveTo(50, 196); g.lineTo(W - 50, 196); g.stroke();
+    let y = 232; g.font = '24px Segoe UI, Roboto, Arial'; g.fillStyle = '#222';
+    dong.forEach(d => { boc(d, W - 100).forEach(l => { g.fillText(l, 50, y); y += 34; }); y += 8; });
+    g.font = '18px Segoe UI, Roboto, Arial'; g.fillStyle = '#777';
+    g.fillText('Làm trên mô phỏng, đã đơn giản hoá. Đã làm trên xưởng ảo, chưa phải thao tác trên thiết bị thật.', 50, y + 22);
+    const xuat = () => c.toBlob(b => {
+      const a = document.createElement('a'); a.href = URL.createObjectURL(b);
+      a.download = 'Phieu-' + cfg.id + '-' + (nhom || 'nhom').replace(/[^\w-]+/g, '_') + '.png';
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      danhDau('nghe'); thay('Em đã lưu phiếu thành ảnh trong máy. Nộp theo cách thầy dặn nhé.', 'dung');
+    });
+    if (!hinh) { xuat(); return; }
+    const anh = new Image();
+    anh.onload = () => { g.drawImage(anh, 50, y + 50, 800, 400); xuat(); };
+    anh.onerror = xuat;
+    anh.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(hinh);
+  }
+
+  function khoiDong(c) {
+    cfg = c; tt = Object.assign(tt, kho.doc(c.id, {}));
+    const bac = $('#bac'), san = document.querySelector('.san');
+    const doCao = () => document.documentElement.style.setProperty('--cao', san.offsetHeight + 'px');
+    doCao(); addEventListener('resize', doCao);
+    c.buoc.forEach(b => {
+      const n = document.createElement('button'); n.dataset.b = b.id;
+      n.innerHTML = '<i>' + b.icon + '</i><span>' + b.ten + '</span>';
+      if (tt.xong[b.id]) n.classList.add('xong');
+      n.onclick = () => { am.bam(); moBuoc(b.id); }; bac.appendChild(n);
+    });
+    document.querySelectorAll('[data-sang]').forEach(n => n.addEventListener('click', () => {
+      const m = n.closest('.man').id.slice(2); if (m === 'nhin' || m === 'san-pham') danhDau(m);
+      moBuoc(n.dataset.sang);
+    }));
+    const nq = $('#n-qr'), qn = $('#qr-nen');
+    if (nq && qn) { nq.onclick = () => qn.classList.add('hien'); $('#qr-dong').onclick = () => qn.classList.remove('hien'); }
+    const tv = $('#n-tv'), gi = $('#n-giong');
+    if (kho.doc('xuong-tv', false)) { document.body.classList.add('tv'); tv.classList.add('bat'); }
+    tv.onclick = () => { const b = document.body.classList.toggle('tv'); tv.classList.toggle('bat', b); kho.ghi('xuong-tv', b); };
+    gi.onclick = () => {
+      bat = !bat; gi.classList.toggle('bat', bat); gi.textContent = bat ? '🔊' : '🔈';
+      if (bat && typeof docGiongViet === 'function') docGiongViet($('#thay-chu').textContent);
+      else if (typeof dungGiong === 'function') dungGiong();
+    };
+    const nh = $('#o-nhom'), lo = $('#o-lop');
+    if (nh) nh.value = tt.nhom || ''; if (lo) lo.value = tt.lop || '';
+    const np = $('#n-phieu'); if (np) np.onclick = phieu;
+    const q = location.hash.slice(1).split('&'), man = q[0];
+    const ts = {}; q.slice(1).forEach(x => { const [k, v] = x.split('='); ts[k] = v; });
+    if (man && c.buoc.some(b => b.id === man)) {
+      document.body.classList.add('chup'); moBuoc(man, true);
+      if (c.chup) c.chup(man, ts);
+    } else moBuoc(c.buoc[0].id);
+  }
+  return { khoiDong, thay, moBuoc, danhDau, goiTen, cauHoi, am, phao, $, chayMau, dungMau, daXong: k => !!tt.xong[k], dangMau: () => mauDang };
+})();
+</script>
+<script>
+function taoViec(o){
+  const hop=X.$('#ds-viec');let cur=null;let xong={};
+  try{xong=JSON.parse(localStorage.getItem(o.khoa)||'{}')}catch(e){}
+  X.$('#tong-viec').textContent=o.ds.length;
+  o.ds.forEach(v=>{const b=document.createElement('button');b.className='chip';b.dataset.v=v.id;b.textContent=v.icon+' '+v.ten;b.onclick=()=>{X.am.bam();mo(v.id);};hop.appendChild(b);});
+  function ve(){hop.querySelectorAll('.chip').forEach(c=>{c.classList.toggle('xong',!!xong[c.dataset.v]);c.classList.toggle('chon',c.dataset.v===cur);});
+    X.$('#dem-viec').textContent=o.ds.filter(v=>xong[v.id]).length;X.$('#n-sang3').style.display=o.ds.every(v=>xong[v.id])?'':'none';}
+  function hien(id){document.querySelectorAll('.p-viec').forEach(p=>p.style.display=p.id==='p-'+id?'':'none');
+    document.querySelectorAll('#hinh .st').forEach(g=>g.setAttribute('display',g.id==='st-'+id?'inline':'none'));}
+  function mo(id,im){X.dungMau();cur=id;hien(id);ve();o.mo&&o.mo(id);
+    const v=o.ds.find(x=>x.id===id);if(!im&&v)X.thay(v.loi);
+    if(!document.body.classList.contains('chup'))window.scrollTo({top:0,behavior:'smooth'});}
+  function danh(id,loi){if(X.dangMau())return;xong[id]=1;try{localStorage.setItem(o.khoa,JSON.stringify(xong))}catch(e){}ve();X.phao();
+    X.thay(loi+' Xong việc «'+o.ds.find(v=>v.id===id).ten+'».','dung');
+    if(o.ds.every(v=>xong[v.id])){X.danhDau('lam');X.thay('Em đã làm xong tất cả các việc. Bấm Xem sản phẩm của em.','dung');}}
+  X.$('#n-lamlai').onclick=()=>{if(cur){X.dungMau();o.lamLai&&o.lamLai(cur);mo(cur,true);X.thay('Làm lại việc này.');}};
+  X.$('#n-mau').onclick=()=>{if(!cur)return;const t=cur;if(!X.dangMau()){o.lamLai&&o.lamLai(t);}
+    X.chayMau([[()=>X.thay('Thầy làm mẫu, em nhìn hình trên.'),1800]].concat(o.mau[t]||[]).concat([[()=>{o.lamLai&&o.lamLai(t);mo(t,true);X.thay('Xong phần làm mẫu. Đến lượt em tự làm.');},100]]),
+      ()=>{o.lamLai&&o.lamLai(t);mo(t,true);X.thay('Đã dừng làm mẫu. Em tự làm việc này nhé.');});};
+  return {mo,danh,hien,ve,cur:()=>cur,xong:()=>xong,du:()=>o.ds.every(v=>xong[v.id]),danhSach:()=>o.ds.filter(v=>xong[v.id]).map(v=>v.ten)};
+}
+// chọn một thẻ rồi bấm chỗ đúng trên hình (dùng cho gán, xếp)
+function chonThe(hopSel,ds,khiChon){const h=X.$(hopSel);h.innerHTML='';let chon=null;
+  ds.forEach(d=>{const b=document.createElement('button');b.className='chip';b.dataset.k=d.k;b.innerHTML=d.t;b.onclick=()=>{if(b.classList.contains('xong'))return;X.am.bam();chon=d.k;h.querySelectorAll('.chip').forEach(x=>x.classList.toggle('chon',x===b));khiChon&&khiChon(d.k);};h.appendChild(b);});
+  return {chon:()=>chon,bo:()=>{chon=null;h.querySelectorAll('.chip').forEach(x=>x.classList.remove('chon'));},xong:k=>{const b=h.querySelector('[data-k="'+k+'"]');if(b){b.classList.add('xong');b.classList.remove('chon');}chon=null;}};}
+
+const CAU_DOC=["Bản vẽ phải theo tiêu chuẩn để ai đọc cũng hiểu giống nhau.","Chọn một việc để làm."];
+const $=X.$;let s,ten=null,net=null;
+function moi(){s={chia:0,leT:null,leK:null,goc:null,tlDe:1,tlDai:null,tlGhi:null,tl1:false,kt:{}};}
+const KHO=['A0: 1189 × 841','A1: 841 × 594','A2: 594 × 420','A3: 420 × 297','A4: 297 × 210'];
+function veKho(n){for(let i=1;i<=4;i++)$('#cat'+i).setAttribute('opacity',n>=i?1:0);
+  $('#n-a0').setAttribute('opacity',n?0:1);$('#n-a1').setAttribute('opacity',n>=1?1:0);$('#n-a2').setAttribute('opacity',n>=2?1:0);$('#n-a3').setAttribute('opacity',n>=3?1:0);
+  document.querySelectorAll('.n-a4').forEach(e=>e.setAttribute('opacity',n>=4?1:0));$('#kho-doc').textContent=KHO[n];}
+function veKhung(){const ok=s.leT===20&&s.leK===10;$('#khung-ve').setAttribute('opacity',s.leT&&s.leK?1:0);
+  const lt=(s.leT||20)*2,lk=(s.leK||10)*2;$('#khung-ve').setAttribute('x',100+lt);$('#khung-ve').setAttribute('y',20+lk);$('#khung-ve').setAttribute('width',594-lt-lk);$('#khung-ve').setAttribute('height',420-2*lk);
+  $('#le-trai').setAttribute('opacity',ok?1:0);$('#le-tren').setAttribute('opacity',ok?1:0);
+  const k=$('#khung-ten');k.setAttribute('opacity',s.goc==='dp'?1:0);k.setAttribute('transform','translate('+(694-lk-280)+' '+(440-lk-64)+')');
+  document.querySelectorAll('#goc [data-goc]').forEach(g=>g.setAttribute('opacity',ok&&s.goc!=='dp'?1:0));}
+const TL={1:{ti:'1 : 2',dai:60},2:{ti:'2 : 1',dai:240}};
+function veTile(){const d=TL[s.tlDe];$('#tl-ten').textContent='Tỉ lệ: '+d.ti;$('#tl-de').textContent='Đề '+s.tlDe+': tỉ lệ '+d.ti;
+  const w=s.tlDai?s.tlDai*2.4:0;$('#tl-ve').setAttribute('width',w);$('#tl-kt').setAttribute('opacity',s.tlDai?1:0);
+  $('#tl-dkt').setAttribute('x2',100+w);$('#tl-so').setAttribute('x',100+w/2);$('#tl-so').textContent=s.tlGhi||'?';}
+function veKt(){$('#kt-lo').textContent=s.kt.lo||'?';$('#kt-bo').textContent=s.kt.bo||'?';$('#kt-dai').textContent=s.kt.dai||'?';
+  document.querySelectorAll('[data-kt] .chip').forEach(b=>b.classList.toggle('xong',s.kt[b.parentNode.dataset.kt]===b.dataset.k));}
+function ve(){veKho(s.chia);veKhung();veTile();veKt();}
+// khổ giấy
+$('#n-chia').onclick=()=>{if(s.chia>=4){X.thay('Đã chia tới A4 rồi.');return;}s.chia++;ve();X.am.bam();
+  X.thay(['','Chia đôi A0 theo cạnh dài được A1: 841 × 594 mm.','Chia đôi phần còn lại được A2: 594 × 420 mm.','Chia tiếp được A3: 420 × 297 mm.','Chia tiếp được hai khổ A4: 297 × 210 mm.'][s.chia],'dung');
+  if(s.chia===4)V.danh('kho','Mỗi lần chia đôi khổ lớn được khổ nhỏ kế tiếp.');};
+// khung
+const leT=chonThe('#le-trai-chon',[10,20,30].map(v=>({k:v,t:'Lề trái '+v+' mm'})),k=>{s.leT=k;ve();kiemKhung();});
+const leK=chonThe('#le-khac-chon',[5,10,20].map(v=>({k:v,t:'Lề còn lại '+v+' mm'})),k=>{s.leK=k;ve();kiemKhung();});
+function kiemKhung(){if(!s.leT||!s.leK)return;if(s.leT===20&&s.leK===10)X.thay('Đúng Hình 8.5: lề trái 20 mm, các lề còn lại 10 mm. Giờ bấm góc đặt khung tên.','dung');
+  else X.thay('Chưa đúng. Lề trái rộng hơn để đóng thành tập. Xem lại Hình 8.5 trong SGK.','sai');}
+document.querySelectorAll('#goc [data-goc]').forEach(g=>g.addEventListener('click',()=>{if(!(s.leT===20&&s.leK===10)){X.thay('Chọn đúng lề khung vẽ trước đã.','sai');return;}
+  if(g.dataset.goc!=='dp'){X.thay('Chưa đúng. Khung tên đặt ở góc phải phía dưới bản vẽ.','sai');return;}s.goc='dp';ve();V.danh('khung','Khung tên 140 × 32 mm ở góc phải phía dưới.');}));
+// tỉ lệ
+const tlDai=chonThe('#tl-dai',[60,120,240].map(v=>({k:v,t:'Nét vẽ dài '+v+' mm'})),k=>{const d=TL[s.tlDe];if(k!==d.dai){X.thay('Chưa đúng. Tỉ lệ '+d.ti+' nghĩa là kích thước trên bản vẽ chia cho kích thước thật bằng '+d.ti.replace(' : ','/')+'.','sai');tlDai.bo();return;}s.tlDai=k;ve();X.thay('Đúng: nét vẽ dài '+k+' mm. Giờ chọn số ghi kích thước.','dung');});
+const tlGhi=chonThe('#tl-ghi',[60,120,240].map(v=>({k:v,t:'Ghi số '+v})),k=>{if(!s.tlDai){X.thay('Chọn chiều dài nét vẽ trước.');tlGhi.bo();return;}
+  if(k!==120){X.thay('Chưa đúng. Số ghi trên bản vẽ là kích thước thật, không phụ thuộc tỉ lệ.','sai');tlGhi.bo();return;}
+  s.tlGhi=120;ve();if(s.tlDe===1){X.thay('Đúng: vẽ 60 mm nhưng vẫn ghi 120. Sang đề 2.','dung');setTimeout(()=>{if(X.dangMau())return;s.tlDe=2;s.tlDai=null;s.tlGhi=null;tlDai.bo();tlGhi.bo();ve();},1400);}
+  else V.danh('tile','Dù thu nhỏ hay phóng to, số ghi vẫn là 120 mm.');});
+// ghi kích thước
+const KT={lo:{dung:'Ø40',ds:['Ø40','R40','40']},bo:{dung:'R20',ds:['Ø20','R20','20']},dai:{dung:'120',ds:['120','120 mm','12 cm']}};
+const GKT={lo:'Lỗ tròn ghi đường kính bằng kí hiệu Ø.',bo:'Cung tròn ghi bán kính bằng kí hiệu R.',dai:'Kích thước dài dùng milimét, không ghi đơn vị trên bản vẽ.'};
+Object.keys(KT).forEach(k=>{const h=document.querySelector('[data-kt="'+k+'"]');KT[k].ds.forEach(v=>{const b=document.createElement('button');b.className='chip';b.dataset.k=v;b.textContent=v;
+  b.onclick=()=>{if(v!==KT[k].dung){X.thay('Chưa đúng. '+GKT[k],'sai');return;}s.kt[k]=v;ve();X.thay('Đúng. '+GKT[k],'dung');if(Object.keys(s.kt).length===3)V.danh('kt','Em đã ghi đúng ba kích thước.');};h.appendChild(b);});});
+function moNet(){if(net)net.xoa();net=X.goiTen({svg:'#hinh',hop:'#net-the',nhan:[
+  {id:'dam',ten:'Liền đậm',x:220,y:110,gt:'Nét liền đậm vẽ đường bao thấy, cạnh thấy.',gy:'đường bao ngoài cùng, nét to.'},
+  {id:'dut',ten:'Đứt mảnh',x:300,y:160,gt:'Nét đứt mảnh vẽ đường bao khuất, cạnh khuất (lỗ bên trong).',gy:'nét đứt đoạn.'},
+  {id:'tam',ten:'Gạch dài chấm',x:640,y:210,gt:'Nét gạch dài chấm mảnh vẽ đường tâm, đường trục.',gy:'đường chạy giữa, có chấm.'},
+  {id:'manh',ten:'Liền mảnh',x:300,y:360,gt:'Nét liền mảnh vẽ đường kích thước, đường gióng.',gy:'đường có hai mũi tên.'},
+  {id:'song',ten:'Lượn sóng',x:620,y:120,gt:'Nét lượn sóng vẽ đường giới hạn hình.',gy:'đường cong lượn.'}
+ ],xong(){V.danh('net','Em đã gọi đúng 5 loại nét.');}});}
+const V=taoViec({khoa:'xuong-cn10-b8-viec',ds:[
+  {id:'kho',ten:'Khổ giấy',icon:'📐',loi:'Chia khổ A0 thành các khổ nhỏ hơn.'},
+  {id:'khung',ten:'Khung vẽ, khung tên',icon:'🖼️',loi:'Chọn lề khung vẽ rồi đặt khung tên.'},
+  {id:'tile',ten:'Tỉ lệ',icon:'🔍',loi:'Vẽ chi tiết thật 120 mm theo tỉ lệ.'},
+  {id:'net',ten:'Nét vẽ',icon:'✏️',loi:'Gọi đúng tên 5 loại nét trên hình bạc đỡ.'},
+  {id:'kt',ten:'Ghi kích thước',icon:'📏',loi:'Chọn cách ghi kích thước đúng tiêu chuẩn.'}],
+ mo(id){if(id==='net')moNet();else if(net){net.xoa();net=null;}ve();},
+ lamLai(id){if(id==='kho')s.chia=0;if(id==='khung'){s.leT=s.leK=s.goc=null;leT.bo();leK.bo();}if(id==='tile'){s.tlDe=1;s.tlDai=s.tlGhi=null;tlDai.bo();tlGhi.bo();}if(id==='kt')s.kt={};ve();},
+ mau:{kho:[1,2,3,4].map(()=>[()=>$('#n-chia').click(),1600]),
+  khung:[[()=>{s.leT=20;s.leK=10;ve();X.thay('Lề trái 20 mm, các lề còn lại 10 mm.');},2200],[()=>{s.goc='dp';ve();X.thay('Khung tên đặt ở góc phải phía dưới.');},2200]],
+  tile:[[()=>{s.tlDai=60;ve();X.thay('Tỉ lệ 1:2: vẽ 60 mm.');},2000],[()=>{s.tlGhi=120;ve();X.thay('Nhưng vẫn ghi kích thước thật 120.');},2200],[()=>{s.tlDe=2;s.tlDai=240;s.tlGhi=120;ve();X.thay('Tỉ lệ 2:1: vẽ 240 mm, vẫn ghi 120.');},2600]],
+  net:[[()=>X.thay('Nét to bao ngoài: liền đậm. Nét đứt: cạnh khuất. Gạch chấm: đường tâm. Nét có mũi tên: liền mảnh. Đường cong: lượn sóng.'),5000]],
+  kt:[[()=>{s.kt={lo:'Ø40'};ve();X.thay(GKT.lo);},2200],[()=>{s.kt.bo='R20';ve();X.thay(GKT.bo);},2200],[()=>{s.kt.dai='120';ve();X.thay(GKT.dai);},2400]]}});
+function boTen(){if(ten){ten.xoa();ten=null;}if(net){net.xoa();net=null;}}
+X.cauHoi({hop:'#o-cau',xong(){X.danhDau('goi-ten');X.thay('Em làm xong phần kiểm tra. Sang bước cuối để lưu phiếu.','dung');},cau:[
+ {h:'Khổ giấy A4 có kích thước bao nhiêu?',a:['420 × 297 mm','297 × 210 mm','594 × 420 mm'],d:1,g:'Bảng 8.1: A4 là 297 × 210 mm.',s:{0:'Đó là khổ A3.',2:'Đó là khổ A2.'}},
+ {h:'Lề trái của khung vẽ cách mép giấy bao nhiêu?',a:['10 mm','20 mm','5 mm'],d:1,g:'Hình 8.5: lề trái 20 mm.',s:{0:'10 mm là các lề còn lại.',2:'Không có lề 5 mm trong Hình 8.5.'}},
+ {h:'Tỉ lệ 1 : 5 là loại tỉ lệ nào?',a:['Phóng to','Nguyên hình','Thu nhỏ'],d:2,g:'1 : 5 nghĩa là hình vẽ nhỏ hơn vật thật 5 lần.',s:{0:'Phóng to viết dạng 5 : 1.',1:'Nguyên hình là 1 : 1.'}},
+ {h:'Nét đứt mảnh dùng để vẽ gì?',a:['Đường bao khuất, cạnh khuất','Đường tâm, đường trục','Đường kích thước'],d:0,g:'Bảng 8.3: nét đứt mảnh vẽ đường bao khuất, cạnh khuất.',s:{1:'Đường tâm dùng nét gạch dài chấm mảnh.',2:'Đường kích thước dùng nét liền mảnh.'}},
+ {h:'Vẽ theo tỉ lệ 2 : 1 một chi tiết dài 30 mm. Số ghi kích thước là?',a:['60','30','15'],d:1,g:'Số ghi là kích thước thật, không phụ thuộc tỉ lệ.',s:{0:'60 mm là độ dài nét vẽ, không phải số ghi.',2:'Tỉ lệ 2:1 là phóng to, và số ghi vẫn là kích thước thật.'}}]});
+moi();
+X.khoiDong({id:'xuong-cn10-b8',ten:'CN10 · Bài 8 · Tiêu chuẩn bản vẽ kĩ thuật',
+ phieu:()=>['Việc đã làm: '+(V.danhSach().join(', ')||'chưa có')+'.','Khổ giấy A0 → A4 chia đôi liên tiếp; A4 = 297 × 210 mm.','Khung vẽ: lề trái 20 mm, lề khác 10 mm; khung tên ở góc phải phía dưới.','Tỉ lệ 1:2 vẽ 60 mm, tỉ lệ 2:1 vẽ 240 mm, đều ghi 120 (kích thước thật).','Đường kính ghi Ø, bán kính ghi R, đơn vị mm.'],
+ buoc:[
+  {id:'nhin',ten:'Nhìn',icon:'👀',cach:['Đọc bản vẽ kĩ thuật là gì.','Bấm <b>Vào bàn vẽ</b>.'],loi:'Bản vẽ phải theo tiêu chuẩn để ai đọc cũng hiểu giống nhau.',vao(){boTen();V.hien('kho');ve();}},
+  {id:'lam',ten:'Làm',icon:'🖐️',cach:['Chọn một việc. Chưa biết làm: bấm <b>🎬 Xem làm mẫu việc này</b>.','Làm xong cả 5 việc.','Làm sai thầy sẽ nói vì sao.'],loi:'Chọn một việc để làm.',vao(){boTen();V.mo(V.cur()||'kho',true);}},
+  {id:'san-pham',ten:'Sản phẩm',icon:'🏭',cach:['Đọc bảng tóm tắt, chép vào vở.','Làm phần Vận dụng trên giấy A4.'],loi:'Đây là các tiêu chuẩn em vừa dùng.',vao(){boTen();V.hien('kho');s.chia=4;ve();$('#chua').style.display=V.du()?'none':'';}},
+  {id:'goi-ten',ten:'Gọi tên',icon:'🔤',cach:['Gắn tên các khổ giấy vào đúng chỗ.','Làm 5 câu kiểm tra.'],loi:'Bấm một thẻ tên, rồi bấm chấm số đúng chỗ.',vao(){boTen();V.hien('kho');s.chia=4;ve();document.querySelectorAll('#st-kho text[font-weight]').forEach(()=>{});
+   document.querySelectorAll('#n-a1,#n-a2,#n-a3,.n-a4').forEach(e=>e.setAttribute('opacity',0));
+   ten=X.goiTen({svg:'#hinh',hop:'#the-ten',nhan:[{id:'a1',ten:'A1',x:415,y:226,gt:'A1 là nửa A0.',gy:'nửa lớn bên phải.'},{id:'a2',ten:'A2',x:165,y:138,gt:'A2 là nửa A1.',gy:'phần trên bên trái.'},{id:'a3',ten:'A3',x:227,y:315,gt:'A3 là nửa A2.',gy:'ô dưới, ở giữa.'},{id:'a4',ten:'A4',x:102,y:270,gt:'A4 là nửa A3.',gy:'ô nhỏ nhất.'}],xong(){X.thay('Em đã gắn đủ tên. Làm tiếp phần kiểm tra.','dung');}});}},
+  {id:'nghe',ten:'Nghề – phiếu',icon:'🎓',cach:['Đọc bản vẽ dùng ở đâu.','Ghi tên nhóm, lớp, bấm <b>Lưu phiếu</b>.'],loi:'Bước cuối: bản vẽ dùng ở đâu, rồi lưu phiếu.',vao(){boTen();V.hien('kho');}}
+ ]});
+</script>
+</body></html>

@@ -72,10 +72,25 @@ label{display:block;font-size:.92em;color:var(--mo);margin-bottom:3px}
 input[type=range]{width:100%;height:36px;accent-color:var(--chinh)}
 .chan{max-width:1500px;margin:auto;padding:0 14px 22px;color:var(--mo);font-size:.84em}
 .chan b{color:#ffe39e}
+.tg{display:flex;gap:11px;align-items:center;padding:11px 13px;border-radius:14px;background:var(--kinh);border:1px solid var(--vien);color:var(--chu);font-size:1.08em;line-height:1.45}
+.tg svg{flex:none;width:44px;height:44px}.tg a{color:#ffcf8c}.nhap-chu{margin:9px 0 0}
 .phao{position:fixed;top:-12px;width:9px;height:14px;z-index:50;pointer-events:none;animation:roi 1.5s linear forwards}
 @keyframes roi{to{transform:translateY(105vh) rotate(600deg);opacity:.7}}
 .luong{stroke-dasharray:9 9;animation:chay .55s linear infinite}
 @keyframes chay{to{stroke-dashoffset:-18}}
+.goi-y{animation:goiy .75s ease-in-out infinite alternate}
+@keyframes goiy{from{box-shadow:0 0 0 0 rgba(255,157,60,.1)}to{box-shadow:0 0 0 5px rgba(255,157,60,.85)}}
+.cho-vung [data-vung] rect{animation:nhap .55s infinite alternate}
+.cach{padding:11px 12px;border-radius:14px;background:rgba(74,168,255,.11);border:1px solid rgba(74,168,255,.45)}
+.cach b{color:#a9d6ff}.cach ol{margin:5px 0 0;padding-left:21px}.cach li{margin:2px 0}
+.canh{border-color:#ffd166;background:rgba(255,209,102,.12)}
+.qr-nen{position:fixed;inset:0;z-index:60;display:none;place-items:center;background:rgba(5,10,20,.88)}
+.qr-nen.hien{display:grid}
+.qr-hop{background:#fff;color:#111;padding:22px 26px;border-radius:20px;text-align:center;max-width:92vw}
+.qr-hop svg{width:min(62vh,420px);height:auto;display:block;margin:auto}
+.qr-hop p{margin:8px 0 12px;font-size:20px;font-weight:700;word-break:break-all}
+.n-qr{display:none}
+@media (min-width:920px){.n-qr{display:block}}
 .dot{cursor:pointer}
 .dang-ten .an-ten{opacity:0}
 .nhap{animation:nhap .5s infinite alternate}
@@ -89,7 +104,10 @@ input[type=range]{width:100%;height:36px;accent-color:var(--chinh)}
   .san{top:10px}
   .bac button{flex-direction:row;gap:6px;font-size:.92em}
 }
-@media (max-width:919px){.san{top:0}}
+@media (max-width:919px){.san{top:0}
+  .thay{position:sticky;top:var(--cao,0px);z-index:4;background:#1b2942;min-height:0;padding:8px 10px;font-size:.95em}
+  .thay svg{width:34px;height:34px}
+  .thay.dung{background:#143a35}.thay.sai{background:#4a2230}}
 @media (max-width:600px){.san svg text:not(.giu){font-size:23px!important}.ten b{font-size:1em}}
 @media (max-height:520px) and (max-width:919px){.san{position:static}}
 @media print{body{background:#fff;color:#000}.dau,.bac,.chan,.ben>*:not(.in-duoc){display:none!important}}
@@ -111,6 +129,7 @@ input[type=range]{width:100%;height:36px;accent-color:var(--chinh)}
 <header class="dau">
   <a class="ve" href="./index.html" aria-label="Về trang chủ">🏭</a>
   <div class="ten"><small>Công nghệ 10 · Bài 2 · Hình 2.2, SGK tr.11</small><b>Lắp hệ thống cảnh báo cháy</b></div>
+  <button class="nho n-qr" id="n-qr" aria-label="Mã QR cho cả lớp">🔳</button>
   <button class="nho" id="n-giong" aria-label="Bật giọng thầy">🔈</button>
   <button class="nho" id="n-tv" aria-label="Chế độ TV">📺</button>
 </header>
@@ -143,9 +162,11 @@ input[type=range]{width:100%;height:36px;accent-color:var(--chinh)}
     
 <div class="man" id="m-nhin">
   <div class="the"><h3>👀 Hệ thống gồm 3 phần</h3><p>Hệ thống kĩ thuật gồm <b style="color:#8cc7ff">đầu vào</b>, <b style="color:#ffcf8c">bộ phận xử lí</b> và <b style="color:#8af0c4">đầu ra</b>, liên hệ với nhau để làm một nhiệm vụ. Em bấm từng thiết bị trên hình để xem nó làm gì.</p></div>
+  <button class="nut phu" id="n-chay">▶ Xem hệ thống chạy</button>
   <button class="nut" data-sang="lam">Em tự lắp thử →</button>
 </div>
 <div class="man" id="m-lam">
+  <button class="nut goi-y-mau" id="n-mau">🎬 Xem làm mẫu</button>
   <div class="the"><h3>🖐️ Việc cần làm</h3><ul class="viec" id="viec"><li>Đặt thiết bị vào đúng phần</li><li>Bật nguồn tủ trung tâm</li><li>Thử cả 3 tình huống</li></ul></div>
   <div class="the" id="o-lap"><h3>Khay thiết bị: bấm thẻ, rồi bấm vùng trên hình</h3><div class="hang" id="khay"></div></div>
   <div class="the" id="o-thu" style="display:none"><h3>Bảng điều khiển</h3>
@@ -157,6 +178,7 @@ input[type=range]{width:100%;height:36px;accent-color:var(--chinh)}
   <button class="nut" id="n-sang3" data-sang="san-pham" style="display:none">Xem sản phẩm của em →</button>
 </div>
 <div class="man" id="m-san-pham">
+  <div class="the canh" id="chua"><p>Em chưa tự lắp xong. Hình trên là bản hoàn chỉnh để xem trước.</p><button class="nut" data-sang="lam">← Về bước Làm</button></div>
   <div class="the"><h3>🏭 Sản phẩm: hệ thống báo cháy chạy được</h3><p>Em vừa thấy: <b>chỉ cần một tín hiệu đầu vào</b> (khói, nhiệt hoặc nút ấn), tủ trung tâm đã xử lí và cho cả 3 thiết bị đầu ra báo động.</p>
   <p>Đó là câu trả lời cho phần Khám phá ở SGK tr.11.</p></div>
   <div class="the"><h3>📋 Bảng phân tích hệ thống</h3><p><b style="color:#8cc7ff">Đầu vào:</b> thông tin cần xử lí (có khói, có nhiệt, có người báo).</p><p><b style="color:#ffcf8c">Xử lí:</b> tủ trung tâm nhận và xử lí tín hiệu.</p><p><b style="color:#8af0c4">Đầu ra:</b> thông tin đã xử lí (chuông, còi, đèn báo cho mọi người biết).</p></div>
@@ -171,13 +193,16 @@ input[type=range]{width:100%;height:36px;accent-color:var(--chinh)}
 <div class="man" id="m-nghe">
   <div class="the"><h3>🎓 Mang cách nhìn này đi xa hơn</h3><p>Mọi hệ thống kĩ thuật đều phân tích được theo <b>đầu vào, xử lí, đầu ra</b>. Bài 7 sẽ giới thiệu các nhóm ngành nghề kĩ thuật, công nghệ.</p>
   <p><b>Tìm quanh em (SGK tr.11):</b> tìm trên internet hoặc nơi em sống, kể tên các thiết bị đầu vào, đầu ra khác của hệ thống cảnh báo cháy.</p>
-  <p><a href="https://tdkt-gdag.io.vn/caynghe/">🌳 Sang Cây nghề nghiệp</a></p></div>
+  </div>
   <div class="the"><h3>📄 Lưu phiếu thực hành</h3><p style="color:#ffd9a8">Chỉ ghi tên nhóm hoặc mã, không ghi họ tên.</p><label for="o-nhom">Nhóm hoặc mã</label><input class="o" id="o-nhom" placeholder="VD: Nhóm 3" maxlength="20"><label for="o-lop" style="margin-top:8px">Lớp</label><input class="o" id="o-lop" placeholder="VD: 10A1" maxlength="10"><div class="hang" style="margin-top:10px"><button class="nut" id="n-phieu">📄 Lưu phiếu thành ảnh</button></div></div>
 </div>
 
   </section>
 </main>
-<footer class="chan"><b>✅ BẢN NHÁP — thầy/cô duyệt trước khi dùng.</b> Hình vẽ lại theo Hình 2.2, SGK Công nghệ 10 – Thiết kế và công nghệ (Kết nối tri thức), đã đơn giản hoá. Xem SGK tr.11–13.</footer>
+<footer class="chan"><div class="tg"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="23" fill="#ff9d3c"/><path d="M24 11 8 19l16 8 16-8zM14 25v8c6 5 14 5 20 0v-8l-10 5z" fill="#1d1208"/></svg><div><b>Thầy Võ Thanh Hòa · Giáo viên · Trường THPT Bình Mỹ, An Giang</b><br>✉️ <a href="mailto:vothanhhoa3004@gmail.com">vothanhhoa3004@gmail.com</a> · 📞 <a href="tel:0989237322">0989 237 322</a><br>🏭 <a href="https://tdkt-gdag.io.vn/congnghe/">Xưởng Công nghệ AI</a> · Học liệu miễn phí, Công nghệ 10, 11, 12</div></div>
+<p class="nhap-chu"><b>✅ BẢN NHÁP — thầy/cô duyệt trước khi dùng.</b> Hình vẽ lại theo Hình 2.2, SGK Công nghệ 10 – Thiết kế và công nghệ (Kết nối tri thức), đã đơn giản hoá. Xem SGK tr.11–13.</p></footer>
+<div class="qr-nen" id="qr-nen"><div class="qr-hop"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37 37" class="segno"><path class="qrline" stroke="#000" d="M2 2.5h7m2 0h1m2 0h2m1 0h1m1 0h1m1 0h1m2 0h2m2 0h7m-33 1h1m5 0h1m2 0h1m1 0h1m1 0h3m2 0h1m1 0h1m1 0h3m1 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m4 0h3m1 0h1m1 0h2m3 0h3m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m2 0h2m1 0h3m1 0h1m1 0h1m3 0h2m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m2 0h2m1 0h3m3 0h1m1 0h2m1 0h1m2 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h1m2 0h3m1 0h2m1 0h2m2 0h1m1 0h1m1 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-24 1h1m2 0h1m2 0h3m3 0h4m-25 1h1m2 0h1m1 0h2m1 0h2m1 0h4m1 0h1m2 0h1m1 0h1m2 0h2m1 0h1m-27 1h4m4 0h2m2 0h1m6 0h2m2 0h4m3 0h2m-33 1h1m2 0h5m2 0h1m1 0h3m1 0h1m1 0h2m4 0h5m1 0h1m1 0h1m-33 1h1m1 0h2m1 0h1m1 0h7m2 0h1m4 0h2m2 0h1m2 0h2m-29 1h1m1 0h1m2 0h3m3 0h1m1 0h4m3 0h1m1 0h4m2 0h1m2 0h1m-32 1h3m1 0h1m2 0h1m2 0h5m2 0h3m1 0h1m3 0h1m1 0h5m-31 1h1m3 0h3m1 0h1m4 0h4m1 0h1m1 0h6m1 0h3m-31 1h1m1 0h1m3 0h1m3 0h1m1 0h1m2 0h2m1 0h1m1 0h1m4 0h1m1 0h1m2 0h1m-32 1h2m1 0h1m1 0h2m2 0h7m1 0h1m1 0h4m1 0h1m1 0h1m1 0h1m2 0h1m-32 1h1m1 0h4m2 0h1m2 0h1m4 0h1m1 0h1m4 0h2m2 0h1m1 0h1m1 0h1m-31 1h1m4 0h2m4 0h1m7 0h2m2 0h1m1 0h1m3 0h3m-33 1h1m2 0h3m3 0h2m1 0h6m1 0h3m1 0h3m1 0h1m3 0h1m-29 1h1m1 0h7m3 0h2m2 0h1m1 0h3m1 0h1m5 0h1m-27 1h1m2 0h2m1 0h5m1 0h1m2 0h1m4 0h3m1 0h1m1 0h2m-33 1h2m1 0h2m1 0h1m5 0h1m6 0h2m3 0h1m1 0h1m2 0h2m1 0h1m-32 1h4m2 0h2m4 0h1m1 0h1m2 0h4m3 0h1m1 0h3m2 0h1m-33 1h1m3 0h3m2 0h1m1 0h1m1 0h1m2 0h2m1 0h3m2 0h5m-21 1h1m1 0h2m2 0h1m4 0h1m2 0h1m1 0h1m3 0h2m1 0h2m-33 1h7m2 0h1m1 0h2m3 0h2m2 0h1m3 0h1m1 0h1m1 0h4m-32 1h1m5 0h1m1 0h3m1 0h1m1 0h1m1 0h4m1 0h2m1 0h1m3 0h1m2 0h1m-32 1h1m1 0h3m1 0h1m2 0h1m1 0h1m2 0h2m1 0h1m1 0h4m1 0h6m1 0h1m-32 1h1m1 0h3m1 0h1m1 0h4m3 0h1m7 0h2m1 0h1m1 0h3m-31 1h1m1 0h3m1 0h1m2 0h2m1 0h2m2 0h3m2 0h1m1 0h1m4 0h1m3 0h1m-33 1h1m5 0h1m2 0h1m1 0h2m1 0h2m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m-27 1h7m1 0h1m3 0h2m1 0h2m1 0h1m2 0h1m1 0h3m2 0h2m1 0h1"/></svg>
+<p>https://vothanhhoa.github.io/thuchanh/bai02-bao-chay.html</p><button class="nut" id="qr-dong">Đóng</button></div></div>
 <script>/*GIONG-VIET-BAT*/
 const GIONG_VIET = {};
 let __amDang = null, __giongMay = null;
@@ -216,7 +241,7 @@ function docGiongViet(goc, chuMay, toc){
 <script>// Khung chung cho mọi xưởng: 5 bước, thầy ảo, âm thanh, gọi tên, câu hỏi, phiếu.
 const X = (() => {
   const $ = s => document.querySelector(s);
-  let cfg, bat = false, ac = null, coiDang = null;
+  let cfg, bat = false, ac = null, coiDang = null, mauDang = false, mauHen = null;
   const kho = {
     doc(k, md) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : md; } catch (e) { return md; } },
     ghi(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
@@ -266,16 +291,41 @@ const X = (() => {
     void k.offsetWidth;
   }
 
+  // Làm mẫu tự chạy: HS, GV xem trước rồi tự làm; không tính vào tiến độ
+  function dungMau() {
+    mauDang = false; clearTimeout(mauHen);
+    const n = $('#n-mau'); if (n) n.textContent = '🎬 Xem làm mẫu';
+  }
+  function chayMau(viec, xong) {
+    if (mauDang) { dungMau(); xong && xong(); return; }
+    mauDang = true; let i = 0; const n = $('#n-mau');
+    if (n) n.textContent = '⏹ Dừng làm mẫu';
+    if (!document.body.classList.contains('chup')) window.scrollTo({ top: 0, behavior: 'smooth' });
+    const tiep = () => {
+      if (!mauDang) return;
+      if (i >= viec.length) { dungMau(); return; }
+      const [ham, ms] = viec[i++]; ham(); mauHen = setTimeout(tiep, ms || 2800);
+    };
+    tiep();
+  }
   function moBuoc(id, im) {
+    dungMau();
     document.querySelectorAll('.man').forEach(m => m.classList.toggle('hien', m.id === 'm-' + id));
     document.querySelectorAll('.bac button').forEach(b => b.classList.toggle('dang', b.dataset.b === id));
     am.tatCoi();
     const b = cfg.buoc.find(x => x.id === id);
+    const man = $('#m-' + id), cu = man && man.querySelector('.cach'); if (cu) cu.remove();
+    if (man && b && b.cach) {
+      const d = document.createElement('div'); d.className = 'cach';
+      d.innerHTML = '<b>Cách làm ở bước này</b><ol>' + b.cach.map(x => '<li>' + x + '</li>').join('') + '</ol>';
+      man.insertBefore(d, man.firstChild);
+    }
     if (b && b.vao) b.vao();
     if (!im && b && b.loi) thay(b.loi);
     if (!document.body.classList.contains('chup')) window.scrollTo({ top: 0, behavior: 'smooth' });
   }
   function danhDau(id) {
+    if (mauDang) return;
     tt.xong[id] = true; kho.ghi(cfg.id, tt);
     const b = document.querySelector('.bac button[data-b="' + id + '"]'); if (b) b.classList.add('xong');
     if (window.parent) { /* trang chủ đọc lại tiến độ từ kho của máy này */ }
@@ -356,8 +406,9 @@ const X = (() => {
     const dong = cfg.phieu();
     const boc = (t, w) => { const r = []; let s = ''; t.split(' ').forEach(x => { if (g.measureText(s + x).width > w) { r.push(s); s = ''; } s += x + ' '; }); r.push(s); return r; };
     g.font = '24px Segoe UI, Roboto, Arial';
+    const hinh = cfg.phieuHinh ? cfg.phieuHinh() : null; // SVG 800×400 vẽ thêm cuối phiếu (VD bản thiết kế)
     let h = 250; dong.forEach(d => { h += boc(d, W - 100).length * 34 + 8; });
-    c.width = W; c.height = h + 70;
+    c.width = W; c.height = h + 70 + (hinh ? 420 : 0);
     g.fillStyle = '#fff8ee'; g.fillRect(0, 0, W, c.height);
     g.fillStyle = '#ff6a3d'; g.fillRect(0, 0, W, 14);
     g.fillStyle = '#7a3a10'; g.font = 'bold 22px Segoe UI, Roboto, Arial'; g.fillText('PHIẾU THỰC HÀNH TRÊN XƯỞNG ẢO', 50, 56);
@@ -370,24 +421,36 @@ const X = (() => {
     dong.forEach(d => { boc(d, W - 100).forEach(l => { g.fillText(l, 50, y); y += 34; }); y += 8; });
     g.font = '18px Segoe UI, Roboto, Arial'; g.fillStyle = '#777';
     g.fillText('Làm trên mô phỏng, đã đơn giản hoá. Đã làm trên xưởng ảo, chưa phải thao tác trên thiết bị thật.', 50, y + 22);
-    c.toBlob(b => {
+    const xuat = () => c.toBlob(b => {
       const a = document.createElement('a'); a.href = URL.createObjectURL(b);
       a.download = 'Phieu-' + cfg.id + '-' + (nhom || 'nhom').replace(/[^\w-]+/g, '_') + '.png';
       document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-      thay('Em đã lưu phiếu thành ảnh trong máy. Nộp theo cách thầy dặn nhé.', 'dung');
+      danhDau('nghe'); thay('Em đã lưu phiếu thành ảnh trong máy. Nộp theo cách thầy dặn nhé.', 'dung');
     });
+    if (!hinh) { xuat(); return; }
+    const anh = new Image();
+    anh.onload = () => { g.drawImage(anh, 50, y + 50, 800, 400); xuat(); };
+    anh.onerror = xuat;
+    anh.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(hinh);
   }
 
   function khoiDong(c) {
     cfg = c; tt = Object.assign(tt, kho.doc(c.id, {}));
-    const bac = $('#bac');
+    const bac = $('#bac'), san = document.querySelector('.san');
+    const doCao = () => document.documentElement.style.setProperty('--cao', san.offsetHeight + 'px');
+    doCao(); addEventListener('resize', doCao);
     c.buoc.forEach(b => {
       const n = document.createElement('button'); n.dataset.b = b.id;
       n.innerHTML = '<i>' + b.icon + '</i><span>' + b.ten + '</span>';
       if (tt.xong[b.id]) n.classList.add('xong');
       n.onclick = () => { am.bam(); moBuoc(b.id); }; bac.appendChild(n);
     });
-    document.querySelectorAll('[data-sang]').forEach(n => n.addEventListener('click', () => moBuoc(n.dataset.sang)));
+    document.querySelectorAll('[data-sang]').forEach(n => n.addEventListener('click', () => {
+      const m = n.closest('.man').id.slice(2); if (m === 'nhin' || m === 'san-pham') danhDau(m);
+      moBuoc(n.dataset.sang);
+    }));
+    const nq = $('#n-qr'), qn = $('#qr-nen');
+    if (nq && qn) { nq.onclick = () => qn.classList.add('hien'); $('#qr-dong').onclick = () => qn.classList.remove('hien'); }
     const tv = $('#n-tv'), gi = $('#n-giong');
     if (kho.doc('xuong-tv', false)) { document.body.classList.add('tv'); tv.classList.add('bat'); }
     tv.onclick = () => { const b = document.body.classList.toggle('tv'); tv.classList.toggle('bat', b); kho.ghi('xuong-tv', b); };
@@ -406,7 +469,7 @@ const X = (() => {
       if (c.chup) c.chup(man, ts);
     } else moBuoc(c.buoc[0].id);
   }
-  return { khoiDong, thay, moBuoc, danhDau, goiTen, cauHoi, am, phao, $ };
+  return { khoiDong, thay, moBuoc, danhDau, goiTen, cauHoi, am, phao, $, chayMau, dungMau, daXong: k => !!tt.xong[k], dangMau: () => mauDang };
 })();
 </script>
 <script>
@@ -436,6 +499,11 @@ function ve(){
   $('#n-nguon').disabled=s.nguon;$('#n-nguon').classList.toggle('xong',s.nguon);$('#n-nguon').textContent=s.nguon?'✓ Tủ đã có nguồn':'🔌 Bật nguồn tủ';
   ['khoi','nhiet','nut'].forEach(k=>$('#t-'+k).classList.toggle('xong',!!s.thu[k]));
   $('#n-sang3').style.display=b3?'':'none';
+  $('#n-nguon').classList.toggle('goi-y',b1&&!s.nguon);
+  ['khoi','nhiet','nut'].forEach(k=>$('#t-'+k).classList.toggle('goi-y',s.nguon&&!s.thu[k]&&!s.bao));
+  $('#n-datlai').classList.toggle('goi-y',!!s.bao&&!b3);
+  $('#n-sang3').classList.toggle('goi-y',b3);
+  $('#hinh').classList.toggle('cho-vung',!!chon);
 }
 function khay(){
   const h=$('#khay');h.innerHTML='';
@@ -443,13 +511,13 @@ function khay(){
     if(k!=='binh'&&s.lap[k])return;
     const c=document.createElement('button');c.className='chip';c.dataset.k=k;
     c.innerHTML=(k==='tu'?'<span style="font-size:24px">🗄️</span>':'<svg viewBox="0 0 80 60"><use href="#'+ICON[k]+'"/></svg>')+'<span>'+(k==='binh'?'Bình chữa cháy':TB[k].ten)+'</span>';
-    c.onclick=()=>{X.am.bam();chon=k;h.querySelectorAll('.chip').forEach(x=>x.classList.remove('chon'));c.classList.add('chon');X.thay('Em chọn «'+(k==='binh'?'Bình chữa cháy':TB[k].ten)+'». Giờ bấm vào vùng em nghĩ là đúng trên hình.');};
+    c.onclick=()=>{X.am.bam();chon=k;h.querySelectorAll('.chip').forEach(x=>x.classList.remove('chon'));c.classList.add('chon');$('#hinh').classList.add('cho-vung');X.thay('Em chọn «'+(k==='binh'?'Bình chữa cháy':TB[k].ten)+'». Giờ bấm vào vùng đang nhấp nháy mà em nghĩ là đúng trên hình.');};
     h.appendChild(c);
   });
 }
 function batVung(v){
   if(!chon){X.thay('Em bấm một thiết bị trong khay trước nhé.');return;}
-  if(chon==='binh'){X.thay('Bình chữa cháy dùng để dập lửa, không nằm trong sơ đồ Hình 2.2 của hệ thống cảnh báo. Em bỏ nó ra.','sai');chon=null;const c=$('#khay [data-k="binh"]');if(c)c.remove();return;}
+  if(chon==='binh'){X.thay('Bình chữa cháy dùng để dập lửa, không nằm trong sơ đồ Hình 2.2 của hệ thống cảnh báo. Em bỏ nó ra.','sai');chon=null;$('#hinh').classList.remove('cho-vung');const c=$('#khay [data-k="binh"]');if(c)c.remove();return;}
   const t=TB[chon];
   if(t.vung===v){s.lap[chon]=true;X.thay('Đúng. '+t.gt,'dung');chon=null;khay();ve();
     if(ds().every(k=>s.lap[k]))X.thay('Lắp xong, dây đã nối. Em bấm Bật nguồn tủ.','dung');}
@@ -505,8 +573,20 @@ document.querySelectorAll('#hinh [data-tb]').forEach(g=>g.addEventListener('clic
   if($('#m-nhin').classList.contains('hien'))X.thay(TB[k].gt);}));
 $('#n-nguon').onclick=()=>{s.nguon=true;ve();X.thay('Tủ đã có nguồn, đèn xanh sáng. Giờ em thử từng tình huống.','dung');};
 ['khoi','nhiet','nut'].forEach(k=>$('#t-'+k).onclick=()=>thu(k));
-$('#n-datlai').onclick=()=>{tatHieu();ve();X.thay('Đã tắt báo động, hệ thống trở về bình thường.');};
-$('#n-lamlai').onclick=()=>{tatHieu();moi();chon=null;khay();ve();X.thay('Bắt đầu lại. Em bấm thiết bị trong khay nhé.');};
+$('#n-datlai').onclick=()=>{tatHieu();ve();X.thay(['khoi','nhiet','nut'].every(k=>s.thu[k])?'Đã tắt báo động. Em thử đủ rồi, bấm Xem sản phẩm của em.':'Đã tắt báo động, hệ thống trở về bình thường. Em thử tình huống đang sáng tiếp theo.');};
+$('#n-lamlai').onclick=()=>{X.dungMau();tatHieu();moi();chon=null;khay();ve();X.thay('Bắt đầu lại. Em bấm thiết bị trong khay nhé.');};
+$('#n-chay').onclick=()=>{tatHieu();hienDu();bao('khoi');X.thay('Có khói: đầu báo khói gửi tín hiệu về tủ trung tâm, tủ xử lí rồi cho chuông, còi và đèn báo động. Đó là đầu vào, xử lí, đầu ra.');};
+const datMau=(k,v)=>[()=>{chon=k;batVung(v);},2300];
+$('#n-mau').onclick=()=>{if(!X.dangMau()){tatHieu();moi();chon=null;khay();ve();}
+ X.chayMau([
+  [()=>X.thay('Thầy làm mẫu, em nhìn hình trên. Mỗi thiết bị được đưa vào đúng phần của nó.'),3000],
+  datMau('khoi','vao'),datMau('nhiet','vao'),datMau('nut','vao'),datMau('tu','xuly'),datMau('chuong','ra'),datMau('coi','ra'),datMau('den','ra'),
+  [()=>{s.nguon=true;ve();X.thay('Bật nguồn cho tủ trung tâm, đèn xanh sáng.');},2600],
+  [()=>{s.thu.khoi=1;bao('khoi');ve();X.thay('Thử tạo khói: một tín hiệu mà cả 3 đầu ra đều báo động.');},4600],
+  [()=>{tatHieu();ve();X.thay('Tắt báo động, đặt lại.');},1800],
+  [()=>{s.thu.nut=1;bao('nut');ve();X.thay('Thử bấm nút ấn: hệ thống cũng báo động.');},4600],
+  [()=>{tatHieu();moi();chon=null;khay();ve();X.thay('Xong phần làm mẫu. Đến lượt em: bấm thẻ thiết bị trong khay và tự lắp.');},100]
+ ],()=>{tatHieu();moi();chon=null;khay();ve();X.thay('Đã dừng làm mẫu. Em bấm thẻ thiết bị trong khay để tự lắp.');});};
 X.cauHoi({hop:'#o-cau',xong(){X.danhDau('goi-ten');X.thay('Em làm xong phần kiểm tra rồi. Sang bước cuối để lưu phiếu nhé.','dung');},cau:[
  {h:'Hệ thống kĩ thuật gồm những phần nào?',a:['Đầu vào, bộ phận xử lí, đầu ra','Máy móc, con người, nhà xưởng','Nguồn điện, dây dẫn, công tắc'],d:0,g:'SGK tr.11: đầu vào, đầu ra và bộ phận xử lí có liên hệ với nhau.',s:{1:'Em đang nghĩ đến nơi sản xuất. Hệ thống kĩ thuật chia theo chức năng: nhận vào, xử lí, đưa ra.',2:'Đây là các linh kiện của một mạch điện, chưa phải cách chia cấu trúc của hệ thống kĩ thuật.'}},
  {h:'Tủ trung tâm báo cháy là phần nào?',a:['Đầu vào','Bộ phận xử lí','Đầu ra'],d:1,g:'Tủ nhận tín hiệu, xử lí rồi cho đầu ra hoạt động.',s:{0:'Tủ không tự phát hiện khói hay nhiệt, nó nhận tín hiệu từ các đầu báo.',2:'Tủ không trực tiếp báo cho mọi người; chuông, còi, đèn mới là đầu ra.'}},
@@ -514,14 +594,14 @@ X.cauHoi({hop:'#o-cau',xong(){X.danhDau('goi-ten');X.thay('Em làm xong phần k
  {h:'Trong cấu trúc SGK (Hình 2.3), tín hiệu từ đầu báo khói thuộc loại nào?',a:['Vật liệu cần xử lí','Năng lượng cần xử lí','Thông tin cần xử lí'],d:2,g:'Tín hiệu mang thông tin «có khói» tới tủ.',s:{0:'Khói không được đưa vào tủ; thứ đi về tủ là tín hiệu.',1:'Tín hiệu này báo tin có khói, không phải để cấp năng lượng.'}}
 ]});
 moi();
-X.khoiDong({id:'xuong-cn10-b2',ten:'CN10 · Bài 2 · Hệ thống cảnh báo cháy',
+X.khoiDong({id:'xuong-cn10-b2-v2',ten:'CN10 · Bài 2 · Hệ thống cảnh báo cháy',
  phieu:()=>['Đã lắp đủ: 3 thiết bị đầu vào, tủ trung tâm, 3 thiết bị đầu ra (theo Hình 2.2).','Đã thử: tạo khói, tạo nhiệt, bấm nút ấn. Mỗi lần chỉ một tín hiệu, cả 3 đầu ra đều báo động.','Kết luận: không cần đủ tất cả tín hiệu đầu vào.','Đầu vào: đầu báo khói, đầu báo nhiệt, nút ấn. Xử lí: tủ trung tâm báo cháy. Đầu ra: chuông, còi kết hợp đèn chớp, đèn báo vị trí.'],
  buoc:[
-  {id:'nhin',ten:'Nhìn',icon:'👀',loi:'Đây là Hình 2.2 trong sách, nhưng chạy được. Em bấm từng thiết bị xem nó làm gì.',vao(){boTen();tatHieu();hienDu();bao('khoi',true);$('#khoi-bay').setAttribute('opacity',0);X.danhDau('nhin');}},
-  {id:'lam',ten:'Làm',icon:'🖐️',loi:'Em bấm thẻ thiết bị, rồi bấm vào đúng vùng trên hình để lắp.',vao(){boTen();tatHieu();khay();ve();}},
-  {id:'san-pham',ten:'Sản phẩm',icon:'🏭',loi:'Nhìn lại hệ thống em vừa lắp xong.',vao(){boTen();tatHieu();hienDu();bao('nut',true);$('#tay').setAttribute('opacity',0);X.danhDau('san-pham');}},
-  {id:'goi-ten',ten:'Gọi tên',icon:'🔤',loi:'Bấm một thẻ tên, rồi bấm vào chấm số đúng chỗ đó.',vao(){tatHieu();hienDu();moTen();}},
-  {id:'nghe',ten:'Nghề – phiếu',icon:'🎓',loi:'Bước cuối: nhìn xa hơn và lưu phiếu thực hành.',vao(){boTen();tatHieu();hienDu();X.danhDau('nghe');}}
+  {id:'nhin',ten:'Nhìn',icon:'👀',cach:['Bấm từng thiết bị trên hình, đọc lời thầy.','Bấm <b>Xem hệ thống chạy</b> để thấy báo động.','Bấm <b>Em tự lắp thử</b>.'],loi:'Đây là Hình 2.2 trong sách, nhưng chạy được. Em bấm từng thiết bị xem nó làm gì.',vao(){boTen();tatHieu();hienDu();}},
+  {id:'lam',ten:'Làm',icon:'🖐️',cach:['Chưa biết làm: bấm nút <b>🎬 Xem làm mẫu</b> ngay dưới đây.','Bấm một thẻ trong khay, rồi bấm vùng trên hình.','Lắp xong: bật nguồn, thử 3 tình huống. Nút nào đang sáng là việc cần làm.'],loi:'Em bấm thẻ thiết bị, rồi bấm vào đúng vùng trên hình để lắp.',vao(){boTen();tatHieu();khay();ve();}},
+  {id:'san-pham',ten:'Sản phẩm',icon:'🏭',cach:['Đọc kết luận và bảng phân tích.','Chép bảng phân tích vào vở.'],loi:'Nhìn lại hệ thống em vừa lắp xong.',vao(){boTen();tatHieu();hienDu();bao('nut',true);$('#tay').setAttribute('opacity',0);$('#chua').style.display=X.daXong('lam')?'none':'';}},
+  {id:'goi-ten',ten:'Gọi tên',icon:'🔤',cach:['Bấm một thẻ tên, rồi bấm chấm số đúng chỗ trên hình.','Làm 4 câu kiểm tra bên dưới; sai thì đọc giải thích rồi chọn lại.'],loi:'Bấm một thẻ tên, rồi bấm vào chấm số đúng chỗ đó.',vao(){tatHieu();hienDu();moTen();}},
+  {id:'nghe',ten:'Nghề – phiếu',icon:'🎓',cach:['Đọc phần tìm hiểu thêm.','Ghi tên nhóm, lớp, bấm <b>Lưu phiếu</b>, ảnh nằm trong máy.','Nộp ảnh theo cách thầy dặn.'],loi:'Bước cuối: nhìn xa hơn và lưu phiếu thực hành.',vao(){boTen();tatHieu();hienDu();}}
  ],
  chup(m,t){
   if(m==='lam'){

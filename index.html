@@ -72,10 +72,25 @@ label{display:block;font-size:.92em;color:var(--mo);margin-bottom:3px}
 input[type=range]{width:100%;height:36px;accent-color:var(--chinh)}
 .chan{max-width:1500px;margin:auto;padding:0 14px 22px;color:var(--mo);font-size:.84em}
 .chan b{color:#ffe39e}
+.tg{display:flex;gap:11px;align-items:center;padding:11px 13px;border-radius:14px;background:var(--kinh);border:1px solid var(--vien);color:var(--chu);font-size:1.08em;line-height:1.45}
+.tg svg{flex:none;width:44px;height:44px}.tg a{color:#ffcf8c}.nhap-chu{margin:9px 0 0}
 .phao{position:fixed;top:-12px;width:9px;height:14px;z-index:50;pointer-events:none;animation:roi 1.5s linear forwards}
 @keyframes roi{to{transform:translateY(105vh) rotate(600deg);opacity:.7}}
 .luong{stroke-dasharray:9 9;animation:chay .55s linear infinite}
 @keyframes chay{to{stroke-dashoffset:-18}}
+.goi-y{animation:goiy .75s ease-in-out infinite alternate}
+@keyframes goiy{from{box-shadow:0 0 0 0 rgba(255,157,60,.1)}to{box-shadow:0 0 0 5px rgba(255,157,60,.85)}}
+.cho-vung [data-vung] rect{animation:nhap .55s infinite alternate}
+.cach{padding:11px 12px;border-radius:14px;background:rgba(74,168,255,.11);border:1px solid rgba(74,168,255,.45)}
+.cach b{color:#a9d6ff}.cach ol{margin:5px 0 0;padding-left:21px}.cach li{margin:2px 0}
+.canh{border-color:#ffd166;background:rgba(255,209,102,.12)}
+.qr-nen{position:fixed;inset:0;z-index:60;display:none;place-items:center;background:rgba(5,10,20,.88)}
+.qr-nen.hien{display:grid}
+.qr-hop{background:#fff;color:#111;padding:22px 26px;border-radius:20px;text-align:center;max-width:92vw}
+.qr-hop svg{width:min(62vh,420px);height:auto;display:block;margin:auto}
+.qr-hop p{margin:8px 0 12px;font-size:20px;font-weight:700;word-break:break-all}
+.n-qr{display:none}
+@media (min-width:920px){.n-qr{display:block}}
 .dot{cursor:pointer}
 .dang-ten .an-ten{opacity:0}
 .nhap{animation:nhap .5s infinite alternate}
@@ -89,13 +104,17 @@ input[type=range]{width:100%;height:36px;accent-color:var(--chinh)}
   .san{top:10px}
   .bac button{flex-direction:row;gap:6px;font-size:.92em}
 }
-@media (max-width:919px){.san{top:0}}
+@media (max-width:919px){.san{top:0}
+  .thay{position:sticky;top:var(--cao,0px);z-index:4;background:#1b2942;min-height:0;padding:8px 10px;font-size:.95em}
+  .thay svg{width:34px;height:34px}
+  .thay.dung{background:#143a35}.thay.sai{background:#4a2230}}
 @media (max-width:600px){.san svg text:not(.giu){font-size:23px!important}.ten b{font-size:1em}}
 @media (max-height:520px) and (max-width:919px){.san{position:static}}
 @media print{body{background:#fff;color:#000}.dau,.bac,.chan,.ben>*:not(.in-duoc){display:none!important}}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
 
 .hero{max-width:1100px;margin:auto;padding:20px 16px 8px;display:grid;gap:14px;align-items:center}
+.hd{padding:13px;border-radius:16px;background:var(--kinh);border:1px solid var(--vien)}.hd h2{margin:0 0 6px;font-size:1.12em;color:#ffd9a8}.hd ol{margin:4px 0 0;padding-left:21px}.hd li{margin:4px 0}.hd summary{cursor:pointer;font-weight:700;min-height:32px;color:#ffd9a8}
 .hero h1{margin:0;font-size:2em;line-height:1.15;background:linear-gradient(90deg,#ffd9a8,var(--chinh));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p{margin:6px 0 0;color:var(--mo)}
 .hero svg{width:100%;max-width:210px;height:auto;justify-self:center}
@@ -123,20 +142,38 @@ input[type=range]{width:100%;height:36px;accent-color:var(--chinh)}
 <main class="bo">
  <div class="mau">
   <a class="xuong" href="./bai02-bao-chay.html"><svg viewBox="0 0 90 90"><circle cx="45" cy="45" r="43" fill="#b81f24"/><circle cx="45" cy="45" r="27" fill="#ff5a4a"/><circle cx="45" cy="45" r="10" fill="#fff"/><circle class="nhap" cx="45" cy="45" r="5" fill="#b81f24"/></svg>
-   <div><small>Lớp 10 · Bài 2 · Khuôn lắp hệ thống</small><b>Lắp hệ thống cảnh báo cháy</b><span>Đặt đúng đầu vào, xử lí, đầu ra, rồi thử báo động.</span><div class="trang" data-k="xuong-cn10-b2"></div></div></a>
-  <a class="xuong" href="./bai03-luyen-kim.html"><svg viewBox="0 0 90 90"><rect width="90" height="90" rx="16" fill="#28324a"/><path d="M36 10h18l12 60v10H24V70z" fill="#8d8467"/><path d="M39 14h12l10 58H29z" fill="#ee5a2b"/><path d="M34 58h22l5 14H29z" fill="#ffe58c"/></svg>
-   <div><small>Lớp 10 · Bài 3 · Khuôn dây chuyền</small><b>Vận hành lò cao luyện gang</b><span>Nạp liệu, thổi gió, tháo xỉ và gang, ra sản phẩm.</span><div class="trang" data-k="xuong-cn10-b3"></div></div></a>
+   <div><small>Lớp 10 · Bài 2 · Khuôn lắp hệ thống</small><b>Lắp hệ thống cảnh báo cháy</b><span>Đặt đúng đầu vào, xử lí, đầu ra, rồi thử báo động.</span><div class="trang" data-k="xuong-cn10-b2-v2"></div></div></a>
+  <a class="xuong" href="./bai03-cong-nghe.html"><svg viewBox="0 0 90 90"><rect width="90" height="90" rx="16" fill="#28324a"/><path d="M36 10h18l12 60v10H24V70z" fill="#8d8467"/><path d="M39 14h12l10 58H29z" fill="#ee5a2b"/><path d="M34 58h22l5 14H29z" fill="#ffe58c"/></svg>
+   <div><small>Lớp 10 · Bài 3 · 10 trạm</small><b>Khu xưởng công nghệ phổ biến</b><span>Lò cao, đúc, cắt gọt, cán kéo, hàn, thuỷ điện, đèn, động cơ, robot, không dây.</span><div class="trang" data-k="xuong-cn10-b3b"></div></div></a>
  </div>
+ <div class="n-qr hd"><h2>📱 Cho cả lớp vào bằng mã QR</h2><div class="hang"><button class="nut" id="n-qr">🔳 Chiếu mã QR lên TV</button></div></div>
+ <details class="hd" open><summary>🧑‍🎓 Học sinh làm thế nào?</summary><ol>
+  <li>Chọn một xưởng ở trên.</li>
+  <li>Đi lần lượt 5 ô trên cùng: Nhìn → Làm → Sản phẩm → Gọi tên → Nghề – phiếu.</li>
+  <li>Mỗi ô có khung <b>Cách làm</b>. Chưa biết làm thì bấm <b>🎬 Xem làm mẫu</b> ở bước Làm.</li>
+  <li>Cuối cùng lưu phiếu thành ảnh, nộp theo cách thầy dặn. Chỉ ghi tên nhóm hoặc mã.</li></ol></details>
+ <details class="hd"><summary>🧑‍🏫 Thầy cô dùng trong tiết học thế nào?</summary><ol>
+  <li><b>Trước giờ:</b> tự làm thử một lượt, chuẩn bị cách nhận phiếu của HS.</li>
+  <li><b>Mở đầu:</b> nối laptop với TV, mở xưởng, bấm 📺 cho chữ to. Ở bước Nhìn, bấm vào thiết bị và giảng theo hình SGK.</li>
+  <li><b>Làm mẫu:</b> sang bước Làm, bấm 🎬 cho cả lớp xem.</li>
+  <li><b>HS làm:</b> chiếu mã QR (nút 🔳 trên laptop), nhóm quét bằng điện thoại và tự làm. Trên điện thoại không hiện mã QR vì máy không tự quét được màn hình của mình.</li>
+  <li><b>Không đủ điện thoại:</b> ghép nhóm, hoặc thầy mở trên TV, HS lên bấm theo lượt và ghi vào vở.</li>
+  <li><b>Chốt:</b> mở bước Gọi tên trên TV, cả lớp cùng trả lời. Các nhóm lưu và nộp phiếu.</li>
+  <li><b>Sau giờ:</b> xem phiếu để nhận xét. Trang không tự chấm điểm, không gửi kết quả về cho thầy.</li></ol></details>
  <div id="lop"></div>
 </main>
-<footer class="chan"><b>✅ BẢN NHÁP — thầy/cô duyệt trước khi dùng.</b> Không cần đăng nhập. Tiến độ chỉ lưu trong máy em đang dùng. Sản phẩm mô phỏng, đã đơn giản hoá, không thay được thao tác trên thiết bị thật.</footer>
+<footer class="chan"><div class="tg"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="23" fill="#ff9d3c"/><path d="M24 11 8 19l16 8 16-8zM14 25v8c6 5 14 5 20 0v-8l-10 5z" fill="#1d1208"/></svg><div><b>Thầy Võ Thanh Hòa · Giáo viên · Trường THPT Bình Mỹ, An Giang</b><br>✉️ <a href="mailto:vothanhhoa3004@gmail.com">vothanhhoa3004@gmail.com</a> · 📞 <a href="tel:0989237322">0989 237 322</a><br>🏭 <a href="https://tdkt-gdag.io.vn/congnghe/">Xưởng Công nghệ AI</a> · Học liệu miễn phí, Công nghệ 10, 11, 12</div></div>
+<p class="nhap-chu"><b>✅ BẢN NHÁP — thầy/cô duyệt trước khi dùng.</b> Không cần đăng nhập. Tiến độ chỉ lưu trong máy em đang dùng. Sản phẩm mô phỏng, đã đơn giản hoá, không thay được thao tác trên thiết bị thật.</p></footer>
+<div class="qr-nen" id="qr-nen"><div class="qr-hop"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" class="segno"><path class="qrline" stroke="#000" d="M2 2.5h7m1 0h1m2 0h3m2 0h5m1 0h7m-29 1h1m5 0h1m1 0h5m1 0h1m2 0h1m2 0h1m1 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m2 0h3m1 0h1m1 0h1m3 0h2m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h2m3 0h1m2 0h1m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m6 0h7m2 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m2 0h3m2 0h1m3 0h3m1 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-21 1h2m7 0h2m1 0h1m-21 1h1m1 0h2m1 0h3m2 0h1m2 0h1m2 0h3m3 0h1m2 0h1m1 0h2m-29 1h3m4 0h1m2 0h1m1 0h1m3 0h1m1 0h7m3 0h1m-26 1h1m1 0h2m2 0h1m2 0h1m1 0h1m8 0h1m2 0h2m-28 1h1m2 0h2m2 0h1m3 0h3m2 0h1m3 0h3m1 0h1m3 0h1m-29 1h3m2 0h2m2 0h2m1 0h1m4 0h2m6 0h2m-26 1h1m1 0h1m3 0h4m2 0h4m2 0h1m2 0h1m3 0h3m-28 1h3m1 0h2m2 0h3m2 0h1m2 0h3m1 0h1m4 0h3m-29 1h2m1 0h1m4 0h2m2 0h2m4 0h7m2 0h1m-27 1h1m3 0h3m10 0h4m2 0h2m1 0h1m-25 1h1m9 0h1m1 0h1m1 0h1m5 0h1m1 0h3m-28 1h1m1 0h1m1 0h5m3 0h1m2 0h2m1 0h1m1 0h4m2 0h1m-24 1h3m1 0h1m1 0h4m3 0h3m1 0h1m3 0h1m1 0h1m-26 1h2m1 0h1m1 0h1m4 0h3m3 0h10m-19 1h1m3 0h3m1 0h3m1 0h1m3 0h5m-29 1h7m1 0h4m1 0h1m4 0h3m1 0h1m1 0h2m1 0h1m-28 1h1m5 0h1m1 0h1m1 0h3m3 0h1m1 0h1m1 0h1m3 0h2m-26 1h1m1 0h3m1 0h1m2 0h3m2 0h1m2 0h2m1 0h5m1 0h1m-27 1h1m1 0h3m1 0h1m1 0h3m3 0h3m2 0h1m1 0h1m1 0h3m2 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m1 0h4m2 0h3m1 0h1m2 0h1m2 0h1m1 0h1m-29 1h1m5 0h1m3 0h1m2 0h4m3 0h3m2 0h1m1 0h1m-28 1h7m1 0h4m2 0h1m1 0h1m1 0h3m4 0h1m1 0h1"/></svg>
+<p>https://vothanhhoa.github.io/thuchanh/</p><button class="nut" id="qr-dong">Đóng</button></div></div>
 <script>
+document.getElementById("n-qr").onclick=()=>document.getElementById("qr-nen").classList.add("hien");document.getElementById("qr-dong").onclick=()=>document.getElementById("qr-nen").classList.remove("hien");
 const DS={
  'Lớp 10 · Thiết kế và công nghệ':['Công nghệ và đời sống','Hệ thống kĩ thuật','Công nghệ phổ biến','Một số công nghệ mới','Đánh giá công nghệ','Cách mạng công nghiệp','Ngành nghề kĩ thuật, công nghệ','Bản vẽ kĩ thuật và tiêu chuẩn trình bày','Hình chiếu vuông góc','Mặt cắt và hình cắt','Hình chiếu trục đo','Hình chiếu phối cảnh','Biểu diễn ren','Bản vẽ cơ khí','Bản vẽ xây dựng','Vẽ kĩ thuật với sự trợ giúp của máy tính','Khái quát về thiết kế kĩ thuật','Quy trình thiết kế kĩ thuật','Những yếu tố ảnh hưởng đến thiết kế kĩ thuật','Nguyên tắc thiết kế kĩ thuật','Phương pháp, phương tiện hỗ trợ thiết kế','Dự án: Thiết kế sản phẩm đơn giản'],
  'Lớp 11 · Công nghệ cơ khí':['Khái quát về cơ khí chế tạo','Ngành nghề cơ khí chế tạo','Tổng quan về vật liệu cơ khí','Vật liệu kim loại và hợp kim','Vật liệu phi kim loại','Vật liệu mới','Khái quát về gia công cơ khí','Một số phương pháp gia công cơ khí','Quy trình công nghệ gia công chi tiết','Dự án: Chế tạo sản phẩm bằng gia công cắt gọt','Quá trình sản xuất cơ khí','Dây chuyền sản xuất tự động với robot','Tự động hoá dưới tác động của CMCN 4','An toàn lao động và bảo vệ môi trường','Khái quát về cơ khí động lực','Ngành nghề cơ khí động lực','Đại cương về động cơ đốt trong','Nguyên lí làm việc của động cơ đốt trong','Các cơ cấu trong động cơ đốt trong','Các hệ thống trong động cơ đốt trong','Khái quát chung về ô tô','Hệ thống truyền lực','Bánh xe và hệ thống treo','Hệ thống lái','Hệ thống phanh và an toàn giao thông'],
  'Lớp 12 · Công nghệ điện – điện tử':['Tổng quan về kĩ thuật điện','Ngành nghề kĩ thuật điện','Mạch điện xoay chiều ba pha','Hệ thống điện quốc gia','Sản xuất điện năng','Mạng điện sản xuất quy mô nhỏ','Mạng điện hạ áp trong sinh hoạt','Hệ thống điện trong gia đình','Thiết bị điện trong gia đình','Thiết kế, lắp đặt mạch điều khiển','An toàn điện','Tiết kiệm điện năng','Khái quát về kĩ thuật điện tử','Ngành nghề, dịch vụ điện tử','Điện trở, tụ điện, cuộn cảm','Diode, transistor, IC','Thực hành: Mạch phát hiện dòng xoay chiều','Giới thiệu điện tử tương tự','Khuếch đại thuật toán','Thực hành: Mạch khuếch đại đảo','Tín hiệu số và cổng logic','Mạch xử lí tín hiệu số','Thực hành: Mạch báo cháy dùng cổng logic','Khái quát về vi điều khiển','Bo mạch lập trình vi điều khiển','Thực hành: LED tự chỉnh sáng']
 };
-const CO={'Lớp 10 · Thiết kế và công nghệ':{2:'./bai02-bao-chay.html',3:'./bai03-luyen-kim.html'}};
+const CO={'Lớp 10 · Thiết kế và công nghệ':{2:'./bai02-bao-chay.html',3:'./bai03-cong-nghe.html',8:'./cn10-bai08-ban-ve.html',9:'./cn10-bai09-hinh-chieu.html'},'Lớp 11 · Công nghệ cơ khí':{9:'./cn11-bai09-quy-trinh.html',10:'./cn11-bai10-du-an.html'},'Lớp 12 · Công nghệ điện – điện tử':{8:'./cn12-bai08-he-thong-dien.html',9:'./cn12-bai09-thiet-bi-dien.html'}};
 const hop=document.getElementById('lop');hop.style.cssText='display:flex;flex-direction:column;gap:8px';
 Object.keys(DS).forEach((l,i)=>{const d=document.createElement('details');d.className='lop';if(!i)d.open=true;const co=CO[l]||{};
  d.innerHTML='<summary>'+l+' · '+Object.keys(co).length+'/'+DS[l].length+' xưởng</summary><ul class="ds">'+DS[l].map((t,n)=>{const u=co[n+1];return '<li class="'+(u?'co':'')+'"><i>B'+(n+1)+'</i>'+(u?'<a href="'+u+'">'+t+'</a>':'<span>'+t+'</span>')+'</li>';}).join('')+'</ul>';hop.appendChild(d);});
