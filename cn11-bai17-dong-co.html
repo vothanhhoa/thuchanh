@@ -211,9 +211,9 @@ body.chup .chay{animation:none;transform:translateX(16px)}
    <p>✉️ <a href="mailto:vothanhhoa3004@gmail.com">vothanhhoa3004@gmail.com</a></p><p>📞 <a href="tel:0989237322">0989 237 322</a></p></div>
   <div><h4>📚 Dành cho học sinh</h4><p>Công nghệ 10, 11, 12 – <b style="color:#fff">định hướng công nghiệp</b></p><p>Mỗi bài: nhìn, tự làm, ra sản phẩm, gọi tên, nghề</p><p>Chương trình GDPT 2018 · SGK Kết nối tri thức</p></div>
   <div><h4>🧭 Liên kết</h4><p>🏠 <a href="./index.html">Trang chủ Xưởng thực hành</a></p><p>🏭 <a href="https://tdkt-gdag.io.vn/congnghe/">Xưởng Công nghệ AI</a></p><p>📖 <a href="https://taphuan.nxbgd.vn/">Sách giáo khoa điện tử (NXBGD)</a></p></div>
-  <div><h4>📊 Tiến độ</h4><span class="o-tk">Xưởng đã có: <b data-tk="xuong">39</b></span><span class="o-tk">Bài theo PPCT: <b>38/73</b></span><br><span class="o-tk">Máy này đã làm: <b data-tk="may">0</b> xưởng</span></div>
+  <div><h4>📊 Tiến độ</h4><span class="o-tk">Xưởng đã có: <b data-tk="xuong">74</b></span><span class="o-tk">Bài theo PPCT: <b>73/73</b></span><br><span class="o-tk">Máy này đã làm: <b data-tk="may">0</b> xưởng</span></div>
  </div>
- <div class="chan-cuoi">© 2026 Xưởng Thực Hành Công Nghệ – Thầy Võ Thanh Hòa, Trường THPT Bình Mỹ. Học liệu miễn phí, không dùng cho mục đích kinh doanh. · Phiên bản 07/11/2026 · đợt 6<br><b>✅ BẢN NHÁP — thầy/cô duyệt trước khi dùng.</b><br>Khái niệm, phân loại, cấu tạo chung của động cơ đốt trong theo SGK Công nghệ 11 – Công nghệ cơ khí (Kết nối tri thức) tr.84–86. Hình động cơ do em vẽ lại gần đúng Hình 17.4, đơn giản hoá.</div>
+ <div class="chan-cuoi">© 2026 Xưởng Thực Hành Công Nghệ – Thầy Võ Thanh Hòa, Trường THPT Bình Mỹ. Học liệu miễn phí, không dùng cho mục đích kinh doanh. · Phiên bản 08/11/2026 · đợt 8<br><b>✅ BẢN NHÁP — thầy/cô duyệt trước khi dùng.</b><br>Khái niệm, phân loại, cấu tạo chung của động cơ đốt trong theo SGK Công nghệ 11 – Công nghệ cơ khí (Kết nối tri thức) tr.84–86. Hình động cơ do em vẽ lại gần đúng Hình 17.4, đơn giản hoá.</div>
 </footer>
 <script>/*GIONG-VIET-BAT*/
 const GIONG_VIET = {};
@@ -513,6 +513,14 @@ function taoViec(o){
 function chonThe(hopSel,ds,khiChon){const h=X.$(hopSel);h.innerHTML='';let chon=null;
   ds.forEach(d=>{const b=document.createElement('button');b.className='chip';b.dataset.k=d.k;b.innerHTML=d.t;b.onclick=()=>{if(b.classList.contains('xong'))return;X.am.bam();chon=d.k;h.querySelectorAll('.chip').forEach(x=>x.classList.toggle('chon',x===b));khiChon&&khiChon(d.k);};h.appendChild(b);});
   return {chon:()=>chon,bo:()=>{chon=null;h.querySelectorAll('.chip').forEach(x=>x.classList.remove('chon'));},xong:k=>{const b=h.querySelector('[data-k="'+k+'"]');if(b){b.classList.add('xong');b.classList.remove('chon');}chon=null;}};}
+// các dòng câu hỏi chọn đáp án (từ đợt 7): ds = [[câu, đáp án đúng, [các lựa chọn]], …]
+function hangCau(hop,ds,luu,xong,loiSai,khiDung){ds.forEach(([h,d,a],i)=>{const e=document.createElement('div');e.className='cau';e.innerHTML='<h4>'+h+'</h4>';
+  a.forEach(t=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{if(t===d){b.classList.add('dung');luu()[i]=1;X.thay('Đúng: '+d+'.','dung');khiDung&&khiDung(i);if(Object.keys(luu()).length===ds.length)xong();}
+   else{b.classList.add('sai');X.thay(loiSai||'Chưa đúng. Đọc lại SGK.','sai');}};e.appendChild(b);});X.$(hop).appendChild(e);});}
+function xoaCau(hop){document.querySelectorAll(hop+' button').forEach(b=>b.classList.remove('dung','sai'));}
+// sắp thứ tự bằng thẻ: ds là mảng tên theo đúng thứ tự; tron là thứ tự hiển thị
+function sapThuTu(hop,ds,tron,dem,dat,xong,loiSai){const c=chonThe(hop,tron.map(i=>({k:i,t:ds[i]})),k=>{if(k!==dem()){X.thay(loiSai||'Chưa đúng thứ tự.','sai');c.bo();return;}c.xong(k);dat(dem()+1);X.thay((dem())+'. '+ds[k]+'.','dung');if(dem()===ds.length)xong();});
+  return {lai(){document.querySelectorAll(hop+' .chip').forEach(x=>x.classList.remove('xong','chon'));}};}
 
 // th: góc quay trục khuỷu (độ, 0 = ĐCT). o: {nap,thai (0..1 độ mở), khi (màu khí), tia (bugi đánh lửa), nhan (hiện số chi tiết), ok (chi tiết đã tìm)}
 const DC={R:45,L:140,cx:150,cy:330};
